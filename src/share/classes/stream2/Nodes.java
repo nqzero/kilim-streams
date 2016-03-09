@@ -654,7 +654,7 @@ final class Nodes {
 
         @Override
         public Spliterator<T> spliterator() {
-            return Arrays.spliterator(array, 0, curSize);
+            return Arrays2.spliterator(array, 0, curSize);
         }
 
         @Override
@@ -702,9 +702,14 @@ final class Nodes {
 
         // Node
 
+        // kilim.stream implementation note:
+        //   the java.util impl delegates to the collection c.stream().spliterator()
+        //   my impl could be inefficient for collections which have specialized either method
+        //   however, collections aren't a meaningful use-case for Pausable streams
+        //   so this tradeoff is ok
         @Override
         public Spliterator<T> spliterator() {
-            return c.stream().spliterator();
+            return StreamSupport.stream(Spliterators.spliterator(c, 0), false).spliterator();
         }
 
         @Override
@@ -1324,7 +1329,7 @@ final class Nodes {
 
         @Override
         public Spliterator.OfInt spliterator() {
-            return Arrays.spliterator(array, 0, curSize);
+            return Arrays2.spliterator(array, 0, curSize);
         }
 
         @Override
@@ -1378,7 +1383,7 @@ final class Nodes {
 
         @Override
         public Spliterator.OfLong spliterator() {
-            return Arrays.spliterator(array, 0, curSize);
+            return Arrays2.spliterator(array, 0, curSize);
         }
 
         @Override
@@ -1432,7 +1437,7 @@ final class Nodes {
 
         @Override
         public Spliterator.OfDouble spliterator() {
-            return Arrays.spliterator(array, 0, curSize);
+            return Arrays2.spliterator(array, 0, curSize);
         }
 
         @Override
