@@ -25,7 +25,6 @@
 package stream2;
 
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;

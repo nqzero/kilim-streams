@@ -24,7 +24,6 @@
  */
 package stream2;
 
-import java.util.Iterator;
 
 /**
  * Base interface for streams, which are sequences of elements supporting
