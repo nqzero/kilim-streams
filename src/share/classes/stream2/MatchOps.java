@@ -25,7 +25,6 @@
 package stream2;
 
 import java.util.Objects;
-import java.util.Spliterator;
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;

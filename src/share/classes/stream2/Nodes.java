@@ -30,8 +30,6 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
-import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.concurrent.CountedCompleter;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;

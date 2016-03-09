@@ -24,7 +24,6 @@
  */
 package stream2;
 
-import java.util.Spliterator;
 
 /**
  * An operation in a stream pipeline that takes a stream as input and produces

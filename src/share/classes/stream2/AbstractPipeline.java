@@ -25,7 +25,6 @@
 package stream2;
 
 import java.util.Objects;
-import java.util.Spliterator;
 import java.util.function.IntFunction;
 import java.util.function.Supplier;
 

@@ -26,7 +26,6 @@ package stream2;
 
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.Spliterator;
 
 /**
  * Flags corresponding to characteristics of streams and operations. Flags are

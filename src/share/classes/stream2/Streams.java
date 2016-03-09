@@ -26,7 +26,6 @@ package stream2;
 
 import java.util.Comparator;
 import java.util.Objects;
-import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;

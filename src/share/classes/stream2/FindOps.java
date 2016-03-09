@@ -28,7 +28,6 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-import java.util.Spliterator;
 import java.util.concurrent.CountedCompleter;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
