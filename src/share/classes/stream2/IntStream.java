@@ -24,7 +24,6 @@
  */
 package stream2;
 
-import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.Objects;
 import java.util.OptionalDouble;
