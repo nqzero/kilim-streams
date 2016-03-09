@@ -712,7 +712,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return the new stream
      */
     public static LongStream of(long... values) {
-        return Arrays.stream(values);
+        return Arrays2.stream(values);
     }
 
     /**

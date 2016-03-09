@@ -753,7 +753,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return the new stream
      */
     public static DoubleStream of(double... values) {
-        return Arrays.stream(values);
+        return Arrays2.stream(values);
     }
 
     /**

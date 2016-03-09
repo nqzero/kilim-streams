@@ -719,7 +719,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @return the new stream
      */
     public static IntStream of(int... values) {
-        return Arrays.stream(values);
+        return Arrays2.stream(values);
     }
 
     /**
