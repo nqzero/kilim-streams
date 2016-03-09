@@ -1772,7 +1772,7 @@ public final class Spliterators {
             Iterator<? extends T> i;
             long s;
             if ((i = it) == null) {
-                i = it = collection.iterator();
+                i = it = new Arrays2.IteratorProxy(collection.iterator());
                 s = est = (long) collection.size();
             }
             else
@@ -1799,7 +1799,7 @@ public final class Spliterators {
             if (action == null) throw new NullPointerException();
             Iterator<? extends T> i;
             if ((i = it) == null) {
-                i = it = collection.iterator();
+                i = it = new Arrays2.IteratorProxy(collection.iterator());
                 est = (long)collection.size();
             }
             i.forEachRemaining(action);
@@ -1809,7 +1809,7 @@ public final class Spliterators {
         public boolean tryAdvance(Consumer<? super T> action) {
             if (action == null) throw new NullPointerException();
             if (it == null) {
-                it = collection.iterator();
+                it = new Arrays2.IteratorProxy(collection.iterator());
                 est = (long) collection.size();
             }
             if (it.hasNext()) {
@@ -1822,7 +1822,7 @@ public final class Spliterators {
         @Override
         public long estimateSize() {
             if (it == null) {
-                it = collection.iterator();
+                it = new Arrays2.IteratorProxy(collection.iterator());
                 return est = (long)collection.size();
             }
             return est;

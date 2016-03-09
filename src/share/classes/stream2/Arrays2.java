@@ -472,4 +472,19 @@ public class Arrays2 {
     public static DoubleStream stream(double[] array, int startInclusive, int endExclusive) {
         return StreamSupport.doubleStream(spliterator(array, startInclusive, endExclusive), false);
     }
+
+    /**
+     *  proxy java.util.Iterator to allow collections to work as expected
+     *  note: collections are inherently non-Pausable, so this isn't really a meaningful use case
+     *        but it's here for completeness and to keep the APIs parallel
+     */
+    public static class IteratorProxy<TT> implements Iterator<TT> {
+        public IteratorProxy(java.util.Iterator<TT> host) {
+            this.host = host;
+        }
+        java.util.Iterator<TT> host;
+        public boolean hasNext() { return host.hasNext(); }
+        public TT next() { return host.next(); }
+    }
+    
 }

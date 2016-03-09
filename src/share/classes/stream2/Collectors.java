@@ -1550,8 +1550,7 @@ public final class Collectors {
         @Override
         public Set<Map.Entry<Boolean, T>> entrySet() {
             return new AbstractSet<Map.Entry<Boolean, T>>() {
-                @Override
-                public Iterator<Map.Entry<Boolean, T>> iterator() {
+                public java.util.Iterator<Map.Entry<Boolean, T>> iterator() {
                     Map.Entry<Boolean, T> falseEntry = new SimpleImmutableEntry<>(false, forFalse);
                     Map.Entry<Boolean, T> trueEntry = new SimpleImmutableEntry<>(true, forTrue);
                     return Arrays.asList(falseEntry, trueEntry).iterator();
