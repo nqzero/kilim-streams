@@ -97,7 +97,7 @@ abstract class AbstractShortCircuitTask<P_IN, P_OUT, R,
      * exits while splitting or computing.
      */
     @Override
-    public void compute() {
+    public void compute() throws Pausable {
         Spliterator<P_IN> rs = spliterator, ls;
         long sizeEstimate = rs.estimateSize();
         long sizeThreshold = getTargetSize(sizeEstimate);

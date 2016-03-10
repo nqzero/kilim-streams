@@ -30,7 +30,6 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CountedCompleter;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
@@ -1865,7 +1864,7 @@ final class Nodes {
         }
 
         @Override
-        public void compute() {
+        public void compute() throws Pausable {
             SizedCollectorTask<P_IN, P_OUT, T_SINK, K> task = this;
             Spliterator<P_IN> rightSplit = spliterator, leftSplit;
             while (rightSplit.estimateSize() > task.targetSize &&
@@ -2047,6 +2046,7 @@ final class Nodes {
 
         abstract K makeChild(int childIndex, int offset);
 
+        // FIXME - should this be pausable
         @Override
         public void compute() {
             ToArrayTask<T, T_NODE, K> task = this;

@@ -24,7 +24,6 @@
  */
 package stream2;
 
-import java.util.concurrent.CountedCompleter;
 import java.util.function.IntFunction;
 
 /**

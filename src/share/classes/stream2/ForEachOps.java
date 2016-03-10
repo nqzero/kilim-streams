@@ -26,7 +26,6 @@ package stream2;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountedCompleter;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
@@ -273,7 +272,7 @@ final class ForEachOps {
         }
 
         // Similar to AbstractTask but doesn't need to track child tasks
-        public void compute() {
+        public void compute() throws Pausable {
             Spliterator<S> rightSplit = spliterator, leftSplit;
             long sizeEstimate = rightSplit.estimateSize(), sizeThreshold;
             if ((sizeThreshold = targetSize) == 0L)
@@ -351,7 +350,7 @@ final class ForEachOps {
         }
 
         @Override
-        public final void compute() {
+        public final void compute() throws Pausable {
             doCompute(this);
         }
 

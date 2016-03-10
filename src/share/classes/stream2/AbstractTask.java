@@ -24,7 +24,6 @@
  */
 package stream2;
 
-import java.util.concurrent.CountedCompleter;
 import java.util.concurrent.ForkJoinPool;
 
 /**
@@ -287,7 +286,7 @@ abstract class AbstractTask<P_IN, P_OUT, R,
      * continued in the loop.
      */
     @Override
-    public void compute() {
+    public void compute() throws Pausable {
         Spliterator<P_IN> rs = spliterator, ls; // right, left spliterators
         long sizeEstimate = rs.estimateSize();
         long sizeThreshold = getTargetSize(sizeEstimate);
