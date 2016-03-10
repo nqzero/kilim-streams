@@ -1865,7 +1865,7 @@ final class Nodes {
         }
 
         @Override
-        public void compute() {/*
+        public void compute() {
             SizedCollectorTask<P_IN, P_OUT, T_SINK, K> task = this;
             Spliterator<P_IN> rightSplit = spliterator, leftSplit;
             while (rightSplit.estimateSize() > task.targetSize &&
@@ -1881,7 +1881,6 @@ final class Nodes {
             T_SINK sink = (T_SINK) task;
             task.helper.wrapAndCopyInto(sink, rightSplit);
             task.propagateCompletion();
-            /**/
         }
 
         abstract K makeChild(Spliterator<P_IN> spliterator, long offset, long size);
