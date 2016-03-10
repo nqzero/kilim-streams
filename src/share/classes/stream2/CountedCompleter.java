@@ -39,14 +39,11 @@ import java.util.concurrent.ForkJoinTask;
 
 public abstract class CountedCompleter<TT> {
     java.util.concurrent.CountedCompleter cc;
-    {
-        cc.fork();
-    }
     TT localResult;
     protected void setLocalResult(TT localResult) {
         this.localResult = localResult;
     }
-    public final TT invoke() {
+    public final TT invoke() throws Pausable {
         compute();
         return getRawResult();
     }
@@ -57,6 +54,27 @@ public abstract class CountedCompleter<TT> {
         else
             ForkJoinPool.common.externalPush(this);
         return this;
+    }
+    volatile int status; // accessed directly by pool and workers
+    static private final int DONE_MASK   = 0xf0000000;  // mask out non-completion bits
+    static private final int NORMAL      = 0xf0000000;  // must be negative
+    static private final int CANCELLED   = 0xc0000000;  // must be < NORMAL
+    static private final int EXCEPTIONAL = 0x80000000;  // must be < CANCELLED
+    static private final int SIGNAL      = 0x00010000;  // must be >= 1 << 16
+    static private final int SMASK       = 0x0000ffff;  // short bits for tags
+    private static final long STATUS;
+    static {
+        exceptionTableLock = new ReentrantLock();
+        exceptionTableRefQueue = new ReferenceQueue<Object>();
+        exceptionTable = new ExceptionNode[EXCEPTION_MAP_CAPACITY];
+        try {
+            U = sun.misc.Unsafe.getUnsafe();
+            Class<?> k = ForkJoinTask.class;
+            STATUS = U.objectFieldOffset
+                (k.getDeclaredField("status"));
+        } catch (Exception e) {
+            throw new Error(e);
+        }
     }
     private static final long serialVersionUID = 5232453752276485070L;
 
@@ -113,7 +131,7 @@ public abstract class CountedCompleter<TT> {
      * @param caller the task invoking this method (which may
      * be this task itself)
      */
-    public void onCompletion(CountedCompleter<?> caller) {
+    public void onCompletion(CountedCompleter<?> caller) throws Pausable {
     }
 
     /**
@@ -219,7 +237,7 @@ public abstract class CountedCompleter<TT> {
      * and then similarly tries to complete this task's completer,
      * if one exists, else marks this task as complete.
      */
-    public final void tryComplete() {
+    public final void tryComplete() throws Pausable {
         CountedCompleter<?> a = this, s = a;
         for (int c;;) {
             if ((c = a.pending) == 0) {
@@ -276,7 +294,7 @@ public abstract class CountedCompleter<TT> {
      *
      * @param rawResult the raw result
      */
-    public void complete(TT rawResult) {
+    public void complete(TT rawResult) throws Pausable {
         CountedCompleter<?> p;
         setRawResult(rawResult);
         onCompletion(this);
@@ -376,7 +394,7 @@ public abstract class CountedCompleter<TT> {
     /**
      * Implements execution conventions for CountedCompleters.
      */
-    protected final boolean exec() {
+    protected final boolean exec() throws Pausable {
         compute();
         return false;
     }

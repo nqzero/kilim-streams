@@ -313,7 +313,7 @@ final class Nodes {
     public static <P_IN, P_OUT> Node<P_OUT> collect(PipelineHelper<P_OUT> helper,
                                                     Spliterator<P_IN> spliterator,
                                                     boolean flattenTree,
-                                                    IntFunction<P_OUT[]> generator) {
+                                                    IntFunction<P_OUT[]> generator) throws Pausable {
         long size = helper.exactOutputSizeIfKnown(spliterator);
         if (size >= 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
             if (size >= MAX_ARRAY_SIZE)
@@ -350,7 +350,7 @@ final class Nodes {
      */
     public static <P_IN> Node.OfInt collectInt(PipelineHelper<Integer> helper,
                                                Spliterator<P_IN> spliterator,
-                                               boolean flattenTree) {
+                                               boolean flattenTree) throws Pausable {
         long size = helper.exactOutputSizeIfKnown(spliterator);
         if (size >= 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
             if (size >= MAX_ARRAY_SIZE)
@@ -388,7 +388,7 @@ final class Nodes {
      */
     public static <P_IN> Node.OfLong collectLong(PipelineHelper<Long> helper,
                                                  Spliterator<P_IN> spliterator,
-                                                 boolean flattenTree) {
+                                                 boolean flattenTree) throws Pausable {
         long size = helper.exactOutputSizeIfKnown(spliterator);
         if (size >= 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
             if (size >= MAX_ARRAY_SIZE)
@@ -426,7 +426,7 @@ final class Nodes {
      */
     public static <P_IN> Node.OfDouble collectDouble(PipelineHelper<Double> helper,
                                                      Spliterator<P_IN> spliterator,
-                                                     boolean flattenTree) {
+                                                     boolean flattenTree) throws Pausable {
         long size = helper.exactOutputSizeIfKnown(spliterator);
         if (size >= 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
             if (size >= MAX_ARRAY_SIZE)
@@ -458,7 +458,7 @@ final class Nodes {
      * @param generator the array factory used to create array instances
      * @return a flat {@code Node}
      */
-    public static <T> Node<T> flatten(Node<T> node, IntFunction<T[]> generator) {
+    public static <T> Node<T> flatten(Node<T> node, IntFunction<T[]> generator) throws Pausable {
         if (node.getChildCount() > 0) {
             long size = node.count();
             if (size >= MAX_ARRAY_SIZE)
@@ -484,7 +484,7 @@ final class Nodes {
      * @param node the node to flatten
      * @return a flat {@code Node.OfInt}
      */
-    public static Node.OfInt flattenInt(Node.OfInt node) {
+    public static Node.OfInt flattenInt(Node.OfInt node) throws Pausable {
         if (node.getChildCount() > 0) {
             long size = node.count();
             if (size >= MAX_ARRAY_SIZE)
@@ -510,7 +510,7 @@ final class Nodes {
      * @param node the node to flatten
      * @return a flat {@code Node.OfLong}
      */
-    public static Node.OfLong flattenLong(Node.OfLong node) {
+    public static Node.OfLong flattenLong(Node.OfLong node) throws Pausable {
         if (node.getChildCount() > 0) {
             long size = node.count();
             if (size >= MAX_ARRAY_SIZE)
@@ -536,7 +536,7 @@ final class Nodes {
      * @param node the node to flatten
      * @return a flat {@code Node.OfDouble}
      */
-    public static Node.OfDouble flattenDouble(Node.OfDouble node) {
+    public static Node.OfDouble flattenDouble(Node.OfDouble node) throws Pausable {
         if (node.getChildCount() > 0) {
             long size = node.count();
             if (size >= MAX_ARRAY_SIZE)
@@ -2187,7 +2187,7 @@ final class Nodes {
         }
 
         @Override
-        public void onCompletion(CountedCompleter<?> caller) {
+        public void onCompletion(CountedCompleter<?> caller) throws Pausable {
             if (!isLeaf())
                 setLocalResult(concFactory.apply(leftChild.getLocalResult(), rightChild.getLocalResult()));
             super.onCompletion(caller);

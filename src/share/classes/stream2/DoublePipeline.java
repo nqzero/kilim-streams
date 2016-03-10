@@ -132,7 +132,7 @@ abstract class DoublePipeline<E_IN>
     final <P_IN> Node<Double> evaluateToNode(PipelineHelper<Double> helper,
                                              Spliterator<P_IN> spliterator,
                                              boolean flattenTree,
-                                             IntFunction<Double[]> generator) {
+                                             IntFunction<Double[]> generator) throws Pausable {
         return Nodes.collectDouble(helper, spliterator, flattenTree);
     }
 

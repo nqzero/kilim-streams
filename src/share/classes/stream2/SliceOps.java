@@ -128,7 +128,7 @@ final class SliceOps {
             }
 
             @Override
-            <P_IN> Spliterator<T> opEvaluateParallelLazy(PipelineHelper<T> helper, Spliterator<P_IN> spliterator) {
+            <P_IN> Spliterator<T> opEvaluateParallelLazy(PipelineHelper<T> helper, Spliterator<P_IN> spliterator) throws Pausable {
                 long size = helper.exactOutputSizeIfKnown(spliterator);
                 if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
                     return new StreamSpliterators.SliceSpliterator.OfRef<>(
@@ -157,7 +157,7 @@ final class SliceOps {
             @Override
             <P_IN> Node<T> opEvaluateParallel(PipelineHelper<T> helper,
                                               Spliterator<P_IN> spliterator,
-                                              IntFunction<T[]> generator) {
+                                              IntFunction<T[]> generator) throws Pausable {
                 long size = helper.exactOutputSizeIfKnown(spliterator);
                 if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
                     // Because the pipeline is SIZED the slice spliterator
@@ -245,7 +245,7 @@ final class SliceOps {
 
             @Override
             <P_IN> Spliterator<Integer> opEvaluateParallelLazy(PipelineHelper<Integer> helper,
-                                                               Spliterator<P_IN> spliterator) {
+                                                               Spliterator<P_IN> spliterator) throws Pausable {
                 long size = helper.exactOutputSizeIfKnown(spliterator);
                 if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
                     return new StreamSpliterators.SliceSpliterator.OfInt(
@@ -266,7 +266,7 @@ final class SliceOps {
             @Override
             <P_IN> Node<Integer> opEvaluateParallel(PipelineHelper<Integer> helper,
                                                     Spliterator<P_IN> spliterator,
-                                                    IntFunction<Integer[]> generator) {
+                                                    IntFunction<Integer[]> generator) throws Pausable {
                 long size = helper.exactOutputSizeIfKnown(spliterator);
                 if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
                     // Because the pipeline is SIZED the slice spliterator
@@ -354,7 +354,7 @@ final class SliceOps {
 
             @Override
             <P_IN> Spliterator<Long> opEvaluateParallelLazy(PipelineHelper<Long> helper,
-                                                            Spliterator<P_IN> spliterator) {
+                                                            Spliterator<P_IN> spliterator) throws Pausable {
                 long size = helper.exactOutputSizeIfKnown(spliterator);
                 if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
                     return new StreamSpliterators.SliceSpliterator.OfLong(
@@ -375,7 +375,7 @@ final class SliceOps {
             @Override
             <P_IN> Node<Long> opEvaluateParallel(PipelineHelper<Long> helper,
                                                  Spliterator<P_IN> spliterator,
-                                                 IntFunction<Long[]> generator) {
+                                                 IntFunction<Long[]> generator) throws Pausable {
                 long size = helper.exactOutputSizeIfKnown(spliterator);
                 if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
                     // Because the pipeline is SIZED the slice spliterator
@@ -463,7 +463,7 @@ final class SliceOps {
 
             @Override
             <P_IN> Spliterator<Double> opEvaluateParallelLazy(PipelineHelper<Double> helper,
-                                                              Spliterator<P_IN> spliterator) {
+                                                              Spliterator<P_IN> spliterator) throws Pausable {
                 long size = helper.exactOutputSizeIfKnown(spliterator);
                 if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
                     return new StreamSpliterators.SliceSpliterator.OfDouble(
@@ -484,7 +484,7 @@ final class SliceOps {
             @Override
             <P_IN> Node<Double> opEvaluateParallel(PipelineHelper<Double> helper,
                                                    Spliterator<P_IN> spliterator,
-                                                   IntFunction<Double[]> generator) {
+                                                   IntFunction<Double[]> generator) throws Pausable {
                 long size = helper.exactOutputSizeIfKnown(spliterator);
                 if (size > 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
                     // Because the pipeline is SIZED the slice spliterator
@@ -617,7 +617,7 @@ final class SliceOps {
         }
 
         @Override
-        public final void onCompletion(CountedCompleter<?> caller) {
+        public final void onCompletion(CountedCompleter<?> caller) throws Pausable {
             if (!isLeaf()) {
                 Node<P_OUT> result;
                 thisNodeSize = leftChild.thisNodeSize + rightChild.thisNodeSize;

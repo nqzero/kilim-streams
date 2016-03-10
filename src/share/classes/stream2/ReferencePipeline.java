@@ -102,7 +102,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     final <P_IN> Node<P_OUT> evaluateToNode(PipelineHelper<P_OUT> helper,
                                         Spliterator<P_IN> spliterator,
                                         boolean flattenTree,
-                                        IntFunction<P_OUT[]> generator) {
+                                        IntFunction<P_OUT[]> generator) throws Pausable {
         return Nodes.collect(helper, spliterator, flattenTree, generator);
     }
 

@@ -401,7 +401,7 @@ final class ForEachOps {
         }
 
         @Override
-        public void onCompletion(CountedCompleter<?> caller) {
+        public void onCompletion(CountedCompleter<?> caller) throws Pausable {
             spliterator = null;
             if (node != null) {
                 // Dump any data from this leaf into the sink

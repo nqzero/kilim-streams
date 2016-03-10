@@ -99,7 +99,7 @@ final class DistinctOps {
             }
 
             @Override
-            <P_IN> Spliterator<T> opEvaluateParallelLazy(PipelineHelper<T> helper, Spliterator<P_IN> spliterator) {
+            <P_IN> Spliterator<T> opEvaluateParallelLazy(PipelineHelper<T> helper, Spliterator<P_IN> spliterator) throws Pausable {
                 if (StreamOpFlag.DISTINCT.isKnown(helper.getStreamAndOpFlags())) {
                     // No-op
                     return helper.wrapSpliterator(spliterator);

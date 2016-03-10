@@ -133,7 +133,7 @@ abstract class LongPipeline<E_IN>
     final <P_IN> Node<Long> evaluateToNode(PipelineHelper<Long> helper,
                                            Spliterator<P_IN> spliterator,
                                            boolean flattenTree,
-                                           IntFunction<Long[]> generator) {
+                                           IntFunction<Long[]> generator) throws Pausable {
         return Nodes.collectLong(helper, spliterator, flattenTree);
     }
 

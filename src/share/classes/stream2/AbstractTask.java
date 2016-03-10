@@ -324,7 +324,7 @@ abstract class AbstractTask<P_IN, P_OUT, R,
      * cleared.
      */
     @Override
-    public void onCompletion(CountedCompleter<?> caller) {
+    public void onCompletion(CountedCompleter<?> caller) throws Pausable {
         spliterator = null;
         leftChild = rightChild = null;
     }

@@ -708,7 +708,7 @@ final class ReduceOps {
 
         @Override
         public <P_IN> R evaluateParallel(PipelineHelper<T> helper,
-                                         Spliterator<P_IN> spliterator) {
+                                         Spliterator<P_IN> spliterator) throws Pausable {
             return new ReduceTask<>(this, helper, spliterator).invoke().get();
         }
     }
@@ -746,7 +746,7 @@ final class ReduceOps {
         }
 
         @Override
-        public void onCompletion(CountedCompleter<?> caller) {
+        public void onCompletion(CountedCompleter<?> caller) throws Pausable {
             if (!isLeaf()) {
                 S leftResult = leftChild.getLocalResult();
                 leftResult.combine(rightChild.getLocalResult());

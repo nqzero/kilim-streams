@@ -602,7 +602,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
     abstract <P_IN> Node<E_OUT> evaluateToNode(PipelineHelper<E_OUT> helper,
                                                Spliterator<P_IN> spliterator,
                                                boolean flattenTree,
-                                               IntFunction<E_OUT[]> generator);
+                                               IntFunction<E_OUT[]> generator) throws Pausable;
 
     /**
      * Create a spliterator that wraps a source spliterator, compatible with
@@ -730,8 +730,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
      */
     @SuppressWarnings("unchecked")
     <P_IN> Spliterator<E_OUT> opEvaluateParallelLazy(PipelineHelper<E_OUT> helper,
-                                                     Spliterator<P_IN> spliterator) {
-//        return opEvaluateParallel(helper, spliterator, i -> (E_OUT[]) new Object[i]).spliterator2();
-        return Arrays2.kludge ? null:null;
+                                                     Spliterator<P_IN> spliterator) throws Pausable {
+        return opEvaluateParallel(helper, spliterator, i -> (E_OUT[]) new Object[i]).spliterator2();
     }
 }

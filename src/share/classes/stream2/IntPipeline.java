@@ -135,7 +135,7 @@ abstract class IntPipeline<E_IN>
     final <P_IN> Node<Integer> evaluateToNode(PipelineHelper<Integer> helper,
                                               Spliterator<P_IN> spliterator,
                                               boolean flattenTree,
-                                              IntFunction<Integer[]> generator) {
+                                              IntFunction<Integer[]> generator) throws Pausable {
         return Nodes.collectInt(helper, spliterator, flattenTree);
     }
 

@@ -297,7 +297,7 @@ final class FindOps {
         }
 
         @Override
-        public void onCompletion(CountedCompleter<?> caller) {
+        public void onCompletion(CountedCompleter<?> caller) throws Pausable {
             if (op.mustFindFirst) {
                     for (FindTask<P_IN, P_OUT, O> child = leftChild, p = null; child != p;
                          p = child, child = rightChild) {
