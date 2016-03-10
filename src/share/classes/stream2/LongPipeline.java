@@ -138,9 +138,7 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    final <P_IN> Spliterator<Long> wrap(PipelineHelper<Long> ph,
-                                        Supplier<Spliterator<P_IN>> supplier,
-                                        boolean isParallel) {
+    final <P_IN> Spliterator<Long> wrap(PipelineHelper<Long> ph, stream2.Supplier<Spliterator<P_IN>> supplier, boolean isParallel) {
         return new StreamSpliterators.LongWrappingSpliterator<>(ph, supplier, isParallel);
     }
 

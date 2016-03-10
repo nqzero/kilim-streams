@@ -140,9 +140,7 @@ abstract class IntPipeline<E_IN>
     }
 
     @Override
-    final <P_IN> Spliterator<Integer> wrap(PipelineHelper<Integer> ph,
-                                           Supplier<Spliterator<P_IN>> supplier,
-                                           boolean isParallel) {
+    final <P_IN> Spliterator<Integer> wrap(PipelineHelper<Integer> ph, stream2.Supplier<Spliterator<P_IN>> supplier, boolean isParallel) {
         return new StreamSpliterators.IntWrappingSpliterator<>(ph, supplier, isParallel);
     }
 

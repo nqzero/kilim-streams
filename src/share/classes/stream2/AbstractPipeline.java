@@ -439,7 +439,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
      * operation.
      */
     @SuppressWarnings("unchecked")
-    private Spliterator<?> sourceSpliterator(int terminalFlags) {
+    private Spliterator<?> sourceSpliterator(int terminalFlags) throws Pausable {
         // Get the source spliterator of the pipeline
         Spliterator<?> spliterator = null;
         if (sourceStage.sourceSpliterator != null) {
@@ -613,9 +613,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
      * @param supplier the supplier of a spliterator
      * @return a wrapping spliterator compatible with this shape
      */
-    abstract <P_IN> Spliterator<E_OUT> wrap(PipelineHelper<E_OUT> ph,
-                                            Supplier<Spliterator<P_IN>> supplier,
-                                            boolean isParallel);
+    abstract <P_IN> Spliterator<E_OUT> wrap(PipelineHelper<E_OUT> ph, stream2.Supplier<Spliterator<P_IN>> supplier, boolean isParallel);
 
     /**
      * Create a lazy spliterator that wraps and obtains the supplied the
