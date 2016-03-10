@@ -600,7 +600,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      *                    function for combining two values
      * @return the result of the reduction
      */
-    T reduce(T identity, BinaryOperator<T> accumulator);
+    T reduce(T identity, BinaryOperator<T> accumulator) throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
@@ -640,7 +640,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * @see #min(Comparator)
      * @see #max(Comparator)
      */
-    Optional<T> reduce(BinaryOperator<T> accumulator);
+    Optional<T> reduce(BinaryOperator<T> accumulator) throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
@@ -691,7 +691,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      */
     <U> U reduce(U identity,
                  BiFunction<U, ? super T, U> accumulator,
-                 BinaryOperator<U> combiner);
+                 BinaryOperator<U> combiner) throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#MutableReduction">mutable
@@ -746,7 +746,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      */
     <R> R collect(Supplier<R> supplier,
                   BiConsumer<R, ? super T> accumulator,
-                  BiConsumer<R, R> combiner);
+                  BiConsumer<R, R> combiner) throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#MutableReduction">mutable
@@ -816,7 +816,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * or an empty {@code Optional} if the stream is empty
      * @throws NullPointerException if the minimum element is null
      */
-    Optional<T> min(Comparator<? super T> comparator);
+    Optional<T> min(Comparator<? super T> comparator) throws Pausable;
 
     /**
      * Returns the maximum element of this stream according to the provided
@@ -833,7 +833,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * or an empty {@code Optional} if the stream is empty
      * @throws NullPointerException if the maximum element is null
      */
-    Optional<T> max(Comparator<? super T> comparator);
+    Optional<T> max(Comparator<? super T> comparator) throws Pausable;
 
     /**
      * Returns the count of elements in this stream.  This is a special case of
@@ -847,7 +847,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      *
      * @return the count of elements in this stream
      */
-    long count();
+    long count() throws Pausable;
 
     /**
      * Returns whether any elements of this stream match the provided
@@ -868,7 +868,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * @return {@code true} if any elements of the stream match the provided
      * predicate, otherwise {@code false}
      */
-    boolean anyMatch(Predicate<? super T> predicate);
+    boolean anyMatch(Predicate<? super T> predicate) throws Pausable;
 
     /**
      * Returns whether all elements of this stream match the provided predicate.
@@ -891,7 +891,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * @return {@code true} if either all elements of the stream match the
      * provided predicate or the stream is empty, otherwise {@code false}
      */
-    boolean allMatch(Predicate<? super T> predicate);
+    boolean allMatch(Predicate<? super T> predicate) throws Pausable;
 
     /**
      * Returns whether no elements of this stream match the provided predicate.
@@ -914,7 +914,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * @return {@code true} if either no elements of the stream match the
      * provided predicate or the stream is empty, otherwise {@code false}
      */
-    boolean noneMatch(Predicate<? super T> predicate);
+    boolean noneMatch(Predicate<? super T> predicate) throws Pausable;
 
     /**
      * Returns an {@link Optional} describing the first element of this stream,
@@ -928,7 +928,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * or an empty {@code Optional} if the stream is empty
      * @throws NullPointerException if the element selected is null
      */
-    Optional<T> findFirst();
+    Optional<T> findFirst() throws Pausable;
 
     /**
      * Returns an {@link Optional} describing some element of the stream, or an
@@ -948,7 +948,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * @throws NullPointerException if the element selected is null
      * @see #findFirst()
      */
-    Optional<T> findAny();
+    Optional<T> findAny() throws Pausable;
 
     // Static factories
 

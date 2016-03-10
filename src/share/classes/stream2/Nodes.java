@@ -575,7 +575,7 @@ final class Nodes {
             }
 
             @Override
-            public Spliterator<T> spliterator() {
+            public Spliterator<T> spliterator2() {
                 return Spliterators.emptySpliterator();
             }
         }
@@ -587,7 +587,7 @@ final class Nodes {
             OfInt() { } // Avoid creation of special accessor
 
             @Override
-            public Spliterator.OfInt spliterator() {
+            public Spliterator.OfInt spliterator2() {
                 return Spliterators.emptyIntSpliterator();
             }
 
@@ -604,7 +604,7 @@ final class Nodes {
             OfLong() { } // Avoid creation of special accessor
 
             @Override
-            public Spliterator.OfLong spliterator() {
+            public Spliterator.OfLong spliterator2() {
                 return Spliterators.emptyLongSpliterator();
             }
 
@@ -621,7 +621,7 @@ final class Nodes {
             OfDouble() { } // Avoid creation of special accessor
 
             @Override
-            public Spliterator.OfDouble spliterator() {
+            public Spliterator.OfDouble spliterator2() {
                 return Spliterators.emptyDoubleSpliterator();
             }
 
@@ -653,7 +653,7 @@ final class Nodes {
         // Node
 
         @Override
-        public Spliterator<T> spliterator() {
+        public Spliterator<T> spliterator2() {
             return Arrays2.spliterator(array, 0, curSize);
         }
 
@@ -708,7 +708,7 @@ final class Nodes {
         //   however, collections aren't a meaningful use-case for Pausable streams
         //   so this tradeoff is ok
         @Override
-        public Spliterator<T> spliterator() {
+        public Spliterator<T> spliterator2() {
             return StreamSupport.stream(Spliterators.spliterator(c, 0), false).spliterator();
         }
 
@@ -787,7 +787,7 @@ final class Nodes {
         }
 
         @Override
-        public Spliterator<T> spliterator() {
+        public Spliterator<T> spliterator2() {
             return new Nodes.InternalNodeSpliterator.OfRef<>(this);
         }
 
@@ -892,7 +892,7 @@ final class Nodes {
             }
 
             @Override
-            public Spliterator.OfInt spliterator() {
+            public Spliterator.OfInt spliterator2() {
                 return new InternalNodeSpliterator.OfInt(this);
             }
         }
@@ -906,7 +906,7 @@ final class Nodes {
             }
 
             @Override
-            public Spliterator.OfLong spliterator() {
+            public Spliterator.OfLong spliterator2() {
                 return new InternalNodeSpliterator.OfLong(this);
             }
         }
@@ -920,7 +920,7 @@ final class Nodes {
             }
 
             @Override
-            public Spliterator.OfDouble spliterator() {
+            public Spliterator.OfDouble spliterator2() {
                 return new InternalNodeSpliterator.OfDouble(this);
             }
         }
@@ -997,7 +997,7 @@ final class Nodes {
                     tryAdvanceStack = initStack();
                     N leaf = findNextLeafNode(tryAdvanceStack);
                     if (leaf != null)
-                        tryAdvanceSpliterator = (S) leaf.spliterator();
+                        tryAdvanceSpliterator = (S) leaf.spliterator2();
                     else {
                         // A non-empty leaf node was not found
                         // No elements to traverse
@@ -1019,16 +1019,16 @@ final class Nodes {
             else if (lastNodeSpliterator != null)
                 return (S) lastNodeSpliterator.trySplit();
             else if (curChildIndex < curNode.getChildCount() - 1)
-                return (S) curNode.getChild(curChildIndex++).spliterator();
+                return (S) curNode.getChild(curChildIndex++).spliterator2();
             else {
                 curNode = (N) curNode.getChild(curChildIndex);
                 if (curNode.getChildCount() == 0) {
-                    lastNodeSpliterator = (S) curNode.spliterator();
+                    lastNodeSpliterator = (S) curNode.spliterator2();
                     return (S) lastNodeSpliterator.trySplit();
                 }
                 else {
                     curChildIndex = 0;
-                    return (S) curNode.getChild(curChildIndex++).spliterator();
+                    return (S) curNode.getChild(curChildIndex++).spliterator2();
                 }
             }
         }
@@ -1073,7 +1073,7 @@ final class Nodes {
                         // Advance to the spliterator of the next non-empty leaf node
                         Node<T> leaf = findNextLeafNode(tryAdvanceStack);
                         if (leaf != null) {
-                            tryAdvanceSpliterator = leaf.spliterator();
+                            tryAdvanceSpliterator = leaf.spliterator2();
                             // Since the node is not-empty the spliterator can be advanced
                             return tryAdvanceSpliterator.tryAdvance(consumer);
                         }
@@ -1127,7 +1127,7 @@ final class Nodes {
                         // Advance to the spliterator of the next non-empty leaf node
                         N leaf = findNextLeafNode(tryAdvanceStack);
                         if (leaf != null) {
-                            tryAdvanceSpliterator = leaf.spliterator();
+                            tryAdvanceSpliterator = leaf.spliterator2();
                             // Since the node is not-empty the spliterator can be advanced
                             return tryAdvanceSpliterator.tryAdvance(consumer);
                         }
@@ -1250,10 +1250,15 @@ final class Nodes {
 
         SpinedNodeBuilder() {} // Avoid creation of special accessor
 
-        @Override
-        public Spliterator<T> spliterator() {
+        public java.util.Spliterator<T> spliterator() {
             assert !building : "during building";
             return super.spliterator();
+        }
+
+        @Override
+        public Spliterator<T> spliterator2() {
+            assert !building : "during building";
+            return Arrays2.proxy(super.spliterator());
         }
 
         @Override
@@ -1328,7 +1333,7 @@ final class Nodes {
         // Node
 
         @Override
-        public Spliterator.OfInt spliterator() {
+        public Spliterator.OfInt spliterator2() {
             return Arrays2.spliterator(array, 0, curSize);
         }
 
@@ -1382,7 +1387,7 @@ final class Nodes {
         }
 
         @Override
-        public Spliterator.OfLong spliterator() {
+        public Spliterator.OfLong spliterator2() {
             return Arrays2.spliterator(array, 0, curSize);
         }
 
@@ -1436,7 +1441,7 @@ final class Nodes {
         }
 
         @Override
-        public Spliterator.OfDouble spliterator() {
+        public Spliterator.OfDouble spliterator2() {
             return Arrays2.spliterator(array, 0, curSize);
         }
 
@@ -1643,7 +1648,7 @@ final class Nodes {
         IntSpinedNodeBuilder() {} // Avoid creation of special accessor
 
         @Override
-        public Spliterator.OfInt spliterator() {
+        public Spliterator.OfInt spliterator2() {
             assert !building : "during building";
             return super.spliterator();
         }
@@ -1703,7 +1708,7 @@ final class Nodes {
         LongSpinedNodeBuilder() {} // Avoid creation of special accessor
 
         @Override
-        public Spliterator.OfLong spliterator() {
+        public Spliterator.OfLong spliterator2() {
             assert !building : "during building";
             return super.spliterator();
         }
@@ -1763,7 +1768,7 @@ final class Nodes {
         DoubleSpinedNodeBuilder() {} // Avoid creation of special accessor
 
         @Override
-        public Spliterator.OfDouble spliterator() {
+        public Spliterator.OfDouble spliterator2() {
             assert !building : "during building";
             return super.spliterator();
         }

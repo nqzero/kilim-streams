@@ -407,27 +407,27 @@ abstract class IntPipeline<E_IN>
     }
 
     @Override
-    public final int sum() {
+    public final int sum() throws Pausable {
         return reduce(0, Integer::sum);
     }
 
     @Override
-    public final OptionalInt min() {
+    public final OptionalInt min() throws Pausable {
         return reduce(Math::min);
     }
 
     @Override
-    public final OptionalInt max() {
+    public final OptionalInt max() throws Pausable {
         return reduce(Math::max);
     }
 
     @Override
-    public final long count() {
+    public final long count() throws Pausable {
         return mapToLong(e -> 1L).sum();
     }
 
     @Override
-    public final OptionalDouble average() {
+    public final OptionalDouble average() throws Pausable {
         long[] avg = collect(() -> new long[2],
                              (ll, i) -> {
                                  ll[0]++;
@@ -443,25 +443,25 @@ abstract class IntPipeline<E_IN>
     }
 
     @Override
-    public final IntSummaryStatistics summaryStatistics() {
+    public final IntSummaryStatistics summaryStatistics() throws Pausable {
         return collect(IntSummaryStatistics::new, IntSummaryStatistics::accept,
                        IntSummaryStatistics::combine);
     }
 
     @Override
-    public final int reduce(int identity, IntBinaryOperator op) {
+    public final int reduce(int identity, IntBinaryOperator op) throws Pausable {
         return evaluate(ReduceOps.makeInt(identity, op));
     }
 
     @Override
-    public final OptionalInt reduce(IntBinaryOperator op) {
+    public final OptionalInt reduce(IntBinaryOperator op) throws Pausable {
         return evaluate(ReduceOps.makeInt(op));
     }
 
     @Override
     public final <R> R collect(Supplier<R> supplier,
                                ObjIntConsumer<R> accumulator,
-                               BiConsumer<R, R> combiner) {
+                               BiConsumer<R, R> combiner) throws Pausable {
         BinaryOperator<R> operator = (left, right) -> {
             combiner.accept(left, right);
             return left;
@@ -470,27 +470,27 @@ abstract class IntPipeline<E_IN>
     }
 
     @Override
-    public final boolean anyMatch(IntPredicate predicate) {
+    public final boolean anyMatch(IntPredicate predicate) throws Pausable {
         return evaluate(MatchOps.makeInt(predicate, MatchOps.MatchKind.ANY));
     }
 
     @Override
-    public final boolean allMatch(IntPredicate predicate) {
+    public final boolean allMatch(IntPredicate predicate) throws Pausable {
         return evaluate(MatchOps.makeInt(predicate, MatchOps.MatchKind.ALL));
     }
 
     @Override
-    public final boolean noneMatch(IntPredicate predicate) {
+    public final boolean noneMatch(IntPredicate predicate) throws Pausable {
         return evaluate(MatchOps.makeInt(predicate, MatchOps.MatchKind.NONE));
     }
 
     @Override
-    public final OptionalInt findFirst() {
+    public final OptionalInt findFirst() throws Pausable {
         return evaluate(FindOps.makeInt(true));
     }
 
     @Override
-    public final OptionalInt findAny() {
+    public final OptionalInt findAny() throws Pausable {
         return evaluate(FindOps.makeInt(false));
     }
 

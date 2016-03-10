@@ -151,7 +151,7 @@ final class SliceOps {
                     //     if the target slice size has been reached from a given task,
                     //     cancellation should also clear local results if any
                     return new SliceTask<>(this, helper, spliterator, castingArray(), skip, limit).
-                            invoke().spliterator();
+                            invoke().spliterator2();
                 }
             }
 
@@ -260,7 +260,7 @@ final class SliceOps {
                 }
                 else {
                     return new SliceTask<>(this, helper, spliterator, Integer[]::new, skip, limit).
-                            invoke().spliterator();
+                            invoke().spliterator2();
                 }
             }
 
@@ -369,7 +369,7 @@ final class SliceOps {
                 }
                 else {
                     return new SliceTask<>(this, helper, spliterator, Long[]::new, skip, limit).
-                            invoke().spliterator();
+                            invoke().spliterator2();
                 }
             }
 
@@ -478,7 +478,7 @@ final class SliceOps {
                 }
                 else {
                     return new SliceTask<>(this, helper, spliterator, Double[]::new, skip, limit).
-                            invoke().spliterator();
+                            invoke().spliterator2();
                 }
             }
 

@@ -373,7 +373,7 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public final double sum() {
+    public final double sum() throws Pausable {
         /*
          * In the arrays allocated for the collect operation, index 0
          * holds the high-order bits of the running sum, index 1 holds
@@ -397,12 +397,12 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public final OptionalDouble min() {
+    public final OptionalDouble min() throws Pausable {
         return reduce(Math::min);
     }
 
     @Override
-    public final OptionalDouble max() {
+    public final OptionalDouble max() throws Pausable {
         return reduce(Math::max);
     }
 
@@ -416,7 +416,7 @@ abstract class DoublePipeline<E_IN>
      * 2<sup>53</sup>, leading to additional numerical errors.
      */
     @Override
-    public final OptionalDouble average() {
+    public final OptionalDouble average() throws Pausable {
         /*
          * In the arrays allocated for the collect operation, index 0
          * holds the high-order bits of the running sum, index 1 holds
@@ -442,30 +442,30 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public final long count() {
+    public final long count() throws Pausable {
         return mapToLong(e -> 1L).sum();
     }
 
     @Override
-    public final DoubleSummaryStatistics summaryStatistics() {
+    public final DoubleSummaryStatistics summaryStatistics() throws Pausable {
         return collect(DoubleSummaryStatistics::new, DoubleSummaryStatistics::accept,
                        DoubleSummaryStatistics::combine);
     }
 
     @Override
-    public final double reduce(double identity, DoubleBinaryOperator op) {
+    public final double reduce(double identity, DoubleBinaryOperator op) throws Pausable {
         return evaluate(ReduceOps.makeDouble(identity, op));
     }
 
     @Override
-    public final OptionalDouble reduce(DoubleBinaryOperator op) {
+    public final OptionalDouble reduce(DoubleBinaryOperator op) throws Pausable {
         return evaluate(ReduceOps.makeDouble(op));
     }
 
     @Override
     public final <R> R collect(Supplier<R> supplier,
                                ObjDoubleConsumer<R> accumulator,
-                               BiConsumer<R, R> combiner) {
+                               BiConsumer<R, R> combiner) throws Pausable {
         BinaryOperator<R> operator = (left, right) -> {
             combiner.accept(left, right);
             return left;
@@ -474,27 +474,27 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public final boolean anyMatch(DoublePredicate predicate) {
+    public final boolean anyMatch(DoublePredicate predicate) throws Pausable {
         return evaluate(MatchOps.makeDouble(predicate, MatchOps.MatchKind.ANY));
     }
 
     @Override
-    public final boolean allMatch(DoublePredicate predicate) {
+    public final boolean allMatch(DoublePredicate predicate) throws Pausable {
         return evaluate(MatchOps.makeDouble(predicate, MatchOps.MatchKind.ALL));
     }
 
     @Override
-    public final boolean noneMatch(DoublePredicate predicate) {
+    public final boolean noneMatch(DoublePredicate predicate) throws Pausable {
         return evaluate(MatchOps.makeDouble(predicate, MatchOps.MatchKind.NONE));
     }
 
     @Override
-    public final OptionalDouble findFirst() {
+    public final OptionalDouble findFirst() throws Pausable {
         return evaluate(FindOps.makeDouble(true));
     }
 
     @Override
-    public final OptionalDouble findAny() {
+    public final OptionalDouble findAny() throws Pausable {
         return evaluate(FindOps.makeDouble(false));
     }
 

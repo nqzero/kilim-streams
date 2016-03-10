@@ -442,42 +442,42 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final boolean anyMatch(Predicate<? super P_OUT> predicate) {
+    public final boolean anyMatch(Predicate<? super P_OUT> predicate) throws Pausable {
         return evaluate(MatchOps.makeRef(predicate, MatchOps.MatchKind.ANY));
     }
 
     @Override
-    public final boolean allMatch(Predicate<? super P_OUT> predicate) {
+    public final boolean allMatch(Predicate<? super P_OUT> predicate) throws Pausable {
         return evaluate(MatchOps.makeRef(predicate, MatchOps.MatchKind.ALL));
     }
 
     @Override
-    public final boolean noneMatch(Predicate<? super P_OUT> predicate) {
+    public final boolean noneMatch(Predicate<? super P_OUT> predicate) throws Pausable {
         return evaluate(MatchOps.makeRef(predicate, MatchOps.MatchKind.NONE));
     }
 
     @Override
-    public final Optional<P_OUT> findFirst() {
+    public final Optional<P_OUT> findFirst() throws Pausable {
         return evaluate(FindOps.makeRef(true));
     }
 
     @Override
-    public final Optional<P_OUT> findAny() {
+    public final Optional<P_OUT> findAny() throws Pausable {
         return evaluate(FindOps.makeRef(false));
     }
 
     @Override
-    public final P_OUT reduce(final P_OUT identity, final BinaryOperator<P_OUT> accumulator) {
+    public final P_OUT reduce(final P_OUT identity, final BinaryOperator<P_OUT> accumulator) throws Pausable {
         return evaluate(ReduceOps.makeRef(identity, accumulator, accumulator));
     }
 
     @Override
-    public final Optional<P_OUT> reduce(BinaryOperator<P_OUT> accumulator) {
+    public final Optional<P_OUT> reduce(BinaryOperator<P_OUT> accumulator) throws Pausable {
         return evaluate(ReduceOps.makeRef(accumulator));
     }
 
     @Override
-    public final <R> R reduce(R identity, BiFunction<R, ? super P_OUT, R> accumulator, BinaryOperator<R> combiner) {
+    public final <R> R reduce(R identity, BiFunction<R, ? super P_OUT, R> accumulator, BinaryOperator<R> combiner) throws Pausable {
         return evaluate(ReduceOps.makeRef(identity, accumulator, combiner));
     }
 
@@ -503,23 +503,23 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     @Override
     public final <R> R collect(Supplier<R> supplier,
                                BiConsumer<R, ? super P_OUT> accumulator,
-                               BiConsumer<R, R> combiner) {
+                               BiConsumer<R, R> combiner) throws Pausable {
         return evaluate(ReduceOps.makeRef(supplier, accumulator, combiner));
     }
 
     @Override
-    public final Optional<P_OUT> max(Comparator<? super P_OUT> comparator) {
+    public final Optional<P_OUT> max(Comparator<? super P_OUT> comparator) throws Pausable {
         return reduce(BinaryOperator.maxBy(comparator));
     }
 
     @Override
-    public final Optional<P_OUT> min(Comparator<? super P_OUT> comparator) {
+    public final Optional<P_OUT> min(Comparator<? super P_OUT> comparator) throws Pausable {
         return reduce(BinaryOperator.minBy(comparator));
 
     }
 
     @Override
-    public final long count() {
+    public final long count() throws Pausable {
         return mapToLong(e -> 1L).sum();
     }
 

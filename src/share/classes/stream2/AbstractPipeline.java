@@ -222,7 +222,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
      * @param terminalOp the terminal operation to be applied to the pipeline.
      * @return the result
      */
-    final <R> R evaluate(TerminalOp<E_OUT, R> terminalOp) {
+    final <R> R evaluate(TerminalOp<E_OUT, R> terminalOp) throws Pausable {
         assert getOutputShape() == terminalOp.inputShape();
         if (linkedOrConsumed)
             throw new IllegalStateException(MSG_STREAM_LINKED);
@@ -730,7 +730,8 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
      */
     @SuppressWarnings("unchecked")
     <P_IN> Spliterator<E_OUT> opEvaluateParallelLazy(PipelineHelper<E_OUT> helper,
-                                                     Spliterator<P_IN> spliterator) throws Pausable {
-        return opEvaluateParallel(helper, spliterator, i -> (E_OUT[]) new Object[i]).spliterator();
+                                                     Spliterator<P_IN> spliterator) {
+//        return opEvaluateParallel(helper, spliterator, i -> (E_OUT[]) new Object[i]).spliterator2();
+        return Arrays2.kludge ? null:null;
     }
 }

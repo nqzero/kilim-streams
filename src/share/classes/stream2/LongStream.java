@@ -363,7 +363,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @see #max()
      * @see #average()
      */
-    long reduce(long identity, LongBinaryOperator op);
+    long reduce(long identity, LongBinaryOperator op) throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
@@ -400,7 +400,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return the result of the reduction
      * @see #reduce(long, LongBinaryOperator)
      */
-    OptionalLong reduce(LongBinaryOperator op);
+    OptionalLong reduce(LongBinaryOperator op) throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#MutableReduction">mutable
@@ -440,7 +440,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      */
     <R> R collect(Supplier<R> supplier,
                   ObjLongConsumer<R> accumulator,
-                  BiConsumer<R, R> combiner);
+                  BiConsumer<R, R> combiner) throws Pausable;
 
     /**
      * Returns the sum of elements in this stream.  This is a special case
@@ -455,7 +455,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      *
      * @return the sum of elements in this stream
      */
-    long sum();
+    long sum() throws Pausable;
 
     /**
      * Returns an {@code OptionalLong} describing the minimum element of this
@@ -471,7 +471,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return an {@code OptionalLong} containing the minimum element of this
      * stream, or an empty {@code OptionalLong} if the stream is empty
      */
-    OptionalLong min();
+    OptionalLong min() throws Pausable;
 
     /**
      * Returns an {@code OptionalLong} describing the maximum element of this
@@ -488,7 +488,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return an {@code OptionalLong} containing the maximum element of this
      * stream, or an empty {@code OptionalLong} if the stream is empty
      */
-    OptionalLong max();
+    OptionalLong max() throws Pausable;
 
     /**
      * Returns the count of elements in this stream.  This is a special case of
@@ -502,7 +502,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      *
      * @return the count of elements in this stream
      */
-    long count();
+    long count() throws Pausable;
 
     /**
      * Returns an {@code OptionalDouble} describing the arithmetic mean of elements of
@@ -516,7 +516,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return an {@code OptionalDouble} containing the average element of this
      * stream, or an empty optional if the stream is empty
      */
-    OptionalDouble average();
+    OptionalDouble average() throws Pausable;
 
     /**
      * Returns a {@code LongSummaryStatistics} describing various summary data
@@ -529,7 +529,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return a {@code LongSummaryStatistics} describing various summary data
      * about the elements of this stream
      */
-    LongSummaryStatistics summaryStatistics();
+    LongSummaryStatistics summaryStatistics() throws Pausable;
 
     /**
      * Returns whether any elements of this stream match the provided
@@ -550,7 +550,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return {@code true} if any elements of the stream match the provided
      * predicate, otherwise {@code false}
      */
-    boolean anyMatch(LongPredicate predicate);
+    boolean anyMatch(LongPredicate predicate) throws Pausable;
 
     /**
      * Returns whether all elements of this stream match the provided predicate.
@@ -573,7 +573,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return {@code true} if either all elements of the stream match the
      * provided predicate or the stream is empty, otherwise {@code false}
      */
-    boolean allMatch(LongPredicate predicate);
+    boolean allMatch(LongPredicate predicate) throws Pausable;
 
     /**
      * Returns whether no elements of this stream match the provided predicate.
@@ -596,7 +596,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return {@code true} if either no elements of the stream match the
      * provided predicate or the stream is empty, otherwise {@code false}
      */
-    boolean noneMatch(LongPredicate predicate);
+    boolean noneMatch(LongPredicate predicate) throws Pausable;
 
     /**
      * Returns an {@link OptionalLong} describing the first element of this
@@ -609,7 +609,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return an {@code OptionalLong} describing the first element of this
      * stream, or an empty {@code OptionalLong} if the stream is empty
      */
-    OptionalLong findFirst();
+    OptionalLong findFirst() throws Pausable;
 
     /**
      * Returns an {@link OptionalLong} describing some element of the stream, or
@@ -628,7 +628,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * or an empty {@code OptionalLong} if the stream is empty
      * @see #findFirst()
      */
-    OptionalLong findAny();
+    OptionalLong findAny() throws Pausable;
 
     /**
      * Returns a {@code DoubleStream} consisting of the elements of this stream,

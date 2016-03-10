@@ -355,7 +355,7 @@ final class ForEachOps {
             doCompute(this);
         }
 
-        private static <S, T> void doCompute(ForEachOrderedTask<S, T> task) {
+        private static <S, T> void doCompute(ForEachOrderedTask<S, T> task) throws Pausable {
             Spliterator<S> rightSplit = task.spliterator, leftSplit;
             long sizeThreshold = task.targetSize;
             boolean forkRight = false;

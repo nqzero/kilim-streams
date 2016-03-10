@@ -388,23 +388,23 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public final long sum() {
+    public final long sum() throws Pausable {
         // use better algorithm to compensate for intermediate overflow?
         return reduce(0, Long::sum);
     }
 
     @Override
-    public final OptionalLong min() {
+    public final OptionalLong min() throws Pausable {
         return reduce(Math::min);
     }
 
     @Override
-    public final OptionalLong max() {
+    public final OptionalLong max() throws Pausable {
         return reduce(Math::max);
     }
 
     @Override
-    public final OptionalDouble average() {
+    public final OptionalDouble average() throws Pausable {
         long[] avg = collect(() -> new long[2],
                              (ll, i) -> {
                                  ll[0]++;
@@ -420,30 +420,30 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public final long count() {
+    public final long count() throws Pausable {
         return map(e -> 1L).sum();
     }
 
     @Override
-    public final LongSummaryStatistics summaryStatistics() {
+    public final LongSummaryStatistics summaryStatistics() throws Pausable {
         return collect(LongSummaryStatistics::new, LongSummaryStatistics::accept,
                        LongSummaryStatistics::combine);
     }
 
     @Override
-    public final long reduce(long identity, LongBinaryOperator op) {
+    public final long reduce(long identity, LongBinaryOperator op) throws Pausable {
         return evaluate(ReduceOps.makeLong(identity, op));
     }
 
     @Override
-    public final OptionalLong reduce(LongBinaryOperator op) {
+    public final OptionalLong reduce(LongBinaryOperator op) throws Pausable {
         return evaluate(ReduceOps.makeLong(op));
     }
 
     @Override
     public final <R> R collect(Supplier<R> supplier,
                                ObjLongConsumer<R> accumulator,
-                               BiConsumer<R, R> combiner) {
+                               BiConsumer<R, R> combiner) throws Pausable {
         BinaryOperator<R> operator = (left, right) -> {
             combiner.accept(left, right);
             return left;
@@ -452,27 +452,27 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public final boolean anyMatch(LongPredicate predicate) {
+    public final boolean anyMatch(LongPredicate predicate) throws Pausable {
         return evaluate(MatchOps.makeLong(predicate, MatchOps.MatchKind.ANY));
     }
 
     @Override
-    public final boolean allMatch(LongPredicate predicate) {
+    public final boolean allMatch(LongPredicate predicate) throws Pausable {
         return evaluate(MatchOps.makeLong(predicate, MatchOps.MatchKind.ALL));
     }
 
     @Override
-    public final boolean noneMatch(LongPredicate predicate) {
+    public final boolean noneMatch(LongPredicate predicate) throws Pausable {
         return evaluate(MatchOps.makeLong(predicate, MatchOps.MatchKind.NONE));
     }
 
     @Override
-    public final OptionalLong findFirst() {
+    public final OptionalLong findFirst() throws Pausable {
         return evaluate(FindOps.makeLong(true));
     }
 
     @Override
-    public final OptionalLong findAny() {
+    public final OptionalLong findAny() throws Pausable {
         return evaluate(FindOps.makeLong(false));
     }
 

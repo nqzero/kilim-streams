@@ -365,7 +365,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @see #max()
      * @see #average()
      */
-    double reduce(double identity, DoubleBinaryOperator op);
+    double reduce(double identity, DoubleBinaryOperator op) throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
@@ -402,7 +402,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return the result of the reduction
      * @see #reduce(double, DoubleBinaryOperator)
      */
-    OptionalDouble reduce(DoubleBinaryOperator op);
+    OptionalDouble reduce(DoubleBinaryOperator op) throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#MutableReduction">mutable
@@ -443,7 +443,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      */
     <R> R collect(Supplier<R> supplier,
                   ObjDoubleConsumer<R> accumulator,
-                  BiConsumer<R, R> combiner);
+                  BiConsumer<R, R> combiner) throws Pausable;
 
     /**
      * Returns the sum of elements in this stream.
@@ -484,7 +484,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      *
      * @return the sum of elements in this stream
      */
-    double sum();
+    double sum() throws Pausable;
 
     /**
      * Returns an {@code OptionalDouble} describing the minimum element of this
@@ -504,7 +504,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return an {@code OptionalDouble} containing the minimum element of this
      * stream, or an empty optional if the stream is empty
      */
-    OptionalDouble min();
+    OptionalDouble min() throws Pausable;
 
     /**
      * Returns an {@code OptionalDouble} describing the maximum element of this
@@ -525,7 +525,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return an {@code OptionalDouble} containing the maximum element of this
      * stream, or an empty optional if the stream is empty
      */
-    OptionalDouble max();
+    OptionalDouble max() throws Pausable;
 
     /**
      * Returns the count of elements in this stream.  This is a special case of
@@ -539,7 +539,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      *
      * @return the count of elements in this stream
      */
-    long count();
+    long count() throws Pausable;
 
     /**
      * Returns an {@code OptionalDouble} describing the arithmetic
@@ -568,7 +568,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return an {@code OptionalDouble} containing the average element of this
      * stream, or an empty optional if the stream is empty
      */
-    OptionalDouble average();
+    OptionalDouble average() throws Pausable;
 
     /**
      * Returns a {@code DoubleSummaryStatistics} describing various summary data
@@ -581,7 +581,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return a {@code DoubleSummaryStatistics} describing various summary data
      * about the elements of this stream
      */
-    DoubleSummaryStatistics summaryStatistics();
+    DoubleSummaryStatistics summaryStatistics() throws Pausable;
 
     /**
      * Returns whether any elements of this stream match the provided
@@ -602,7 +602,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return {@code true} if any elements of the stream match the provided
      * predicate, otherwise {@code false}
      */
-    boolean anyMatch(DoublePredicate predicate);
+    boolean anyMatch(DoublePredicate predicate) throws Pausable;
 
     /**
      * Returns whether all elements of this stream match the provided predicate.
@@ -625,7 +625,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return {@code true} if either all elements of the stream match the
      * provided predicate or the stream is empty, otherwise {@code false}
      */
-    boolean allMatch(DoublePredicate predicate);
+    boolean allMatch(DoublePredicate predicate) throws Pausable;
 
     /**
      * Returns whether no elements of this stream match the provided predicate.
@@ -648,7 +648,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return {@code true} if either no elements of the stream match the
      * provided predicate or the stream is empty, otherwise {@code false}
      */
-    boolean noneMatch(DoublePredicate predicate);
+    boolean noneMatch(DoublePredicate predicate) throws Pausable;
 
     /**
      * Returns an {@link OptionalDouble} describing the first element of this
@@ -661,7 +661,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return an {@code OptionalDouble} describing the first element of this
      * stream, or an empty {@code OptionalDouble} if the stream is empty
      */
-    OptionalDouble findFirst();
+    OptionalDouble findFirst() throws Pausable;
 
     /**
      * Returns an {@link OptionalDouble} describing some element of the stream,
@@ -680,7 +680,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * or an empty {@code OptionalDouble} if the stream is empty
      * @see #findFirst()
      */
-    OptionalDouble findAny();
+    OptionalDouble findAny() throws Pausable;
 
     /**
      * Returns a {@code Stream} consisting of the elements of this stream,

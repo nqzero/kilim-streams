@@ -59,6 +59,7 @@ import java.util.function.IntUnaryOperator;
  * @since  1.2
  */
 public class Arrays2 {
+    static boolean kludge = true;
 
     /**
      * Set all elements of the specified array, in parallel, using the

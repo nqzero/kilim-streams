@@ -35,7 +35,7 @@ import java.util.function.LongConsumer;
  * type {@code T}.
  *
  * <p>A {@code Node} contains a fixed number of elements, which can be accessed
- * via the {@link #count}, {@link #spliterator}, {@link #forEach},
+ * via the {@link #count}, {@link #spliterator2}, {@link #forEach},
  * {@link #asArray}, or {@link #copyInto} methods.  A {@code Node} may have zero
  * or more child {@code Node}s; if it has no children (accessed via
  * {@link #getChildCount} and {@link #getChild(int)}, it is considered <em>flat
@@ -65,7 +65,7 @@ interface Node<T> {
      * @return a {@code Spliterator} describing the elements contained in this
      *         {@code Node}
      */
-    Spliterator<T> spliterator();
+    Spliterator<T> spliterator2();
 
     /**
      * Traverses the elements of this node, and invoke the provided
@@ -119,7 +119,7 @@ interface Node<T> {
     default Node<T> truncate(long from, long to, IntFunction<T[]> generator) throws Pausable {
         if (from == 0 && to == count())
             return this;
-        Spliterator<T> spliterator = spliterator();
+        Spliterator<T> spliterator = spliterator2();
         long size = to - from;
         Node.Builder<T> nodeBuilder = Nodes.builder(size, generator);
         nodeBuilder.begin(size);
@@ -231,7 +231,7 @@ interface Node<T> {
          *         this node
          */
         @Override
-        T_SPLITR spliterator();
+        T_SPLITR spliterator2();
 
         /**
          * Traverses the elements of this node, and invoke the provided
@@ -327,7 +327,7 @@ interface Node<T> {
             else {
                 if (Tripwire.ENABLED)
                     Tripwire.trip(getClass(), "{0} calling Node.OfInt.forEachRemaining(Consumer)");
-                spliterator().forEachRemaining(consumer);
+                spliterator2().forEachRemaining(consumer);
             }
         }
 
@@ -355,7 +355,7 @@ interface Node<T> {
             if (from == 0 && to == count())
                 return this;
             long size = to - from;
-            Spliterator.OfInt spliterator = spliterator();
+            Spliterator.OfInt spliterator = spliterator2();
             Node.Builder.OfInt nodeBuilder = Nodes.intBuilder(size);
             nodeBuilder.begin(size);
             for (int i = 0; i < from && spliterator.tryAdvance((IntConsumer) e -> { }); i++) { }
@@ -400,7 +400,7 @@ interface Node<T> {
             else {
                 if (Tripwire.ENABLED)
                     Tripwire.trip(getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
-                spliterator().forEachRemaining(consumer);
+                spliterator2().forEachRemaining(consumer);
             }
         }
 
@@ -428,7 +428,7 @@ interface Node<T> {
             if (from == 0 && to == count())
                 return this;
             long size = to - from;
-            Spliterator.OfLong spliterator = spliterator();
+            Spliterator.OfLong spliterator = spliterator2();
             Node.Builder.OfLong nodeBuilder = Nodes.longBuilder(size);
             nodeBuilder.begin(size);
             for (int i = 0; i < from && spliterator.tryAdvance((LongConsumer) e -> { }); i++) { }
@@ -473,7 +473,7 @@ interface Node<T> {
             else {
                 if (Tripwire.ENABLED)
                     Tripwire.trip(getClass(), "{0} calling Node.OfLong.forEachRemaining(Consumer)");
-                spliterator().forEachRemaining(consumer);
+                spliterator2().forEachRemaining(consumer);
             }
         }
 
@@ -503,7 +503,7 @@ interface Node<T> {
             if (from == 0 && to == count())
                 return this;
             long size = to - from;
-            Spliterator.OfDouble spliterator = spliterator();
+            Spliterator.OfDouble spliterator = spliterator2();
             Node.Builder.OfDouble nodeBuilder = Nodes.doubleBuilder(size);
             nodeBuilder.begin(size);
             for (int i = 0; i < from && spliterator.tryAdvance((DoubleConsumer) e -> { }); i++) { }

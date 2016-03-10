@@ -99,14 +99,14 @@ final class DistinctOps {
             }
 
             @Override
-            <P_IN> Spliterator<T> opEvaluateParallelLazy(PipelineHelper<T> helper, Spliterator<P_IN> spliterator) throws Pausable {
+            <P_IN> Spliterator<T> opEvaluateParallelLazy(PipelineHelper<T> helper, Spliterator<P_IN> spliterator) {
                 if (StreamOpFlag.DISTINCT.isKnown(helper.getStreamAndOpFlags())) {
                     // No-op
                     return helper.wrapSpliterator(spliterator);
                 }
                 else if (StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
                     // Not lazy, barrier required to preserve order
-                    return reduce(helper, spliterator).spliterator();
+                    return reduce(helper, spliterator).spliterator2();
                 }
                 else {
                     // Lazy

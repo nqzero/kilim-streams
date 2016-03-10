@@ -363,7 +363,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @see #max()
      * @see #average()
      */
-    int reduce(int identity, IntBinaryOperator op);
+    int reduce(int identity, IntBinaryOperator op) throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
@@ -400,7 +400,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @return the result of the reduction
      * @see #reduce(int, IntBinaryOperator)
      */
-    OptionalInt reduce(IntBinaryOperator op);
+    OptionalInt reduce(IntBinaryOperator op) throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#MutableReduction">mutable
@@ -440,7 +440,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      */
     <R> R collect(Supplier<R> supplier,
                   ObjIntConsumer<R> accumulator,
-                  BiConsumer<R, R> combiner);
+                  BiConsumer<R, R> combiner) throws Pausable;
 
     /**
      * Returns the sum of elements in this stream.  This is a special case
@@ -455,7 +455,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      *
      * @return the sum of elements in this stream
      */
-    int sum();
+    int sum() throws Pausable;
 
     /**
      * Returns an {@code OptionalInt} describing the minimum element of this
@@ -471,7 +471,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @return an {@code OptionalInt} containing the minimum element of this
      * stream, or an empty {@code OptionalInt} if the stream is empty
      */
-    OptionalInt min();
+    OptionalInt min() throws Pausable;
 
     /**
      * Returns an {@code OptionalInt} describing the maximum element of this
@@ -488,7 +488,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @return an {@code OptionalInt} containing the maximum element of this
      * stream, or an empty {@code OptionalInt} if the stream is empty
      */
-    OptionalInt max();
+    OptionalInt max() throws Pausable;
 
     /**
      * Returns the count of elements in this stream.  This is a special case of
@@ -502,7 +502,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      *
      * @return the count of elements in this stream
      */
-    long count();
+    long count() throws Pausable;
 
     /**
      * Returns an {@code OptionalDouble} describing the arithmetic mean of elements of
@@ -516,7 +516,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @return an {@code OptionalDouble} containing the average element of this
      * stream, or an empty optional if the stream is empty
      */
-    OptionalDouble average();
+    OptionalDouble average() throws Pausable;
 
     /**
      * Returns an {@code IntSummaryStatistics} describing various
@@ -529,7 +529,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @return an {@code IntSummaryStatistics} describing various summary data
      * about the elements of this stream
      */
-    IntSummaryStatistics summaryStatistics();
+    IntSummaryStatistics summaryStatistics() throws Pausable;
 
     /**
      * Returns whether any elements of this stream match the provided
@@ -550,7 +550,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @return {@code true} if any elements of the stream match the provided
      * predicate, otherwise {@code false}
      */
-    boolean anyMatch(IntPredicate predicate);
+    boolean anyMatch(IntPredicate predicate) throws Pausable;
 
     /**
      * Returns whether all elements of this stream match the provided predicate.
@@ -573,7 +573,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @return {@code true} if either all elements of the stream match the
      * provided predicate or the stream is empty, otherwise {@code false}
      */
-    boolean allMatch(IntPredicate predicate);
+    boolean allMatch(IntPredicate predicate) throws Pausable;
 
     /**
      * Returns whether no elements of this stream match the provided predicate.
@@ -596,7 +596,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @return {@code true} if either no elements of the stream match the
      * provided predicate or the stream is empty, otherwise {@code false}
      */
-    boolean noneMatch(IntPredicate predicate);
+    boolean noneMatch(IntPredicate predicate) throws Pausable;
 
     /**
      * Returns an {@link OptionalInt} describing the first element of this
@@ -609,7 +609,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @return an {@code OptionalInt} describing the first element of this stream,
      * or an empty {@code OptionalInt} if the stream is empty
      */
-    OptionalInt findFirst();
+    OptionalInt findFirst() throws Pausable;
 
     /**
      * Returns an {@link OptionalInt} describing some element of the stream, or
@@ -628,7 +628,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * an empty {@code OptionalInt} if the stream is empty
      * @see #findFirst()
      */
-    OptionalInt findAny();
+    OptionalInt findAny() throws Pausable;
 
     /**
      * Returns a {@code LongStream} consisting of the elements of this stream,
