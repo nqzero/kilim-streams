@@ -157,7 +157,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @return the new stream
      * @see Stream#flatMap(Function)
      */
-    DoubleStream flatMap(DoubleFunction<? extends DoubleStream> mapper);
+    DoubleStream flatMap(DoubleFunction<? extends java.util.stream.DoubleStream> mapper);
 
     /**
      * Returns a stream consisting of the distinct elements of this stream. The

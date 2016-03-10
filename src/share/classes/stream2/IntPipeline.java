@@ -286,7 +286,7 @@ abstract class IntPipeline<E_IN>
     }
 
     @Override
-    public final IntStream flatMap(IntFunction<? extends IntStream> mapper) {
+    public final IntStream flatMap(IntFunction<? extends java.util.stream.IntStream> mapper) {
         return new StatelessOp<Integer>(this, StreamShape.INT_VALUE,
                                         StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
             @Override
@@ -299,7 +299,7 @@ abstract class IntPipeline<E_IN>
 
                     @Override
                     public void accept(int t) {
-                        try (IntStream result = mapper.apply(t)) {
+                        try (java.util.stream.IntStream result = mapper.apply(t)) {
                             // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
                             if (result != null)
                                 result.sequential().forEach(i -> downstream.accept(i));

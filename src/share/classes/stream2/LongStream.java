@@ -158,7 +158,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @return the new stream
      * @see Stream#flatMap(Function)
      */
-    LongStream flatMap(LongFunction<? extends LongStream> mapper);
+    LongStream flatMap(LongFunction<? extends java.util.stream.LongStream> mapper);
 
     /**
      * Returns a stream consisting of the distinct elements of this stream.

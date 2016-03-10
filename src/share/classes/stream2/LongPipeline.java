@@ -267,7 +267,7 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public final LongStream flatMap(LongFunction<? extends LongStream> mapper) {
+    public final LongStream flatMap(LongFunction<? extends java.util.stream.LongStream> mapper) {
         return new StatelessOp<Long>(this, StreamShape.LONG_VALUE,
                                      StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
             @Override
@@ -280,7 +280,7 @@ abstract class LongPipeline<E_IN>
 
                     @Override
                     public void accept(long t) {
-                        try (LongStream result = mapper.apply(t)) {
+                        try (java.util.stream.LongStream result = mapper.apply(t)) {
                             // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
                             if (result != null)
                                 result.sequential().forEach(i -> downstream.accept(i));

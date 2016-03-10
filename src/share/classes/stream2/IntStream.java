@@ -158,7 +158,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @return the new stream
      * @see Stream#flatMap(Function)
      */
-    IntStream flatMap(IntFunction<? extends IntStream> mapper);
+    IntStream flatMap(IntFunction<? extends java.util.stream.IntStream> mapper);
 
     /**
      * Returns a stream consisting of the distinct elements of this stream.

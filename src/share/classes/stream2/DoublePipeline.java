@@ -250,7 +250,7 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public final DoubleStream flatMap(DoubleFunction<? extends DoubleStream> mapper) {
+    public final DoubleStream flatMap(DoubleFunction<? extends java.util.stream.DoubleStream> mapper) {
         return new StatelessOp<Double>(this, StreamShape.DOUBLE_VALUE,
                                         StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
             @Override
@@ -263,7 +263,7 @@ abstract class DoublePipeline<E_IN>
 
                     @Override
                     public void accept(double t) {
-                        try (DoubleStream result = mapper.apply(t)) {
+                        try (java.util.stream.DoubleStream result = mapper.apply(t)) {
                             // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
                             if (result != null)
                                 result.sequential().forEach(i -> downstream.accept(i));

@@ -246,7 +246,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final <R> Stream<R> flatMap(Function<? super P_OUT, ? extends Stream<? extends R>> mapper) {
+    public final <R> Stream<R> flatMap(Function<? super P_OUT, ? extends java.util.stream.Stream<? extends R>> mapper) {
         Objects.requireNonNull(mapper);
         // We can do better than this, by polling cancellationRequested when stream is infinite
         return new StatelessOp<P_OUT, R>(this, StreamShape.REFERENCE,
@@ -261,7 +261,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
 
                     @Override
                     public void accept(P_OUT u) {
-                        try (Stream<? extends R> result = mapper.apply(u)) {
+                        try (java.util.stream.Stream<? extends R> result = mapper.apply(u)) {
                             // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
                             if (result != null)
                                 result.sequential().forEach(downstream);
@@ -273,7 +273,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final IntStream flatMapToInt(Function<? super P_OUT, ? extends IntStream> mapper) {
+    public final IntStream flatMapToInt(Function<? super P_OUT, ? extends java.util.stream.IntStream> mapper) {
         Objects.requireNonNull(mapper);
         // We can do better than this, by polling cancellationRequested when stream is infinite
         return new IntPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
@@ -289,7 +289,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
 
                     @Override
                     public void accept(P_OUT u) {
-                        try (IntStream result = mapper.apply(u)) {
+                        try (java.util.stream.IntStream result = mapper.apply(u)) {
                             // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
                             if (result != null)
                                 result.sequential().forEach(downstreamAsInt);
@@ -301,7 +301,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final DoubleStream flatMapToDouble(Function<? super P_OUT, ? extends DoubleStream> mapper) {
+    public final DoubleStream flatMapToDouble(Function<? super P_OUT, ? extends java.util.stream.DoubleStream> mapper) {
         Objects.requireNonNull(mapper);
         // We can do better than this, by polling cancellationRequested when stream is infinite
         return new DoublePipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
@@ -317,7 +317,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
 
                     @Override
                     public void accept(P_OUT u) {
-                        try (DoubleStream result = mapper.apply(u)) {
+                        try (java.util.stream.DoubleStream result = mapper.apply(u)) {
                             // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
                             if (result != null)
                                 result.sequential().forEach(downstreamAsDouble);
@@ -329,7 +329,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final LongStream flatMapToLong(Function<? super P_OUT, ? extends LongStream> mapper) {
+    public final LongStream flatMapToLong(Function<? super P_OUT, ? extends java.util.stream.LongStream> mapper) {
         Objects.requireNonNull(mapper);
         // We can do better than this, by polling cancellationRequested when stream is infinite
         return new LongPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
@@ -345,7 +345,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
 
                     @Override
                     public void accept(P_OUT u) {
-                        try (LongStream result = mapper.apply(u)) {
+                        try (java.util.stream.LongStream result = mapper.apply(u)) {
                             // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
                             if (result != null)
                                 result.sequential().forEach(downstreamAsLong);
