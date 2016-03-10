@@ -422,7 +422,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
 
     @Override
     @SuppressWarnings("unchecked")
-    public final <A> A[] toArray(IntFunction<A[]> generator) {
+    public final <A> A[] toArray(IntFunction<A[]> generator) throws Pausable {
         // Since A has no relation to U (not possible to declare that A is an upper bound of U)
         // there will be no static type checking.
         // Therefore use a raw type and assume A == U rather than propagating the separation of A and U
@@ -437,7 +437,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    public final Object[] toArray() {
+    public final Object[] toArray() throws Pausable {
         return toArray(Object[]::new);
     }
 

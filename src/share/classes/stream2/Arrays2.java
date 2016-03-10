@@ -25,7 +25,9 @@
 
 package stream2;
 
+import java.util.Comparator;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.IntFunction;
 import java.util.function.IntToDoubleFunction;
 import java.util.function.IntToLongFunction;
@@ -473,6 +475,15 @@ public class Arrays2 {
         return StreamSupport.doubleStream(spliterator(array, startInclusive, endExclusive), false);
     }
 
+
+    
+    public static <TT> IteratorProxy<TT> proxy(java.util.Iterator<TT> host) {
+        return new IteratorProxy(host);
+    }
+    public static <TT> SpliteratorProxy<TT> proxy(java.util.Spliterator<TT> host) {
+        return new SpliteratorProxy(host);
+    }
+
     /**
      *  proxy java.util.Iterator to allow collections to work as expected
      *  note: collections are inherently non-Pausable, so this isn't really a meaningful use case
@@ -485,6 +496,48 @@ public class Arrays2 {
         java.util.Iterator<TT> host;
         public boolean hasNext() { return host.hasNext(); }
         public TT next() { return host.next(); }
+    }
+
+    public static class SpliteratorProxy<TT> implements Spliterator<TT> {
+        java.util.Spliterator<TT> host;
+        public SpliteratorProxy(java.util.Spliterator<TT> host) {
+            this.host = host;
+        }
+
+        public boolean tryAdvance(Consumer<? super TT> action) {
+            return host.tryAdvance( action );
+        }
+
+        public void forEachRemaining(Consumer<? super TT> action) {
+            host.forEachRemaining( action );
+        }
+
+        public Spliterator<TT> trySplit() {
+            java.util.Spliterator<TT> h2 = host.trySplit();
+            if (h2==null) return null;
+            else return new SpliteratorProxy(h2);
+        }
+
+        public long estimateSize() {
+            return host.estimateSize();
+        }
+
+        public long getExactSizeIfKnown() {
+            return host.getExactSizeIfKnown();
+        }
+
+        public int characteristics() {
+            return host.characteristics();
+        }
+
+        public boolean hasCharacteristics(int characteristics) {
+            return host.hasCharacteristics( characteristics );
+        }
+
+        public Comparator<? super TT> getComparator() {
+            return host.getComparator();
+        }
+        
     }
     
 }

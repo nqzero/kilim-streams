@@ -1257,7 +1257,7 @@ final class Nodes {
         }
 
         @Override
-        public void forEach(Consumer<? super T> consumer) throws Pausable {
+        public void forEach(Consumer<? super T> consumer) {
             assert !building : "during building";
             super.forEach(consumer);
         }

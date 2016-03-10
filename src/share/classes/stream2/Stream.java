@@ -520,7 +520,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      *
      * @return an array containing the elements of this stream
      */
-    Object[] toArray();
+    Object[] toArray() throws Pausable;
 
     /**
      * Returns an array containing the elements of this stream, using the
@@ -549,7 +549,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * from the array generator is not a supertype of the runtime type of every
      * element in this stream
      */
-    <A> A[] toArray(IntFunction<A[]> generator);
+    <A> A[] toArray(IntFunction<A[]> generator) throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#Reduction">reduction</a> on the
