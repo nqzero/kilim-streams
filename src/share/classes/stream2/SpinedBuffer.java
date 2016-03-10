@@ -51,7 +51,7 @@ import java.util.function.LongConsumer;
  */
 class SpinedBuffer<E>
         extends AbstractSpinedBuffer
-        implements Consumer<E>, Iterable<E> {
+        implements Consumer<E>, java.lang.Iterable<E> {
 
     /*
      * We optimistically hope that all the data will fit into the first chunk,
@@ -226,12 +226,12 @@ class SpinedBuffer<E>
     }
 
     @Override
-    public Iterator<E> iterator() {
-        return Spliterators.iterator(spliterator());
+    public java.util.Iterator<E> iterator() {
+        return java.util.Spliterators.iterator(spliterator());
     }
 
     @Override
-    public void forEach(Consumer<? super E> consumer) throws Pausable {
+    public void forEach(Consumer<? super E> consumer) {
         // completed chunks, if any
         for (int j = 0; j < spineIndex; j++)
             for (E t : spine[j])
@@ -268,8 +268,8 @@ class SpinedBuffer<E>
     /**
      * Return a {@link Spliterator} describing the contents of the buffer.
      */
-    public Spliterator<E> spliterator() {
-        class Splitr implements Spliterator<E> {
+    public java.util.Spliterator<E> spliterator() {
+        class Splitr implements java.util.Spliterator<E> {
             // The current spine index
             int splSpineIndex;
 
@@ -316,7 +316,7 @@ class SpinedBuffer<E>
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super E> consumer) throws Pausable {
+            public boolean tryAdvance(Consumer<? super E> consumer) {
                 Objects.requireNonNull(consumer);
 
                 if (splSpineIndex < lastSpineIndex
@@ -335,7 +335,7 @@ class SpinedBuffer<E>
             }
 
             @Override
-            public void forEachRemaining(Consumer<? super E> consumer) throws Pausable {
+            public void forEachRemaining(Consumer<? super E> consumer) {
                 Objects.requireNonNull(consumer);
 
                 if (splSpineIndex < lastSpineIndex
@@ -362,10 +362,10 @@ class SpinedBuffer<E>
             }
 
             @Override
-            public Spliterator<E> trySplit() throws Pausable {
+            public java.util.Spliterator<E> trySplit() {
                 if (splSpineIndex < lastSpineIndex) {
                     // split just before last chunk (if it is full this means 50:50 split)
-                    Spliterator<E> ret = new Splitr(splSpineIndex, lastSpineIndex - 1,
+                    java.util.Spliterator<E> ret = new Splitr(splSpineIndex, lastSpineIndex - 1,
                                                     splElementIndex, spine[lastSpineIndex-1].length);
                     // position to start of last chunk
                     splSpineIndex = lastSpineIndex;
@@ -378,7 +378,7 @@ class SpinedBuffer<E>
                     if (t == 0)
                         return null;
                     else {
-                        Spliterator<E> ret = Arrays2.spliterator(splChunk, splElementIndex, splElementIndex + t);
+                        java.util.Spliterator<E> ret = Arrays.spliterator(splChunk, splElementIndex, splElementIndex + t);
                         splElementIndex += t;
                         return ret;
                     }
