@@ -75,7 +75,7 @@ interface Node<T> {
      * @param consumer a {@code Consumer} that is to be invoked with each
      *        element in this {@code Node}
      */
-    void forEach(Consumer<? super T> consumer);
+    void forEach(Consumer<? super T> consumer) throws Pausable;
 
     /**
      * Returns the number of child nodes of this node.
@@ -116,7 +116,7 @@ interface Node<T> {
      *                  for reference nodes.
      * @return the truncated node
      */
-    default Node<T> truncate(long from, long to, IntFunction<T[]> generator) {
+    default Node<T> truncate(long from, long to, IntFunction<T[]> generator) throws Pausable {
         if (from == 0 && to == count())
             return this;
         Spliterator<T> spliterator = spliterator();
@@ -248,7 +248,7 @@ interface Node<T> {
             throw new IndexOutOfBoundsException();
         }
 
-        T_NODE truncate(long from, long to, IntFunction<T[]> generator);
+        T_NODE truncate(long from, long to, IntFunction<T[]> generator) throws Pausable;
 
         /**
          * {@inheritDoc}
@@ -320,7 +320,7 @@ interface Node<T> {
          *        elements may be processed without boxing.
          */
         @Override
-        default void forEach(Consumer<? super Integer> consumer) {
+        default void forEach(Consumer<? super Integer> consumer) throws Pausable {
             if (consumer instanceof IntConsumer) {
                 forEach((IntConsumer) consumer);
             }
@@ -351,7 +351,7 @@ interface Node<T> {
         }
 
         @Override
-        default Node.OfInt truncate(long from, long to, IntFunction<Integer[]> generator) {
+        default Node.OfInt truncate(long from, long to, IntFunction<Integer[]> generator) throws Pausable {
             if (from == 0 && to == count())
                 return this;
             long size = to - from;
@@ -393,7 +393,7 @@ interface Node<T> {
          *        the elements may be processed without boxing.
          */
         @Override
-        default void forEach(Consumer<? super Long> consumer) {
+        default void forEach(Consumer<? super Long> consumer) throws Pausable {
             if (consumer instanceof LongConsumer) {
                 forEach((LongConsumer) consumer);
             }
@@ -424,7 +424,7 @@ interface Node<T> {
         }
 
         @Override
-        default Node.OfLong truncate(long from, long to, IntFunction<Long[]> generator) {
+        default Node.OfLong truncate(long from, long to, IntFunction<Long[]> generator) throws Pausable {
             if (from == 0 && to == count())
                 return this;
             long size = to - from;
@@ -466,7 +466,7 @@ interface Node<T> {
          *        so the elements may be processed without boxing.
          */
         @Override
-        default void forEach(Consumer<? super Double> consumer) {
+        default void forEach(Consumer<? super Double> consumer) throws Pausable {
             if (consumer instanceof DoubleConsumer) {
                 forEach((DoubleConsumer) consumer);
             }
@@ -499,7 +499,7 @@ interface Node<T> {
         }
 
         @Override
-        default Node.OfDouble truncate(long from, long to, IntFunction<Double[]> generator) {
+        default Node.OfDouble truncate(long from, long to, IntFunction<Double[]> generator) throws Pausable {
             if (from == 0 && to == count())
                 return this;
             long size = to - from;

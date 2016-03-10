@@ -143,7 +143,7 @@ final class SortedOps {
         @Override
         public <P_IN> Node<T> opEvaluateParallel(PipelineHelper<T> helper,
                                                  Spliterator<P_IN> spliterator,
-                                                 IntFunction<T[]> generator) {
+                                                 IntFunction<T[]> generator) throws Pausable {
             // If the input is already naturally sorted and this operation
             // naturally sorts then collect the output
             if (StreamOpFlag.SORTED.isKnown(helper.getStreamAndOpFlags()) && isNaturalSort) {
@@ -182,7 +182,7 @@ final class SortedOps {
         @Override
         public <P_IN> Node<Integer> opEvaluateParallel(PipelineHelper<Integer> helper,
                                                        Spliterator<P_IN> spliterator,
-                                                       IntFunction<Integer[]> generator) {
+                                                       IntFunction<Integer[]> generator) throws Pausable {
             if (StreamOpFlag.SORTED.isKnown(helper.getStreamAndOpFlags())) {
                 return helper.evaluate(spliterator, false, generator);
             }
@@ -221,7 +221,7 @@ final class SortedOps {
         @Override
         public <P_IN> Node<Long> opEvaluateParallel(PipelineHelper<Long> helper,
                                                     Spliterator<P_IN> spliterator,
-                                                    IntFunction<Long[]> generator) {
+                                                    IntFunction<Long[]> generator) throws Pausable {
             if (StreamOpFlag.SORTED.isKnown(helper.getStreamAndOpFlags())) {
                 return helper.evaluate(spliterator, false, generator);
             }
@@ -260,7 +260,7 @@ final class SortedOps {
         @Override
         public <P_IN> Node<Double> opEvaluateParallel(PipelineHelper<Double> helper,
                                                       Spliterator<P_IN> spliterator,
-                                                      IntFunction<Double[]> generator) {
+                                                      IntFunction<Double[]> generator) throws Pausable {
             if (StreamOpFlag.SORTED.isKnown(helper.getStreamAndOpFlags())) {
                 return helper.evaluate(spliterator, false, generator);
             }

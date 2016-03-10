@@ -595,7 +595,7 @@ final class SliceOps {
         }
 
         @Override
-        protected final Node<P_OUT> doLeaf() {
+        protected final Node<P_OUT> doLeaf() throws Pausable {
             if (isRoot()) {
                 long sizeIfKnown = StreamOpFlag.SIZED.isPreserved(op.sourceOrOpFlags)
                                    ? op.exactOutputSizeIfKnown(spliterator)
@@ -652,7 +652,7 @@ final class SliceOps {
                 setLocalResult(getEmptyResult());
         }
 
-        private Node<P_OUT> doTruncate(Node<P_OUT> input) {
+        private Node<P_OUT> doTruncate(Node<P_OUT> input) throws Pausable {
             long to = targetSize >= 0 ? Math.min(input.count(), targetOffset + targetSize) : thisNodeSize;
             return input.truncate(targetOffset, to, generator);
         }

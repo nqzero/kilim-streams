@@ -79,7 +79,7 @@ final class Streams {
         }
 
         @Override
-        public boolean tryAdvance(IntConsumer consumer) {
+        public boolean tryAdvance(IntConsumer consumer) throws Pausable {
             Objects.requireNonNull(consumer);
 
             final int i = from;
@@ -97,7 +97,7 @@ final class Streams {
         }
 
         @Override
-        public void forEachRemaining(IntConsumer consumer) {
+        public void forEachRemaining(IntConsumer consumer) throws Pausable {
             Objects.requireNonNull(consumer);
 
             int i = from;
@@ -133,7 +133,7 @@ final class Streams {
         }
 
         @Override
-        public Spliterator.OfInt trySplit() {
+        public Spliterator.OfInt trySplit() throws Pausable {
             long size = estimateSize();
             return size <= 1
                    ? null
@@ -204,7 +204,7 @@ final class Streams {
         }
 
         @Override
-        public boolean tryAdvance(LongConsumer consumer) {
+        public boolean tryAdvance(LongConsumer consumer) throws Pausable {
             Objects.requireNonNull(consumer);
 
             final long i = from;
@@ -222,7 +222,7 @@ final class Streams {
         }
 
         @Override
-        public void forEachRemaining(LongConsumer consumer) {
+        public void forEachRemaining(LongConsumer consumer) throws Pausable {
             Objects.requireNonNull(consumer);
 
             long i = from;
@@ -257,7 +257,7 @@ final class Streams {
         }
 
         @Override
-        public Spliterator.OfLong trySplit() {
+        public Spliterator.OfLong trySplit() throws Pausable {
             long size = estimateSize();
             return size <= 1
                    ? null
@@ -309,7 +309,7 @@ final class Streams {
         // count == -2 for one element held by first
 
         @Override
-        public S trySplit() {
+        public S trySplit() throws Pausable {
             return null;
         }
 
@@ -397,7 +397,7 @@ final class Streams {
         // count == -2 for one element held by first
 
         @Override
-        public boolean tryAdvance(Consumer<? super T> action) {
+        public boolean tryAdvance(Consumer<? super T> action) throws Pausable {
             Objects.requireNonNull(action);
 
             if (count == -2) {
@@ -411,7 +411,7 @@ final class Streams {
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super T> action) {
+        public void forEachRemaining(Consumer<? super T> action) throws Pausable {
             Objects.requireNonNull(action);
 
             if (count == -2) {
@@ -488,7 +488,7 @@ final class Streams {
         // count == -2 for one element held by first
 
         @Override
-        public boolean tryAdvance(IntConsumer action) {
+        public boolean tryAdvance(IntConsumer action) throws Pausable {
             Objects.requireNonNull(action);
 
             if (count == -2) {
@@ -502,7 +502,7 @@ final class Streams {
         }
 
         @Override
-        public void forEachRemaining(IntConsumer action) {
+        public void forEachRemaining(IntConsumer action) throws Pausable {
             Objects.requireNonNull(action);
 
             if (count == -2) {
@@ -579,7 +579,7 @@ final class Streams {
         // count == -2 for one element held by first
 
         @Override
-        public boolean tryAdvance(LongConsumer action) {
+        public boolean tryAdvance(LongConsumer action) throws Pausable {
             Objects.requireNonNull(action);
 
             if (count == -2) {
@@ -593,7 +593,7 @@ final class Streams {
         }
 
         @Override
-        public void forEachRemaining(LongConsumer action) {
+        public void forEachRemaining(LongConsumer action) throws Pausable {
             Objects.requireNonNull(action);
 
             if (count == -2) {
@@ -670,7 +670,7 @@ final class Streams {
         // count == -2 for one element held by first
 
         @Override
-        public boolean tryAdvance(DoubleConsumer action) {
+        public boolean tryAdvance(DoubleConsumer action) throws Pausable {
             Objects.requireNonNull(action);
 
             if (count == -2) {
@@ -684,7 +684,7 @@ final class Streams {
         }
 
         @Override
-        public void forEachRemaining(DoubleConsumer action) {
+        public void forEachRemaining(DoubleConsumer action) throws Pausable {
             Objects.requireNonNull(action);
 
             if (count == -2) {
@@ -713,14 +713,14 @@ final class Streams {
         }
 
         @Override
-        public T_SPLITR trySplit() {
+        public T_SPLITR trySplit() throws Pausable {
             T_SPLITR ret = beforeSplit ? aSpliterator : (T_SPLITR) bSpliterator.trySplit();
             beforeSplit = false;
             return ret;
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super T> consumer) {
+        public boolean tryAdvance(Consumer<? super T> consumer) throws Pausable {
             boolean hasNext;
             if (beforeSplit) {
                 hasNext = aSpliterator.tryAdvance(consumer);
@@ -735,7 +735,7 @@ final class Streams {
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super T> consumer) {
+        public void forEachRemaining(Consumer<? super T> consumer) throws Pausable {
             if (beforeSplit)
                 aSpliterator.forEachRemaining(consumer);
             bSpliterator.forEachRemaining(consumer);
@@ -788,7 +788,7 @@ final class Streams {
             }
 
             @Override
-            public boolean tryAdvance(T_CONS action) {
+            public boolean tryAdvance(T_CONS action) throws Pausable {
                 boolean hasNext;
                 if (beforeSplit) {
                     hasNext = aSpliterator.tryAdvance(action);
@@ -803,7 +803,7 @@ final class Streams {
             }
 
             @Override
-            public void forEachRemaining(T_CONS action) {
+            public void forEachRemaining(T_CONS action) throws Pausable {
                 if (beforeSplit)
                     aSpliterator.forEachRemaining(action);
                 bSpliterator.forEachRemaining(action);

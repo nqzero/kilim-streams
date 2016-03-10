@@ -119,7 +119,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    final void forEachWithCancel(Spliterator<P_OUT> spliterator, Sink<P_OUT> sink) {
+    final void forEachWithCancel(Spliterator<P_OUT> spliterator, Sink<P_OUT> sink) throws Pausable {
         do { } while (!sink.cancellationRequested() && spliterator.tryAdvance(sink));
     }
 
@@ -411,12 +411,12 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     // Terminal operations from Stream
 
     @Override
-    public void forEach(Consumer<? super P_OUT> action) {
+    public void forEach(Consumer<? super P_OUT> action) throws Pausable {
         evaluate(ForEachOps.makeRef(action, false));
     }
 
     @Override
-    public void forEachOrdered(Consumer<? super P_OUT> action) {
+    public void forEachOrdered(Consumer<? super P_OUT> action) throws Pausable {
         evaluate(ForEachOps.makeRef(action, true));
     }
 
@@ -483,7 +483,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
 
     @Override
     @SuppressWarnings("unchecked")
-    public final <R, A> R collect(Collector<? super P_OUT, A, R> collector) {
+    public final <R, A> R collect(Collector<? super P_OUT, A, R> collector) throws Pausable {
         A container;
         if (isParallel()
                 && (collector.characteristics().contains(Collector.Characteristics.CONCURRENT))
@@ -572,7 +572,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
         // Optimized sequential terminal operations for the head of the pipeline
 
         @Override
-        public void forEach(Consumer<? super E_OUT> action) {
+        public void forEach(Consumer<? super E_OUT> action) throws Pausable {
             if (!isParallel()) {
                 sourceStageSpliterator().forEachRemaining(action);
             }
@@ -582,7 +582,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
         }
 
         @Override
-        public void forEachOrdered(Consumer<? super E_OUT> action) {
+        public void forEachOrdered(Consumer<? super E_OUT> action) throws Pausable {
             if (!isParallel()) {
                 sourceStageSpliterator().forEachRemaining(action);
             }
@@ -653,6 +653,6 @@ abstract class ReferencePipeline<P_IN, P_OUT>
         @Override
         abstract <P_IN> Node<E_OUT> opEvaluateParallel(PipelineHelper<E_OUT> helper,
                                                        Spliterator<P_IN> spliterator,
-                                                       IntFunction<E_OUT[]> generator);
+                                                       IntFunction<E_OUT[]> generator) throws Pausable;
     }
 }

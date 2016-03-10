@@ -151,7 +151,7 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    final void forEachWithCancel(Spliterator<Long> spliterator, Sink<Long> sink) {
+    final void forEachWithCancel(Spliterator<Long> spliterator, Sink<Long> sink) throws Pausable {
         Spliterator.OfLong spl = adapt(spliterator);
         LongConsumer adaptedSink =  adapt(sink);
         do { } while (!sink.cancellationRequested() && spl.tryAdvance(adaptedSink));
@@ -378,12 +378,12 @@ abstract class LongPipeline<E_IN>
     // Terminal ops from LongStream
 
     @Override
-    public void forEach(LongConsumer action) {
+    public void forEach(LongConsumer action) throws Pausable {
         evaluate(ForEachOps.makeLong(action, false));
     }
 
     @Override
-    public void forEachOrdered(LongConsumer action) {
+    public void forEachOrdered(LongConsumer action) throws Pausable {
         evaluate(ForEachOps.makeLong(action, true));
     }
 
@@ -477,7 +477,7 @@ abstract class LongPipeline<E_IN>
     }
 
     @Override
-    public final long[] toArray() {
+    public final long[] toArray() throws Pausable {
         return Nodes.flattenLong((Node.OfLong) evaluateToArrayNode(Long[]::new))
                 .asPrimitiveArray();
     }
@@ -532,7 +532,7 @@ abstract class LongPipeline<E_IN>
         // Optimized sequential terminal operations for the head of the pipeline
 
         @Override
-        public void forEach(LongConsumer action) {
+        public void forEach(LongConsumer action) throws Pausable {
             if (!isParallel()) {
                 adapt(sourceStageSpliterator()).forEachRemaining(action);
             } else {
@@ -541,7 +541,7 @@ abstract class LongPipeline<E_IN>
         }
 
         @Override
-        public void forEachOrdered(LongConsumer action) {
+        public void forEachOrdered(LongConsumer action) throws Pausable {
             if (!isParallel()) {
                 adapt(sourceStageSpliterator()).forEachRemaining(action);
             } else {
@@ -605,6 +605,6 @@ abstract class LongPipeline<E_IN>
         @Override
         abstract <P_IN> Node<Long> opEvaluateParallel(PipelineHelper<Long> helper,
                                                       Spliterator<P_IN> spliterator,
-                                                      IntFunction<Long[]> generator);
+                                                      IntFunction<Long[]> generator) throws Pausable;
     }
 }

@@ -491,7 +491,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * @param action a <a href="package-summary.html#NonInterference">
      *               non-interfering</a> action to perform on the elements
      */
-    void forEach(Consumer<? super T> action);
+    void forEach(Consumer<? super T> action) throws Pausable;
 
     /**
      * Performs an action for each element of this stream, in the encounter
@@ -510,7 +510,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      *               non-interfering</a> action to perform on the elements
      * @see #forEach(Consumer)
      */
-    void forEachOrdered(Consumer<? super T> action);
+    void forEachOrdered(Consumer<? super T> action) throws Pausable;
 
     /**
      * Returns an array containing the elements of this stream.
@@ -800,7 +800,7 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
      * @see #collect(Supplier, BiConsumer, BiConsumer)
      * @see Collectors
      */
-    <R, A> R collect(Collector<? super T, A, R> collector);
+    <R, A> R collect(Collector<? super T, A, R> collector) throws Pausable;
 
     /**
      * Returns the minimum element of this stream according to the provided

@@ -703,7 +703,7 @@ final class ReduceOps {
 
         @Override
         public <P_IN> R evaluateSequential(PipelineHelper<T> helper,
-                                           Spliterator<P_IN> spliterator) {
+                                           Spliterator<P_IN> spliterator) throws Pausable {
             return helper.wrapAndCopyInto(makeSink(), spliterator).get();
         }
 
@@ -742,7 +742,7 @@ final class ReduceOps {
         }
 
         @Override
-        protected S doLeaf() {
+        protected S doLeaf() throws Pausable {
             return helper.wrapAndCopyInto(op.makeSink(), spliterator);
         }
 

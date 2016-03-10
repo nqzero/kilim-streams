@@ -28,7 +28,6 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
@@ -88,6 +87,9 @@ class StreamSpliterators {
          */
         Sink<P_IN> bufferSink;
 
+        public interface BooleanSupplier {
+            boolean getAsBoolean() throws Pausable;
+        }
         /**
          * A function that advances one element of the spliterator, pushing
          * it to bufferSink.  Returns whether any elements were processed.
@@ -148,7 +150,7 @@ class StreamSpliterators {
          * setting up the buffer if needed
          * @return whether there are elements to consume from the buffer
          */
-        final boolean doAdvance() {
+        final boolean doAdvance() throws Pausable {
             if (buffer == null) {
                 if (finished)
                     return false;
@@ -184,7 +186,7 @@ class StreamSpliterators {
         abstract void initPartialTraversalState();
 
         @Override
-        public Spliterator<P_OUT> trySplit() {
+        public Spliterator<P_OUT> trySplit() throws Pausable {
             if (isParallel && !finished) {
                 init();
 
@@ -200,7 +202,7 @@ class StreamSpliterators {
          * the source is empty or cancellation is requested.
          * @return whether there are elements to consume from the buffer
          */
-        private boolean fillBuffer() {
+        private boolean fillBuffer() throws Pausable {
             while (buffer.count() == 0) {
                 if (bufferSink.cancellationRequested() || !pusher.getAsBoolean()) {
                     if (finished)
@@ -294,7 +296,7 @@ class StreamSpliterators {
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super P_OUT> consumer) {
+        public boolean tryAdvance(Consumer<? super P_OUT> consumer) throws Pausable {
             Objects.requireNonNull(consumer);
             boolean hasNext = doAdvance();
             if (hasNext)
@@ -303,7 +305,7 @@ class StreamSpliterators {
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super P_OUT> consumer) {
+        public void forEachRemaining(Consumer<? super P_OUT> consumer) throws Pausable {
             if (buffer == null && !finished) {
                 Objects.requireNonNull(consumer);
                 init();
@@ -347,12 +349,12 @@ class StreamSpliterators {
         }
 
         @Override
-        public Spliterator.OfInt trySplit() {
+        public Spliterator.OfInt trySplit() throws Pausable {
             return (Spliterator.OfInt) super.trySplit();
         }
 
         @Override
-        public boolean tryAdvance(IntConsumer consumer) {
+        public boolean tryAdvance(IntConsumer consumer) throws Pausable {
             Objects.requireNonNull(consumer);
             boolean hasNext = doAdvance();
             if (hasNext)
@@ -361,7 +363,7 @@ class StreamSpliterators {
         }
 
         @Override
-        public void forEachRemaining(IntConsumer consumer) {
+        public void forEachRemaining(IntConsumer consumer) throws Pausable {
             if (buffer == null && !finished) {
                 Objects.requireNonNull(consumer);
                 init();
@@ -405,12 +407,12 @@ class StreamSpliterators {
         }
 
         @Override
-        public Spliterator.OfLong trySplit() {
+        public Spliterator.OfLong trySplit() throws Pausable {
             return (Spliterator.OfLong) super.trySplit();
         }
 
         @Override
-        public boolean tryAdvance(LongConsumer consumer) {
+        public boolean tryAdvance(LongConsumer consumer) throws Pausable {
             Objects.requireNonNull(consumer);
             boolean hasNext = doAdvance();
             if (hasNext)
@@ -419,7 +421,7 @@ class StreamSpliterators {
         }
 
         @Override
-        public void forEachRemaining(LongConsumer consumer) {
+        public void forEachRemaining(LongConsumer consumer) throws Pausable {
             if (buffer == null && !finished) {
                 Objects.requireNonNull(consumer);
                 init();
@@ -463,12 +465,12 @@ class StreamSpliterators {
         }
 
         @Override
-        public Spliterator.OfDouble trySplit() {
+        public Spliterator.OfDouble trySplit() throws Pausable {
             return (Spliterator.OfDouble) super.trySplit();
         }
 
         @Override
-        public boolean tryAdvance(DoubleConsumer consumer) {
+        public boolean tryAdvance(DoubleConsumer consumer) throws Pausable {
             Objects.requireNonNull(consumer);
             boolean hasNext = doAdvance();
             if (hasNext)
@@ -477,7 +479,7 @@ class StreamSpliterators {
         }
 
         @Override
-        public void forEachRemaining(DoubleConsumer consumer) {
+        public void forEachRemaining(DoubleConsumer consumer) throws Pausable {
             if (buffer == null && !finished) {
                 Objects.requireNonNull(consumer);
                 init();
@@ -515,17 +517,17 @@ class StreamSpliterators {
         }
 
         @Override
-        public T_SPLITR trySplit() {
+        public T_SPLITR trySplit() throws Pausable {
             return (T_SPLITR) get().trySplit();
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super T> consumer) {
+        public boolean tryAdvance(Consumer<? super T> consumer) throws Pausable {
             return get().tryAdvance(consumer);
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super T> consumer) {
+        public void forEachRemaining(Consumer<? super T> consumer) throws Pausable {
             get().forEachRemaining(consumer);
         }
 
@@ -562,12 +564,12 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(T_CONS consumer) {
+            public boolean tryAdvance(T_CONS consumer) throws Pausable {
                 return get().tryAdvance(consumer);
             }
 
             @Override
-            public void forEachRemaining(T_CONS consumer) {
+            public void forEachRemaining(T_CONS consumer) throws Pausable {
                 get().forEachRemaining(consumer);
             }
         }
@@ -629,7 +631,7 @@ class StreamSpliterators {
 
         protected abstract T_SPLITR makeSpliterator(T_SPLITR s, long sliceOrigin, long sliceFence, long origin, long fence);
 
-        public T_SPLITR trySplit() {
+        public T_SPLITR trySplit() throws Pausable {
             if (sliceOrigin >= fence)
                 return null;
 
@@ -704,7 +706,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super T> action) {
+            public boolean tryAdvance(Consumer<? super T> action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 if (sliceOrigin >= fence)
@@ -723,7 +725,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public void forEachRemaining(Consumer<? super T> action) {
+            public void forEachRemaining(Consumer<? super T> action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 if (sliceOrigin >= fence)
@@ -766,7 +768,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(T_CONS action) {
+            public boolean tryAdvance(T_CONS action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 if (sliceOrigin >= fence)
@@ -785,7 +787,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public void forEachRemaining(T_CONS action) {
+            public void forEachRemaining(T_CONS action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 if (sliceOrigin >= fence)
@@ -965,7 +967,7 @@ class StreamSpliterators {
                 return unlimited ?  PermitStatus.UNLIMITED : PermitStatus.NO_MORE;
         }
 
-        public final T_SPLITR trySplit() {
+        public final T_SPLITR trySplit() throws Pausable {
             // Stop splitting when there are no more limit permits
             if (permits.get() == 0)
                 return null;
@@ -1002,7 +1004,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super T> action) {
+            public boolean tryAdvance(Consumer<? super T> action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 while (permitStatus() != PermitStatus.NO_MORE) {
@@ -1018,7 +1020,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public void forEachRemaining(Consumer<? super T> action) {
+            public void forEachRemaining(Consumer<? super T> action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 ArrayBuffer.OfRef<T> sb = null;
@@ -1072,7 +1074,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(T_CONS action) {
+            public boolean tryAdvance(T_CONS action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 while (permitStatus() != PermitStatus.NO_MORE) {
@@ -1089,7 +1091,7 @@ class StreamSpliterators {
             protected abstract void acceptConsumed(T_CONS action);
 
             @Override
-            public void forEachRemaining(T_CONS action) {
+            public void forEachRemaining(T_CONS action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 T_BUFF sb = null;
@@ -1264,7 +1266,7 @@ class StreamSpliterators {
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super T> action) {
+        public boolean tryAdvance(Consumer<? super T> action) throws Pausable {
             while (s.tryAdvance(this)) {
                 if (seen.putIfAbsent(mapNull(tmpSlot), Boolean.TRUE) == null) {
                     action.accept(tmpSlot);
@@ -1276,7 +1278,7 @@ class StreamSpliterators {
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super T> action) {
+        public void forEachRemaining(Consumer<? super T> action) throws Pausable {
             s.forEachRemaining(t -> {
                 if (seen.putIfAbsent(mapNull(t), Boolean.TRUE) == null) {
                     action.accept(t);
@@ -1285,7 +1287,7 @@ class StreamSpliterators {
         }
 
         @Override
-        public Spliterator<T> trySplit() {
+        public Spliterator<T> trySplit() throws Pausable {
             Spliterator<T> split = s.trySplit();
             return (split != null) ? new DistinctSpliterator<>(split, seen) : null;
         }
@@ -1344,7 +1346,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super T> action) {
+            public boolean tryAdvance(Consumer<? super T> action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 action.accept(s.get());
@@ -1352,7 +1354,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public Spliterator<T> trySplit() {
+            public Spliterator<T> trySplit() throws Pausable {
                 if (estimate == 0)
                     return null;
                 return new InfiniteSupplyingSpliterator.OfRef<>(estimate >>>= 1, s);
@@ -1369,7 +1371,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(IntConsumer action) {
+            public boolean tryAdvance(IntConsumer action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 action.accept(s.getAsInt());
@@ -1377,7 +1379,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public Spliterator.OfInt trySplit() {
+            public Spliterator.OfInt trySplit() throws Pausable {
                 if (estimate == 0)
                     return null;
                 return new InfiniteSupplyingSpliterator.OfInt(estimate = estimate >>> 1, s);
@@ -1394,7 +1396,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(LongConsumer action) {
+            public boolean tryAdvance(LongConsumer action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 action.accept(s.getAsLong());
@@ -1402,7 +1404,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public Spliterator.OfLong trySplit() {
+            public Spliterator.OfLong trySplit() throws Pausable {
                 if (estimate == 0)
                     return null;
                 return new InfiniteSupplyingSpliterator.OfLong(estimate = estimate >>> 1, s);
@@ -1419,7 +1421,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public boolean tryAdvance(DoubleConsumer action) {
+            public boolean tryAdvance(DoubleConsumer action) throws Pausable {
                 Objects.requireNonNull(action);
 
                 action.accept(s.getAsDouble());
@@ -1427,7 +1429,7 @@ class StreamSpliterators {
             }
 
             @Override
-            public Spliterator.OfDouble trySplit() {
+            public Spliterator.OfDouble trySplit() throws Pausable {
                 if (estimate == 0)
                     return null;
                 return new InfiniteSupplyingSpliterator.OfDouble(estimate = estimate >>> 1, s);

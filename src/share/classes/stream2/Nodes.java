@@ -677,7 +677,7 @@ final class Nodes {
         }
 
         @Override
-        public void forEach(Consumer<? super T> consumer) {
+        public void forEach(Consumer<? super T> consumer) throws Pausable {
             for (int i = 0; i < curSize; i++) {
                 consumer.accept(array[i]);
             }
@@ -730,7 +730,7 @@ final class Nodes {
         }
 
         @Override
-        public void forEach(Consumer<? super T> consumer) {
+        public void forEach(Consumer<? super T> consumer) throws Pausable {
             c.forEach(consumer);
         }
 
@@ -811,13 +811,13 @@ final class Nodes {
         }
 
         @Override
-        public void forEach(Consumer<? super T> consumer) {
+        public void forEach(Consumer<? super T> consumer) throws Pausable {
             left.forEach(consumer);
             right.forEach(consumer);
         }
 
         @Override
-        public Node<T> truncate(long from, long to, IntFunction<T[]> generator) {
+        public Node<T> truncate(long from, long to, IntFunction<T[]> generator) throws Pausable {
             if (from == 0 && to == count())
                 return this;
             long leftCount = left.count();
@@ -1013,7 +1013,7 @@ final class Nodes {
 
         @Override
         @SuppressWarnings("unchecked")
-        public final S trySplit() {
+        public final S trySplit() throws Pausable {
             if (curNode == null || tryAdvanceSpliterator != null)
                 return null; // Cannot split if fully or partially traversed
             else if (lastNodeSpliterator != null)
@@ -1063,7 +1063,7 @@ final class Nodes {
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super T> consumer) {
+            public boolean tryAdvance(Consumer<? super T> consumer) throws Pausable {
                 if (!initTryAdvance())
                     return false;
 
@@ -1085,7 +1085,7 @@ final class Nodes {
             }
 
             @Override
-            public void forEachRemaining(Consumer<? super T> consumer) {
+            public void forEachRemaining(Consumer<? super T> consumer) throws Pausable {
                 if (curNode == null)
                     return;
 
@@ -1117,7 +1117,7 @@ final class Nodes {
             }
 
             @Override
-            public boolean tryAdvance(T_CONS consumer) {
+            public boolean tryAdvance(T_CONS consumer) throws Pausable {
                 if (!initTryAdvance())
                     return false;
 
@@ -1139,7 +1139,7 @@ final class Nodes {
             }
 
             @Override
-            public void forEachRemaining(T_CONS consumer) {
+            public void forEachRemaining(T_CONS consumer) throws Pausable {
                 if (curNode == null)
                     return;
 
@@ -1257,7 +1257,7 @@ final class Nodes {
         }
 
         @Override
-        public void forEach(Consumer<? super T> consumer) {
+        public void forEach(Consumer<? super T> consumer) throws Pausable {
             assert !building : "during building";
             super.forEach(consumer);
         }
@@ -1860,7 +1860,7 @@ final class Nodes {
         }
 
         @Override
-        public void compute() {
+        public void compute() {/*
             SizedCollectorTask<P_IN, P_OUT, T_SINK, K> task = this;
             Spliterator<P_IN> rightSplit = spliterator, leftSplit;
             while (rightSplit.estimateSize() > task.targetSize &&
@@ -1876,6 +1876,7 @@ final class Nodes {
             T_SINK sink = (T_SINK) task;
             task.helper.wrapAndCopyInto(sink, rightSplit);
             task.propagateCompletion();
+            /**/
         }
 
         abstract K makeChild(Spliterator<P_IN> spliterator, long offset, long size);
@@ -2176,7 +2177,7 @@ final class Nodes {
         }
 
         @Override
-        protected T_NODE doLeaf() {
+        protected T_NODE doLeaf() throws Pausable {
             T_BUILDER builder = builderFactory.apply(helper.exactOutputSizeIfKnown(spliterator));
             return (T_NODE) helper.wrapAndCopyInto(builder, spliterator).build();
         }

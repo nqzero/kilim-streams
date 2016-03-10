@@ -66,7 +66,7 @@ public interface Iterable<T> {
      * @throws NullPointerException if the specified action is null
      * @since 1.8
      */
-    default void forEach(Consumer<? super T> action) {
+    default void forEach(Consumer<? super T> action) throws Pausable {
         Objects.requireNonNull(action);
         for (Iterator<T> iter = iterator(); iter.hasNext();)
             action.accept(iter.next());

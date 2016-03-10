@@ -284,7 +284,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * @param action a <a href="package-summary.html#NonInterference">
      *               non-interfering</a> action to perform on the elements
      */
-    void forEach(IntConsumer action);
+    void forEach(IntConsumer action) throws Pausable;
 
     /**
      * Performs an action for each element of this stream, guaranteeing that
@@ -298,7 +298,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      *               non-interfering</a> action to perform on the elements
      * @see #forEach(IntConsumer)
      */
-    void forEachOrdered(IntConsumer action);
+    void forEachOrdered(IntConsumer action) throws Pausable;
 
     /**
      * Returns an array containing the elements of this stream.
@@ -308,7 +308,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      *
      * @return an array containing the elements of this stream
      */
-    int[] toArray();
+    int[] toArray() throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#Reduction">reduction</a> on the

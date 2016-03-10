@@ -680,14 +680,14 @@ public final class Spliterators {
             }
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 if (!valueReady)
                     spliterator.tryAdvance(this);
                 return valueReady;
             }
 
             @Override
-            public T next() {
+            public T next() throws Pausable {
                 if (!valueReady && !hasNext())
                     throw new NoSuchElementException();
                 else {
@@ -725,14 +725,14 @@ public final class Spliterators {
             }
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 if (!valueReady)
                     spliterator.tryAdvance(this);
                 return valueReady;
             }
 
             @Override
-            public int nextInt() {
+            public int nextInt() throws Pausable {
                 if (!valueReady && !hasNext())
                     throw new NoSuchElementException();
                 else {
@@ -770,14 +770,14 @@ public final class Spliterators {
             }
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 if (!valueReady)
                     spliterator.tryAdvance(this);
                 return valueReady;
             }
 
             @Override
-            public long nextLong() {
+            public long nextLong() throws Pausable {
                 if (!valueReady && !hasNext())
                     throw new NoSuchElementException();
                 else {
@@ -815,14 +815,14 @@ public final class Spliterators {
             }
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 if (!valueReady)
                     spliterator.tryAdvance(this);
                 return valueReady;
             }
 
             @Override
-            public double nextDouble() {
+            public double nextDouble() throws Pausable {
                 if (!valueReady && !hasNext())
                     throw new NoSuchElementException();
                 else {
@@ -934,7 +934,7 @@ public final class Spliterators {
         }
 
         @Override
-        public Spliterator<T> trySplit() {
+        public Spliterator<T> trySplit() throws Pausable {
             int lo = index, mid = (lo + fence) >>> 1;
             return (lo >= mid)
                    ? null
@@ -943,7 +943,7 @@ public final class Spliterators {
 
         @SuppressWarnings("unchecked")
         @Override
-        public void forEachRemaining(Consumer<? super T> action) {
+        public void forEachRemaining(Consumer<? super T> action) throws Pausable {
             Object[] a; int i, hi; // hoist accesses and checks from loop
             if (action == null)
                 throw new NullPointerException();
@@ -954,7 +954,7 @@ public final class Spliterators {
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super T> action) {
+        public boolean tryAdvance(Consumer<? super T> action) throws Pausable {
             if (action == null)
                 throw new NullPointerException();
             if (index >= 0 && index < fence) {
@@ -1019,7 +1019,7 @@ public final class Spliterators {
         }
 
         @Override
-        public OfInt trySplit() {
+        public OfInt trySplit() throws Pausable {
             int lo = index, mid = (lo + fence) >>> 1;
             return (lo >= mid)
                    ? null
@@ -1027,7 +1027,7 @@ public final class Spliterators {
         }
 
         @Override
-        public void forEachRemaining(IntConsumer action) {
+        public void forEachRemaining(IntConsumer action) throws Pausable {
             int[] a; int i, hi; // hoist accesses and checks from loop
             if (action == null)
                 throw new NullPointerException();
@@ -1038,7 +1038,7 @@ public final class Spliterators {
         }
 
         @Override
-        public boolean tryAdvance(IntConsumer action) {
+        public boolean tryAdvance(IntConsumer action) throws Pausable {
             if (action == null)
                 throw new NullPointerException();
             if (index >= 0 && index < fence) {
@@ -1102,7 +1102,7 @@ public final class Spliterators {
         }
 
         @Override
-        public OfLong trySplit() {
+        public OfLong trySplit() throws Pausable {
             int lo = index, mid = (lo + fence) >>> 1;
             return (lo >= mid)
                    ? null
@@ -1110,7 +1110,7 @@ public final class Spliterators {
         }
 
         @Override
-        public void forEachRemaining(LongConsumer action) {
+        public void forEachRemaining(LongConsumer action) throws Pausable {
             long[] a; int i, hi; // hoist accesses and checks from loop
             if (action == null)
                 throw new NullPointerException();
@@ -1121,7 +1121,7 @@ public final class Spliterators {
         }
 
         @Override
-        public boolean tryAdvance(LongConsumer action) {
+        public boolean tryAdvance(LongConsumer action) throws Pausable {
             if (action == null)
                 throw new NullPointerException();
             if (index >= 0 && index < fence) {
@@ -1185,7 +1185,7 @@ public final class Spliterators {
         }
 
         @Override
-        public OfDouble trySplit() {
+        public OfDouble trySplit() throws Pausable {
             int lo = index, mid = (lo + fence) >>> 1;
             return (lo >= mid)
                    ? null
@@ -1193,7 +1193,7 @@ public final class Spliterators {
         }
 
         @Override
-        public void forEachRemaining(DoubleConsumer action) {
+        public void forEachRemaining(DoubleConsumer action) throws Pausable {
             double[] a; int i, hi; // hoist accesses and checks from loop
             if (action == null)
                 throw new NullPointerException();
@@ -1204,7 +1204,7 @@ public final class Spliterators {
         }
 
         @Override
-        public boolean tryAdvance(DoubleConsumer action) {
+        public boolean tryAdvance(DoubleConsumer action) throws Pausable {
             if (action == null)
                 throw new NullPointerException();
             if (index >= 0 && index < fence) {
@@ -1296,7 +1296,7 @@ public final class Spliterators {
          * This implementation permits limited parallelism.
          */
         @Override
-        public Spliterator<T> trySplit() {
+        public Spliterator<T> trySplit() throws Pausable {
             /*
              * Split into arrays of arithmetically increasing batch
              * sizes.  This will only improve parallel performance if
@@ -1419,7 +1419,7 @@ public final class Spliterators {
          * This implementation permits limited parallelism.
          */
         @Override
-        public Spliterator.OfInt trySplit() {
+        public Spliterator.OfInt trySplit() throws Pausable {
             HoldingIntConsumer holder = new HoldingIntConsumer();
             long s = est;
             if (s > 1 && tryAdvance(holder)) {
@@ -1529,7 +1529,7 @@ public final class Spliterators {
          * This implementation permits limited parallelism.
          */
         @Override
-        public Spliterator.OfLong trySplit() {
+        public Spliterator.OfLong trySplit() throws Pausable {
             HoldingLongConsumer holder = new HoldingLongConsumer();
             long s = est;
             if (s > 1 && tryAdvance(holder)) {
@@ -1639,7 +1639,7 @@ public final class Spliterators {
          * This implementation permits limited parallelism.
          */
         @Override
-        public Spliterator.OfDouble trySplit() {
+        public Spliterator.OfDouble trySplit() throws Pausable {
             HoldingDoubleConsumer holder = new HoldingDoubleConsumer();
             long s = est;
             if (s > 1 && tryAdvance(holder)) {
@@ -1755,7 +1755,7 @@ public final class Spliterators {
         }
 
         @Override
-        public Spliterator<T> trySplit() {
+        public Spliterator<T> trySplit() throws Pausable {
             /*
              * Split into arrays of arithmetically increasing batch
              * sizes.  This will only improve parallel performance if
@@ -1795,7 +1795,7 @@ public final class Spliterators {
         }
 
         @Override
-        public void forEachRemaining(Consumer<? super T> action) {
+        public void forEachRemaining(Consumer<? super T> action) throws Pausable {
             if (action == null) throw new NullPointerException();
             Iterator<? extends T> i;
             if ((i = it) == null) {
@@ -1806,7 +1806,7 @@ public final class Spliterators {
         }
 
         @Override
-        public boolean tryAdvance(Consumer<? super T> action) {
+        public boolean tryAdvance(Consumer<? super T> action) throws Pausable {
             if (action == null) throw new NullPointerException();
             if (it == null) {
                 it = new Arrays2.IteratorProxy(collection.iterator());
@@ -1886,7 +1886,7 @@ public final class Spliterators {
         }
 
         @Override
-        public OfInt trySplit() {
+        public OfInt trySplit() throws Pausable {
             PrimitiveIterator.OfInt i = it;
             long s = est;
             if (s > 1 && i.hasNext()) {
@@ -1907,13 +1907,13 @@ public final class Spliterators {
         }
 
         @Override
-        public void forEachRemaining(IntConsumer action) {
+        public void forEachRemaining(IntConsumer action) throws Pausable {
             if (action == null) throw new NullPointerException();
             it.forEachRemaining(action);
         }
 
         @Override
-        public boolean tryAdvance(IntConsumer action) {
+        public boolean tryAdvance(IntConsumer action) throws Pausable {
             if (action == null) throw new NullPointerException();
             if (it.hasNext()) {
                 action.accept(it.nextInt());
@@ -1980,7 +1980,7 @@ public final class Spliterators {
         }
 
         @Override
-        public OfLong trySplit() {
+        public OfLong trySplit() throws Pausable {
             PrimitiveIterator.OfLong i = it;
             long s = est;
             if (s > 1 && i.hasNext()) {
@@ -2001,13 +2001,13 @@ public final class Spliterators {
         }
 
         @Override
-        public void forEachRemaining(LongConsumer action) {
+        public void forEachRemaining(LongConsumer action) throws Pausable {
             if (action == null) throw new NullPointerException();
             it.forEachRemaining(action);
         }
 
         @Override
-        public boolean tryAdvance(LongConsumer action) {
+        public boolean tryAdvance(LongConsumer action) throws Pausable {
             if (action == null) throw new NullPointerException();
             if (it.hasNext()) {
                 action.accept(it.nextLong());
@@ -2074,7 +2074,7 @@ public final class Spliterators {
         }
 
         @Override
-        public OfDouble trySplit() {
+        public OfDouble trySplit() throws Pausable {
             PrimitiveIterator.OfDouble i = it;
             long s = est;
             if (s > 1 && i.hasNext()) {
@@ -2095,13 +2095,13 @@ public final class Spliterators {
         }
 
         @Override
-        public void forEachRemaining(DoubleConsumer action) {
+        public void forEachRemaining(DoubleConsumer action) throws Pausable {
             if (action == null) throw new NullPointerException();
             it.forEachRemaining(action);
         }
 
         @Override
-        public boolean tryAdvance(DoubleConsumer action) {
+        public boolean tryAdvance(DoubleConsumer action) throws Pausable {
             if (action == null) throw new NullPointerException();
             if (it.hasNext()) {
                 action.accept(it.nextDouble());

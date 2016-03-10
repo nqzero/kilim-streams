@@ -150,7 +150,7 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    final void forEachWithCancel(Spliterator<Double> spliterator, Sink<Double> sink) {
+    final void forEachWithCancel(Spliterator<Double> spliterator, Sink<Double> sink) throws Pausable {
         Spliterator.OfDouble spl = adapt(spliterator);
         DoubleConsumer adaptedSink = adapt(sink);
         do { } while (!sink.cancellationRequested() && spl.tryAdvance(adaptedSink));
@@ -363,12 +363,12 @@ abstract class DoublePipeline<E_IN>
     // Terminal ops from DoubleStream
 
     @Override
-    public void forEach(DoubleConsumer consumer) {
+    public void forEach(DoubleConsumer consumer) throws Pausable {
         evaluate(ForEachOps.makeDouble(consumer, false));
     }
 
     @Override
-    public void forEachOrdered(DoubleConsumer consumer) {
+    public void forEachOrdered(DoubleConsumer consumer) throws Pausable {
         evaluate(ForEachOps.makeDouble(consumer, true));
     }
 
@@ -499,7 +499,7 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    public final double[] toArray() {
+    public final double[] toArray() throws Pausable {
         return Nodes.flattenDouble((Node.OfDouble) evaluateToArrayNode(Double[]::new))
                         .asPrimitiveArray();
     }
@@ -552,7 +552,7 @@ abstract class DoublePipeline<E_IN>
         // Optimized sequential terminal operations for the head of the pipeline
 
         @Override
-        public void forEach(DoubleConsumer consumer) {
+        public void forEach(DoubleConsumer consumer) throws Pausable {
             if (!isParallel()) {
                 adapt(sourceStageSpliterator()).forEachRemaining(consumer);
             }
@@ -562,7 +562,7 @@ abstract class DoublePipeline<E_IN>
         }
 
         @Override
-        public void forEachOrdered(DoubleConsumer consumer) {
+        public void forEachOrdered(DoubleConsumer consumer) throws Pausable {
             if (!isParallel()) {
                 adapt(sourceStageSpliterator()).forEachRemaining(consumer);
             }
@@ -631,6 +631,6 @@ abstract class DoublePipeline<E_IN>
         @Override
         abstract <P_IN> Node<Double> opEvaluateParallel(PipelineHelper<Double> helper,
                                                         Spliterator<P_IN> spliterator,
-                                                        IntFunction<Double[]> generator);
+                                                        IntFunction<Double[]> generator) throws Pausable;
     }
 }

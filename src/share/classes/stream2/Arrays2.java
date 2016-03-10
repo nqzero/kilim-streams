@@ -73,7 +73,7 @@ public class Arrays2 {
      * @throws NullPointerException if the generator is null
      * @since 1.8
      */
-    public static <T> void parallelSetAll(T[] array, IntFunction<? extends T> generator) {
+    public static <T> void parallelSetAll(T[] array, IntFunction<? extends T> generator) throws Pausable {
         Objects.requireNonNull(generator);
         IntStream.range(0, array.length).parallel().forEach(i -> { array[i] = generator.apply(i); });
     }
@@ -111,7 +111,7 @@ public class Arrays2 {
      * @throws NullPointerException if the generator is null
      * @since 1.8
      */
-    public static void parallelSetAll(int[] array, IntUnaryOperator generator) {
+    public static void parallelSetAll(int[] array, IntUnaryOperator generator) throws Pausable {
         Objects.requireNonNull(generator);
         IntStream.range(0, array.length).parallel().forEach(i -> { array[i] = generator.applyAsInt(i); });
     }
@@ -149,7 +149,7 @@ public class Arrays2 {
      * @throws NullPointerException if the generator is null
      * @since 1.8
      */
-    public static void parallelSetAll(long[] array, IntToLongFunction generator) {
+    public static void parallelSetAll(long[] array, IntToLongFunction generator) throws Pausable {
         Objects.requireNonNull(generator);
         IntStream.range(0, array.length).parallel().forEach(i -> { array[i] = generator.applyAsLong(i); });
     }
@@ -187,7 +187,7 @@ public class Arrays2 {
      * @throws NullPointerException if the generator is null
      * @since 1.8
      */
-    public static void parallelSetAll(double[] array, IntToDoubleFunction generator) {
+    public static void parallelSetAll(double[] array, IntToDoubleFunction generator) throws Pausable {
         Objects.requireNonNull(generator);
         IntStream.range(0, array.length).parallel().forEach(i -> { array[i] = generator.applyAsDouble(i); });
     }

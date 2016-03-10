@@ -225,13 +225,13 @@ final class MatchOps {
 
         @Override
         public <S> Boolean evaluateSequential(PipelineHelper<T> helper,
-                                              Spliterator<S> spliterator) {
+                                              Spliterator<S> spliterator) throws Pausable {
             return helper.wrapAndCopyInto(sinkSupplier.get(), spliterator).getAndClearState();
         }
 
         @Override
         public <S> Boolean evaluateParallel(PipelineHelper<T> helper,
-                                            Spliterator<S> spliterator) {
+                                            Spliterator<S> spliterator) throws Pausable {
             // Approach for parallel implementation:
             // - Decompose as per usual
             // - run match on leaf chunks, call result "b"
@@ -301,7 +301,7 @@ final class MatchOps {
         }
 
         @Override
-        protected Boolean doLeaf() {
+        protected Boolean doLeaf() throws Pausable {
             boolean b = helper.wrapAndCopyInto(op.sinkSupplier.get(), spliterator).getAndClearState();
             if (b == op.matchKind.shortCircuitResult)
                 shortCircuit(b);

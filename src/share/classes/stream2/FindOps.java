@@ -147,14 +147,14 @@ final class FindOps {
 
         @Override
         public <S> O evaluateSequential(PipelineHelper<T> helper,
-                                        Spliterator<S> spliterator) {
+                                        Spliterator<S> spliterator) throws Pausable {
             O result = helper.wrapAndCopyInto(sinkSupplier.get(), spliterator).get();
             return result != null ? result : emptyValue;
         }
 
         @Override
         public <P_IN> O evaluateParallel(PipelineHelper<T> helper,
-                                         Spliterator<P_IN> spliterator) {
+                                         Spliterator<P_IN> spliterator) throws Pausable {
             return new FindTask<>(this, helper, spliterator).invoke();
         }
     }
@@ -280,7 +280,7 @@ final class FindOps {
         }
 
         @Override
-        protected O doLeaf() {
+        protected O doLeaf() throws Pausable {
             O result = helper.wrapAndCopyInto(op.sinkSupplier.get(), spliterator).get();
             if (!op.mustFindFirst) {
                 if (result != null)

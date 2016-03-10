@@ -284,7 +284,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      * @param action a <a href="package-summary.html#NonInterference">
      *               non-interfering</a> action to perform on the elements
      */
-    void forEach(LongConsumer action);
+    void forEach(LongConsumer action) throws Pausable;
 
     /**
      * Performs an action for each element of this stream, guaranteeing that
@@ -298,7 +298,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      *               non-interfering</a> action to perform on the elements
      * @see #forEach(LongConsumer)
      */
-    void forEachOrdered(LongConsumer action);
+    void forEachOrdered(LongConsumer action) throws Pausable;
 
     /**
      * Returns an array containing the elements of this stream.
@@ -308,7 +308,7 @@ public interface LongStream extends BaseStream<Long, LongStream> {
      *
      * @return an array containing the elements of this stream
      */
-    long[] toArray();
+    long[] toArray() throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#Reduction">reduction</a> on the

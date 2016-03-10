@@ -286,7 +286,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      * @param action a <a href="package-summary.html#NonInterference">
      *               non-interfering</a> action to perform on the elements
      */
-    void forEach(DoubleConsumer action);
+    void forEach(DoubleConsumer action) throws Pausable;
 
     /**
      * Performs an action for each element of this stream, guaranteeing that
@@ -300,7 +300,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      *               non-interfering</a> action to perform on the elements
      * @see #forEach(DoubleConsumer)
      */
-    void forEachOrdered(DoubleConsumer action);
+    void forEachOrdered(DoubleConsumer action) throws Pausable;
 
     /**
      * Returns an array containing the elements of this stream.
@@ -310,7 +310,7 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
      *
      * @return an array containing the elements of this stream
      */
-    double[] toArray();
+    double[] toArray() throws Pausable;
 
     /**
      * Performs a <a href="package-summary.html#Reduction">reduction</a> on the

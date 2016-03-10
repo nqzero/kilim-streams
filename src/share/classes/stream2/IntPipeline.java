@@ -153,7 +153,7 @@ abstract class IntPipeline<E_IN>
     }
 
     @Override
-    final void forEachWithCancel(Spliterator<Integer> spliterator, Sink<Integer> sink) {
+    final void forEachWithCancel(Spliterator<Integer> spliterator, Sink<Integer> sink) throws Pausable {
         Spliterator.OfInt spl = adapt(spliterator);
         IntConsumer adaptedSink = adapt(sink);
         do { } while (!sink.cancellationRequested() && spl.tryAdvance(adaptedSink));
@@ -397,12 +397,12 @@ abstract class IntPipeline<E_IN>
     // Terminal ops from IntStream
 
     @Override
-    public void forEach(IntConsumer action) {
+    public void forEach(IntConsumer action) throws Pausable {
         evaluate(ForEachOps.makeInt(action, false));
     }
 
     @Override
-    public void forEachOrdered(IntConsumer action) {
+    public void forEachOrdered(IntConsumer action) throws Pausable {
         evaluate(ForEachOps.makeInt(action, true));
     }
 
@@ -495,7 +495,7 @@ abstract class IntPipeline<E_IN>
     }
 
     @Override
-    public final int[] toArray() {
+    public final int[] toArray() throws Pausable {
         return Nodes.flattenInt((Node.OfInt) evaluateToArrayNode(Integer[]::new))
                         .asPrimitiveArray();
     }
@@ -549,7 +549,7 @@ abstract class IntPipeline<E_IN>
         // Optimized sequential terminal operations for the head of the pipeline
 
         @Override
-        public void forEach(IntConsumer action) {
+        public void forEach(IntConsumer action) throws Pausable {
             if (!isParallel()) {
                 adapt(sourceStageSpliterator()).forEachRemaining(action);
             }
@@ -559,7 +559,7 @@ abstract class IntPipeline<E_IN>
         }
 
         @Override
-        public void forEachOrdered(IntConsumer action) {
+        public void forEachOrdered(IntConsumer action) throws Pausable {
             if (!isParallel()) {
                 adapt(sourceStageSpliterator()).forEachRemaining(action);
             }
@@ -625,6 +625,6 @@ abstract class IntPipeline<E_IN>
         @Override
         abstract <P_IN> Node<Integer> opEvaluateParallel(PipelineHelper<Integer> helper,
                                                          Spliterator<P_IN> spliterator,
-                                                         IntFunction<Integer[]> generator);
+                                                         IntFunction<Integer[]> generator) throws Pausable;
     }
 }

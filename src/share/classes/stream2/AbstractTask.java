@@ -172,7 +172,7 @@ abstract class AbstractTask<P_IN, P_OUT, R,
      *
      * @return the computed result of a leaf node
      */
-    protected abstract R doLeaf();
+    protected abstract R doLeaf() throws Pausable;
 
     /**
      * Returns a suggested target leaf size based on the initial size estimate.

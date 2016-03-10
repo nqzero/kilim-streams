@@ -231,7 +231,7 @@ class SpinedBuffer<E>
     }
 
     @Override
-    public void forEach(Consumer<? super E> consumer) {
+    public void forEach(Consumer<? super E> consumer) throws Pausable {
         // completed chunks, if any
         for (int j = 0; j < spineIndex; j++)
             for (E t : spine[j])
@@ -316,7 +316,7 @@ class SpinedBuffer<E>
             }
 
             @Override
-            public boolean tryAdvance(Consumer<? super E> consumer) {
+            public boolean tryAdvance(Consumer<? super E> consumer) throws Pausable {
                 Objects.requireNonNull(consumer);
 
                 if (splSpineIndex < lastSpineIndex
@@ -335,7 +335,7 @@ class SpinedBuffer<E>
             }
 
             @Override
-            public void forEachRemaining(Consumer<? super E> consumer) {
+            public void forEachRemaining(Consumer<? super E> consumer) throws Pausable {
                 Objects.requireNonNull(consumer);
 
                 if (splSpineIndex < lastSpineIndex
@@ -362,7 +362,7 @@ class SpinedBuffer<E>
             }
 
             @Override
-            public Spliterator<E> trySplit() {
+            public Spliterator<E> trySplit() throws Pausable {
                 if (splSpineIndex < lastSpineIndex) {
                     // split just before last chunk (if it is full this means 50:50 split)
                     Spliterator<E> ret = new Splitr(splSpineIndex, lastSpineIndex - 1,
@@ -457,7 +457,7 @@ class SpinedBuffer<E>
         public abstract Iterator<E> iterator();
 
         @Override
-        public abstract void forEach(Consumer<? super E> consumer);
+        public abstract void forEach(Consumer<? super E> consumer) throws Pausable;
 
         /** Create a new array-of-array of the proper type and size */
         protected abstract T_ARR[] newArrayArray(int size);
@@ -640,7 +640,7 @@ class SpinedBuffer<E>
             }
 
             @Override
-            public boolean tryAdvance(T_CONS consumer) {
+            public boolean tryAdvance(T_CONS consumer) throws Pausable {
                 Objects.requireNonNull(consumer);
 
                 if (splSpineIndex < lastSpineIndex
@@ -659,7 +659,7 @@ class SpinedBuffer<E>
             }
 
             @Override
-            public void forEachRemaining(T_CONS consumer) {
+            public void forEachRemaining(T_CONS consumer) throws Pausable {
                 Objects.requireNonNull(consumer);
 
                 if (splSpineIndex < lastSpineIndex
@@ -681,7 +681,7 @@ class SpinedBuffer<E>
             }
 
             @Override
-            public T_SPLITR trySplit() {
+            public T_SPLITR trySplit() throws Pausable {
                 if (splSpineIndex < lastSpineIndex) {
                     // split just before last chunk (if it is full this means 50:50 split)
                     T_SPLITR ret = newSpliterator(splSpineIndex, lastSpineIndex - 1,
@@ -721,7 +721,7 @@ class SpinedBuffer<E>
         }
 
         @Override
-        public void forEach(Consumer<? super Integer> consumer) {
+        public void forEach(Consumer<? super Integer> consumer) throws Pausable {
             if (consumer instanceof IntConsumer) {
                 forEach((IntConsumer) consumer);
             }
@@ -835,7 +835,7 @@ class SpinedBuffer<E>
         }
 
         @Override
-        public void forEach(Consumer<? super Long> consumer) {
+        public void forEach(Consumer<? super Long> consumer) throws Pausable {
             if (consumer instanceof LongConsumer) {
                 forEach((LongConsumer) consumer);
             }
@@ -950,7 +950,7 @@ class SpinedBuffer<E>
         }
 
         @Override
-        public void forEach(Consumer<? super Double> consumer) {
+        public void forEach(Consumer<? super Double> consumer) throws Pausable {
             if (consumer instanceof DoubleConsumer) {
                 forEach((DoubleConsumer) consumer);
             }

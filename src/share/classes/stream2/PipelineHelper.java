@@ -103,7 +103,7 @@ abstract class PipelineHelper<P_OUT> {
      * @param sink the {@code Sink} to receive the results
      * @param spliterator the spliterator describing the source input to process
      */
-    abstract<P_IN, S extends Sink<P_OUT>> S wrapAndCopyInto(S sink, Spliterator<P_IN> spliterator);
+    abstract<P_IN, S extends Sink<P_OUT>> S wrapAndCopyInto(S sink, Spliterator<P_IN> spliterator) throws Pausable;
 
     /**
      * Pushes elements obtained from the {@code Spliterator} into the provided
@@ -120,7 +120,7 @@ abstract class PipelineHelper<P_OUT> {
      * @param wrappedSink the destination {@code Sink}
      * @param spliterator the source {@code Spliterator}
      */
-    abstract<P_IN> void copyInto(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator);
+    abstract<P_IN> void copyInto(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator) throws Pausable;
 
     /**
      * Pushes elements obtained from the {@code Spliterator} into the provided
@@ -136,7 +136,7 @@ abstract class PipelineHelper<P_OUT> {
      * @param wrappedSink the destination {@code Sink}
      * @param spliterator the source {@code Spliterator}
      */
-    abstract <P_IN> void copyIntoWithCancel(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator);
+    abstract <P_IN> void copyIntoWithCancel(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator) throws Pausable;
 
     /**
      * Takes a {@code Sink} that accepts elements of the output type of the
@@ -198,5 +198,5 @@ abstract class PipelineHelper<P_OUT> {
      */
     abstract<P_IN> Node<P_OUT> evaluate(Spliterator<P_IN> spliterator,
                                         boolean flatten,
-                                        IntFunction<P_OUT[]> generator);
+                                        IntFunction<P_OUT[]> generator) throws Pausable;
 }

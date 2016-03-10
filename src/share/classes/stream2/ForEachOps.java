@@ -144,13 +144,13 @@ final class ForEachOps {
 
         @Override
         public <S> Void evaluateSequential(PipelineHelper<T> helper,
-                                           Spliterator<S> spliterator) {
+                                           Spliterator<S> spliterator) throws Pausable {
             return helper.wrapAndCopyInto(this, spliterator).get();
         }
 
         @Override
         public <S> Void evaluateParallel(PipelineHelper<T> helper,
-                                         Spliterator<S> spliterator) {
+                                         Spliterator<S> spliterator) throws Pausable {
             if (ordered)
                 new ForEachOrderedTask<>(helper, spliterator, this).invoke();
             else

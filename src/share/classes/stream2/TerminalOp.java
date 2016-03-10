@@ -77,7 +77,7 @@ interface TerminalOp<E_IN, R> {
      * @return the result of the evaluation
      */
     default <P_IN> R evaluateParallel(PipelineHelper<E_IN> helper,
-                                      Spliterator<P_IN> spliterator) {
+                                      Spliterator<P_IN> spliterator) throws Pausable {
         if (Tripwire.ENABLED)
             Tripwire.trip(getClass(), "{0} triggering TerminalOp.evaluateParallel serial default");
         return evaluateSequential(helper, spliterator);
@@ -93,5 +93,5 @@ interface TerminalOp<E_IN, R> {
      * @return the result of the evaluation
      */
     <P_IN> R evaluateSequential(PipelineHelper<E_IN> helper,
-                                Spliterator<P_IN> spliterator);
+                                Spliterator<P_IN> spliterator) throws Pausable;
 }
