@@ -35,6 +35,7 @@
 
 package stream2;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.ForkJoinTask;
 
 public abstract class CountedCompleter<TT> {
@@ -48,12 +49,8 @@ public abstract class CountedCompleter<TT> {
         return getRawResult();
     }
     public final ForkJoinTask<TT> fork() {
-        Thread t;
-        if ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread)
-            ((ForkJoinWorkerThread)t).workQueue.push(this);
-        else
-            ForkJoinPool.common.externalPush(this);
-        return this;
+        if (Arrays2.kludge) throw new UnsupportedOperationException();
+        return null;
     }
     volatile int status; // accessed directly by pool and workers
     static private final int DONE_MASK   = 0xf0000000;  // mask out non-completion bits
@@ -62,20 +59,7 @@ public abstract class CountedCompleter<TT> {
     static private final int EXCEPTIONAL = 0x80000000;  // must be < CANCELLED
     static private final int SIGNAL      = 0x00010000;  // must be >= 1 << 16
     static private final int SMASK       = 0x0000ffff;  // short bits for tags
-    private static final long STATUS;
-    static {
-        exceptionTableLock = new ReentrantLock();
-        exceptionTableRefQueue = new ReferenceQueue<Object>();
-        exceptionTable = new ExceptionNode[EXCEPTION_MAP_CAPACITY];
-        try {
-            U = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = ForkJoinTask.class;
-            STATUS = U.objectFieldOffset
-                (k.getDeclaredField("status"));
-        } catch (Exception e) {
-            throw new Error(e);
-        }
-    }
+    private static final long STATUS = 0L;
     private static final long serialVersionUID = 5232453752276485070L;
 
     /** This task's completer, or null if none */
@@ -370,25 +354,14 @@ public abstract class CountedCompleter<TT> {
      *                 processed.
      */
     public final void helpComplete(int maxTasks) {
-        Thread t; ForkJoinWorkerThread wt;
-        if (maxTasks > 0 && status >= 0) {
-            if ((t = Thread.currentThread()) instanceof ForkJoinWorkerThread)
-                (wt = (ForkJoinWorkerThread)t).pool.
-                    helpComplete(wt.workQueue, this, maxTasks);
-            else
-                ForkJoinPool.common.externalHelpComplete(this, maxTasks);
-        }
+        if (Arrays2.kludge) throw new UnsupportedOperationException();
     }
 
     /**
      * Supports ForkJoinTask exception propagation.
      */
     void internalPropagateException(Throwable ex) {
-        CountedCompleter<?> a = this, s = a;
-        while (a.onExceptionalCompletion(ex, s) &&
-               (a = (s = a).completer) != null && a.status >= 0 &&
-               a.recordExceptionalCompletion(ex) == EXCEPTIONAL)
-            ;
+        if (Arrays2.kludge) throw new UnsupportedOperationException();
     }
 
     /**
@@ -419,12 +392,29 @@ public abstract class CountedCompleter<TT> {
      */
     protected void setRawResult(TT t) { }
 
+    public static class DummyUnsafe {
+        public final boolean compareAndSwapInt(Object o, long l, int i, int i1) {
+            if (Arrays2.kludge) throw new UnsupportedOperationException();
+            return false;
+        }
+        public final int getAndAddInt(Object o, long l, int i) {
+            if (Arrays2.kludge) throw new UnsupportedOperationException();
+            return 0;
+        }
+        public long objectFieldOffset(Field field) {
+            if (Arrays2.kludge) throw new UnsupportedOperationException();
+            return 0L;
+        }
+    }
+    
     // Unsafe mechanics
-    private static final sun.misc.Unsafe U;
+    private static final DummyUnsafe U;
+//    private static final sun.misc.Unsafe U;
     private static final long PENDING;
     static {
         try {
-            U = sun.misc.Unsafe.getUnsafe();
+            U = new DummyUnsafe();
+//            U = sun.misc.Unsafe.getUnsafe();
             PENDING = U.objectFieldOffset
                 (CountedCompleter.class.getDeclaredField("pending"));
         } catch (Exception e) {
@@ -435,6 +425,7 @@ public abstract class CountedCompleter<TT> {
         setCompletion(NORMAL);
     }
     private int setCompletion(int completion) {
+        if (Arrays2.kludge) throw new UnsupportedOperationException();
         for (int s;;) {
             if ((s = status) < 0)
                 return s;
