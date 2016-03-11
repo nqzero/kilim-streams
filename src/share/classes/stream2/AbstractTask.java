@@ -207,19 +207,6 @@ abstract class AbstractTask<P_IN, P_OUT, R,
         return localResult;
     }
 
-    /**
-     * Does nothing; instead, subclasses should use
-     * {@link #setLocalResult(Object)}} to manage results.
-     *
-     * @param result must be null, or an exception is thrown (this is a safety
-     *        tripwire to detect when {@code setRawResult()} is being used
-     *        instead of {@code setLocalResult()}
-     */
-    @Override
-    protected void setRawResult(R result) {
-        if (result != null)
-            throw new IllegalStateException();
-    }
 
     /**
      * Retrieves a result previously stored with {@link #setLocalResult}

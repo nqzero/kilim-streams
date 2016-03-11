@@ -2048,7 +2048,7 @@ final class Nodes {
 
         // FIXME - should this be pausable
         @Override
-        public void compute() {
+        public void compute() throws Pausable {
             ToArrayTask<T, T_NODE, K> task = this;
             while (true) {
                 if (task.node.getChildCount() == 0) {
