@@ -356,7 +356,8 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
             }
         }
         else {
-            return wrap(this, () -> sourceSpliterator(0), isParallel());
+            checkLazy();
+            return wrap(this, () -> sourceSpliteratorPrep(0), isParallel());
         }
     }
 
@@ -439,8 +440,13 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
      * of all computations up to and including the most recent stateful
      * operation.
      */
+    private Spliterator<?> sourceSpliterator(int terminalFlags) throws Pausable {
+        Spliterator spliter = sourceSpliteratorPrep(terminalFlags);
+        return doLazy(spliter);
+    }
+    
     @SuppressWarnings("unchecked")
-    private Spliterator<?> sourceSpliterator(int terminalFlags) {
+    private Spliterator<?> sourceSpliteratorPrep(int terminalFlags) {
         // Get the source spliterator of the pipeline
         Spliterator<?> spliterator = null;
         if (sourceStage.sourceSpliterator != null) {
@@ -460,26 +466,39 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
             //     spliterator characteristics to determine if SIZED
             //     should be injected
             parallelPrepare(terminalFlags);
-
-            // Adapt the source spliterator, evaluating each stateful op
-            // in the pipeline up to and including this pipeline stage
-            for ( @SuppressWarnings("rawtypes") AbstractPipeline u = sourceStage, p = sourceStage.nextStage, e = this;
-                 u != e;
-                 u = p, p = p.nextStage) {
-
-                if (p.opIsStateful()) {
-                    if (Arrays2.kludge) throw new UnsupportedOperationException();
-//                    spliterator = p.opEvaluateParallelLazy(u, spliterator);
-                }
-            }
         }
         else if (terminalFlags != 0)  {
             combinedFlags = StreamOpFlag.combineOpFlags(terminalFlags, combinedFlags);
         }
-
         return spliterator;
     }
-
+    // throw an exception for stateful parallel tasks since we can't propogate the chain
+    //   without being pausable
+    public boolean checkLazy() {
+        if (isParallel())
+            for ( @SuppressWarnings("rawtypes")
+                    AbstractPipeline u = sourceStage, p = sourceStage.nextStage, e = this;
+                 u != e;
+                 u = p, p = p.nextStage)
+                if (p.opIsStateful())
+                    throw new UnsupportedOperationException();
+        return false;
+    }
+    public Spliterator<?> doLazy(Spliterator<?> spliterator) throws Pausable {
+        if (isParallel()) {
+            // Adapt the source spliterator, evaluating each stateful op
+            // in the pipeline up to and including this pipeline stage
+            for ( @SuppressWarnings("rawtypes")
+                    AbstractPipeline u = sourceStage, p = sourceStage.nextStage, e = this;
+                 u != e;
+                 u = p, p = p.nextStage) {
+                if (p.opIsStateful()) {
+                    spliterator = p.opEvaluateParallelLazy(u, spliterator);
+                }
+            }
+        }
+        return spliterator;
+    }
 
     // PipelineHelper
 

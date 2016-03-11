@@ -1,18 +1,18 @@
 package stream2;
 
-public abstract class CountedCompleter<TT> {
-    TT localResult;
+/**
+ * a fake fork/join task ... best attempt has been made to keep this working
+ * for parallel streams, but it's mostly untested
+ */
+abstract class CountedCompleter<TT> {
 
-    protected void setLocalResult(TT localResult) {
-        this.localResult = localResult;
-    }
     public final TT invoke() throws Pausable {
         compute();
         return getRawResult();
     }
     public final void fork() throws Pausable {
         Arrays2.kludge();
-        if (status >= 0) this.compute(); // ForkJoinPool.runTask
+        if (status >= 0) this.compute(); // from ForkJoinPool.runTask
     }
     volatile int status; // accessed directly by pool and workers
     static private final int NORMAL      = 0xf0000000;  // must be negative
