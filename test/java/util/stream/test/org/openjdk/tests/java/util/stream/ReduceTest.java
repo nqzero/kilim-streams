@@ -22,16 +22,16 @@
  */
 package org.openjdk.tests.java.util.stream;
 
-import java.util.stream.OpTestCase;
-import java.util.stream.Stream;
-import java.util.stream.StreamTestDataProvider;
+import stream2.OpTestCase;
+import stream2.Stream;
+import stream2.StreamTestDataProvider;
 import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.TestData;
+import stream2.TestData;
 
-import static java.util.stream.LambdaTestHelpers.*;
+import static stream2.LambdaTestHelpers.*;
 
 /**
  * ReduceOpTest

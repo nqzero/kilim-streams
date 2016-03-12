@@ -22,7 +22,7 @@
  */
 package stream2;
 
-import java.util.Spliterator;
+import stream2.Spliterator;
 import java.util.function.IntFunction;
 
 /**

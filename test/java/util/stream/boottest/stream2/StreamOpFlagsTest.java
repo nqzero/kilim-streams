@@ -29,15 +29,15 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Spliterator;
+import stream2.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamOpFlag.*;
+import static stream2.Collectors.toList;
+import static stream2.StreamOpFlag.*;
 import static org.testng.Assert.*;
 import static org.testng.Assert.assertEquals;
 

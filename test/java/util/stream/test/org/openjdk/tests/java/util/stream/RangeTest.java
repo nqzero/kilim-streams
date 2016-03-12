@@ -24,13 +24,13 @@ package org.openjdk.tests.java.util.stream;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.Spliterator;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.OpTestCase;
-import java.util.stream.SpliteratorTestHelper;
-import java.util.stream.Stream;
-import java.util.stream.TestData;
+import stream2.Spliterator;
+import stream2.IntStream;
+import stream2.LongStream;
+import stream2.OpTestCase;
+import stream2.SpliteratorTestHelper;
+import stream2.Stream;
+import stream2.TestData;
 
 import org.testng.annotations.Test;
 

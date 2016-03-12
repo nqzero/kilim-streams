@@ -25,7 +25,7 @@ package org.openjdk.tests.java.util.stream;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
+import stream2.Stream;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;

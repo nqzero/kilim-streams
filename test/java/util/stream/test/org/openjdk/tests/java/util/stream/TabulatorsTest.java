@@ -42,30 +42,30 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.LambdaTestHelpers;
-import java.util.stream.OpTestCase;
-import java.util.stream.Stream;
-import java.util.stream.StreamOpFlagTestHelper;
-import java.util.stream.StreamTestDataProvider;
-import java.util.stream.TestData;
+import stream2.Collector;
+import stream2.Collectors;
+import stream2.LambdaTestHelpers;
+import stream2.OpTestCase;
+import stream2.Stream;
+import stream2.StreamOpFlagTestHelper;
+import stream2.StreamTestDataProvider;
+import stream2.TestData;
 
 import org.testng.annotations.Test;
 
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.groupingByConcurrent;
-import static java.util.stream.Collectors.partitioningBy;
-import static java.util.stream.Collectors.reducing;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toConcurrentMap;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Collectors.toSet;
-import static java.util.stream.LambdaTestHelpers.assertContents;
-import static java.util.stream.LambdaTestHelpers.assertContentsUnordered;
-import static java.util.stream.LambdaTestHelpers.mDoubler;
+import static stream2.Collectors.collectingAndThen;
+import static stream2.Collectors.groupingBy;
+import static stream2.Collectors.groupingByConcurrent;
+import static stream2.Collectors.partitioningBy;
+import static stream2.Collectors.reducing;
+import static stream2.Collectors.toCollection;
+import static stream2.Collectors.toConcurrentMap;
+import static stream2.Collectors.toList;
+import static stream2.Collectors.toMap;
+import static stream2.Collectors.toSet;
+import static stream2.LambdaTestHelpers.assertContents;
+import static stream2.LambdaTestHelpers.assertContentsUnordered;
+import static stream2.LambdaTestHelpers.mDoubler;
 
 /**
  * TabulatorsTest

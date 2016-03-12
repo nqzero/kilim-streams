@@ -25,11 +25,11 @@ package stream2;
 import org.testng.annotations.Test;
 
 import java.util.*;
-import java.util.stream.Stream;
-import java.util.stream.StreamOpFlag;
-import java.util.stream.Streams;
+import stream2.Stream;
+import stream2.StreamOpFlag;
+import stream2.Streams;
 
-import static java.util.stream.StreamOpFlag.*;
+import static stream2.StreamOpFlag.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 

@@ -30,16 +30,16 @@
 package org.openjdk.tests.java.util.stream;
 
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.DoubleStream;
-import java.util.stream.DoubleStreamTestDataProvider;
-import java.util.stream.IntStream;
-import java.util.stream.IntStreamTestDataProvider;
-import java.util.stream.LongStream;
-import java.util.stream.LongStreamTestDataProvider;
-import java.util.stream.OpTestCase;
-import java.util.stream.Stream;
-import java.util.stream.StreamTestDataProvider;
-import java.util.stream.TestData;
+import stream2.DoubleStream;
+import stream2.DoubleStreamTestDataProvider;
+import stream2.IntStream;
+import stream2.IntStreamTestDataProvider;
+import stream2.LongStream;
+import stream2.LongStreamTestDataProvider;
+import stream2.OpTestCase;
+import stream2.Stream;
+import stream2.StreamTestDataProvider;
+import stream2.TestData;
 
 import org.testng.annotations.Test;
 

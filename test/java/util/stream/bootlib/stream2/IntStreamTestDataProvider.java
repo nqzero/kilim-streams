@@ -25,7 +25,7 @@ package stream2;
 import org.testng.annotations.DataProvider;
 
 import java.util.*;
-import java.util.Spliterators;
+import stream2.Spliterators;
 import java.util.function.Supplier;
 
 /** TestNG DataProvider for int-valued streams */

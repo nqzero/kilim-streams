@@ -27,12 +27,12 @@ import java.util.DoubleSummaryStatistics;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.LongSummaryStatistics;
-import java.util.stream.Collectors;
-import java.util.stream.OpTestCase;
+import stream2.Collectors;
+import stream2.OpTestCase;
 
 import org.testng.annotations.Test;
 
-import static java.util.stream.LambdaTestHelpers.countTo;
+import static stream2.LambdaTestHelpers.countTo;
 
 /**
  * TestSummaryStatistics

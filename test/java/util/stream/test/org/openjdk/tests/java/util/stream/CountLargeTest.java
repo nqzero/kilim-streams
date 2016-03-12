@@ -29,7 +29,7 @@
 
 package org.openjdk.tests.java.util.stream;
 
-import java.util.stream.LongStream;
+import stream2.LongStream;
 
 import org.testng.annotations.Test;
 

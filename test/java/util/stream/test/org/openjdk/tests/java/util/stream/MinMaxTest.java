@@ -25,11 +25,11 @@ package org.openjdk.tests.java.util.stream;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-import java.util.stream.*;
+import stream2.*;
 
 import org.testng.annotations.Test;
 
-import static java.util.stream.LambdaTestHelpers.countTo;
+import static stream2.LambdaTestHelpers.countTo;
 
 /**
  * MinMaxTest

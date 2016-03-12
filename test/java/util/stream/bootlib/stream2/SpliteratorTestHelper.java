@@ -32,7 +32,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Spliterator;
+import stream2.Spliterator;
 import java.util.function.*;
 
 import static org.testng.Assert.*;

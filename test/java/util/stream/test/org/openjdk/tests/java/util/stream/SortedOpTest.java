@@ -25,12 +25,12 @@ package org.openjdk.tests.java.util.stream;
 import org.testng.annotations.Test;
 
 import java.util.*;
-import java.util.Spliterators;
+import stream2.Spliterators;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.*;
+import stream2.*;
 
-import static java.util.stream.LambdaTestHelpers.*;
+import static stream2.LambdaTestHelpers.*;
 
 /**
  * SortedOpTest

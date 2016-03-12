@@ -24,13 +24,13 @@ package org.openjdk.tests.java.util.stream;
 
 import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.stream.*;
+import stream2.*;
 
 import org.testng.annotations.Test;
 
 import java.util.function.Function;
 
-import static java.util.stream.LambdaTestHelpers.*;
+import static stream2.LambdaTestHelpers.*;
 
 
 /**

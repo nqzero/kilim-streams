@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.LambdaTestHelpers;
+import stream2.LambdaTestHelpers;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;

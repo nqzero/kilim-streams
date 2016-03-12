@@ -27,8 +27,8 @@ import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.DoubleStream;
-import java.util.stream.LongStream;
+import stream2.DoubleStream;
+import stream2.LongStream;
 
 import static org.testng.Assert.assertEquals;
 

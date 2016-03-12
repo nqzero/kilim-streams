@@ -33,8 +33,8 @@ import java.util.function.LongConsumer;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static java.util.stream.LambdaTestHelpers.assertContents;
-import static java.util.stream.LambdaTestHelpers.countTo;
+import static stream2.LambdaTestHelpers.assertContents;
+import static stream2.LambdaTestHelpers.countTo;
 import static org.testng.Assert.assertEquals;
 
 @Test

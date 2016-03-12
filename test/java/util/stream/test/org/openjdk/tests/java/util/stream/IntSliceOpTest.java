@@ -23,7 +23,7 @@
 package org.openjdk.tests.java.util.stream;
 
 import java.util.Collection;
-import java.util.stream.*;
+import stream2.*;
 
 import org.testng.annotations.Test;
 
@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static java.util.stream.LambdaTestHelpers.assertCountSum;
+import static stream2.LambdaTestHelpers.assertCountSum;
 
 /**
  * SliceOpTest

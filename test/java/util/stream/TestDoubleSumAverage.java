@@ -23,7 +23,7 @@
 
 import java.util.*;
 import java.util.function.*;
-import java.util.stream.*;
+import stream2.*;
 
 import static java.lang.Double.*;
 

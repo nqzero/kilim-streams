@@ -29,15 +29,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LambdaTestHelpers;
-import java.util.stream.LongStream;
-import java.util.stream.OpTestCase;
-import java.util.stream.Stream;
-import java.util.stream.TestData;
+import stream2.DoubleStream;
+import stream2.IntStream;
+import stream2.LambdaTestHelpers;
+import stream2.LongStream;
+import stream2.OpTestCase;
+import stream2.Stream;
+import stream2.TestData;
 
-import static java.util.stream.Collectors.toList;
+import static stream2.Collectors.toList;
 
 @Test
 public class StreamBuilderTest extends OpTestCase {

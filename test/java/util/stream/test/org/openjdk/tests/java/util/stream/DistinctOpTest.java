@@ -29,12 +29,12 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import stream2.Spliterator;
+import stream2.Spliterators;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.*;
+import stream2.*;
 
-import static java.util.stream.LambdaTestHelpers.*;
+import static stream2.LambdaTestHelpers.*;
 
 /**
  * DistinctOpTest

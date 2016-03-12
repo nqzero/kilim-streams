@@ -22,16 +22,16 @@
  */
 package org.openjdk.tests.java.util.stream;
 
-import java.util.stream.IntStream;
-import java.util.stream.IntStreamTestDataProvider;
-import java.util.stream.OpTestCase;
+import stream2.IntStream;
+import stream2.IntStreamTestDataProvider;
+import stream2.OpTestCase;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.OptionalInt;
-import java.util.stream.TestData;
+import stream2.TestData;
 
-import static java.util.stream.LambdaTestHelpers.*;
+import static stream2.LambdaTestHelpers.*;
 
 public class IntReduceTest extends OpTestCase {
     public void testReduce() {

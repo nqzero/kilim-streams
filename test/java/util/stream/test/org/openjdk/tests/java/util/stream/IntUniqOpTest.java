@@ -23,12 +23,12 @@
 package org.openjdk.tests.java.util.stream;
 
 import java.util.Collection;
-import java.util.stream.*;
+import stream2.*;
 
 import org.testng.annotations.Test;
 
-import static java.util.stream.LambdaTestHelpers.assertCountSum;
-import static java.util.stream.LambdaTestHelpers.assertUnique;
+import static stream2.LambdaTestHelpers.assertCountSum;
+import static stream2.LambdaTestHelpers.assertUnique;
 
 /**
  * UniqOpTest

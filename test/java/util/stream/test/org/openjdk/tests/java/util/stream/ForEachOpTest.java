@@ -29,9 +29,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-import java.util.stream.*;
+import stream2.*;
 
-import static java.util.stream.LambdaTestHelpers.countTo;
+import static stream2.LambdaTestHelpers.countTo;
 
 /**
  * ForEachOpTest

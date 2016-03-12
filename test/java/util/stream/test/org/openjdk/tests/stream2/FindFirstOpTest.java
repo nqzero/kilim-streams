@@ -23,13 +23,13 @@
 package org.openjdk.tests.stream2;
 
 import java.util.*;
-import java.util.stream.*;
+import stream2.*;
 
 import org.testng.annotations.Test;
 
 import java.util.function.Function;
 
-import static java.util.stream.LambdaTestHelpers.*;
+import static stream2.LambdaTestHelpers.*;
 
 
 /**

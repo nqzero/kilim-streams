@@ -22,20 +22,20 @@
  */
 package org.openjdk.tests.java.util.stream;
 
-import java.util.Spliterator;
-import java.util.stream.BaseStream;
-import java.util.stream.OpTestCase;
-import java.util.stream.StreamTestDataProvider;
+import stream2.Spliterator;
+import stream2.BaseStream;
+import stream2.OpTestCase;
+import stream2.StreamTestDataProvider;
 
 import org.testng.annotations.Test;
 
-import java.util.stream.Stream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.DoubleStream;
-import java.util.stream.TestData;
+import stream2.Stream;
+import stream2.IntStream;
+import stream2.LongStream;
+import stream2.DoubleStream;
+import stream2.TestData;
 
-import static java.util.stream.LambdaTestHelpers.*;
+import static stream2.LambdaTestHelpers.*;
 import static org.testng.Assert.assertEquals;
 
 /**

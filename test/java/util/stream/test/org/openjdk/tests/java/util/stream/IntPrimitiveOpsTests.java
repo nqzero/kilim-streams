@@ -30,8 +30,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.IntConsumer;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import stream2.Collectors;
+import stream2.IntStream;
 
 import static org.testng.Assert.assertEquals;
 

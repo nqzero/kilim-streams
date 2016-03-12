@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.PrimitiveIterator;
-import java.util.Spliterators;
+import stream2.Spliterators;
 import java.util.function.Function;
 
 import org.testng.annotations.DataProvider;

@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.Spliterator;
-import java.util.stream.*;
+import stream2.Spliterator;
+import stream2.*;
 
 import static org.testng.Assert.*;
 import static org.testng.Assert.assertEquals;

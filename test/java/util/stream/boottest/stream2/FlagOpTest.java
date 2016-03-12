@@ -30,7 +30,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static java.util.stream.LambdaTestHelpers.countTo;
+import static stream2.LambdaTestHelpers.countTo;
 
 @Test
 public class FlagOpTest extends OpTestCase {

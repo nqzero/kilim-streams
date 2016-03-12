@@ -22,7 +22,7 @@
  */
 package org.openjdk.tests.java.util.stream;
 
-import java.util.stream.*;
+import stream2.*;
 
 import org.testng.annotations.Test;
 

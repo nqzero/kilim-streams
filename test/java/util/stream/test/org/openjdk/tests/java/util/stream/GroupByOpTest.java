@@ -31,24 +31,24 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.LambdaTestHelpers;
-import java.util.stream.OpTestCase;
-import java.util.stream.Stream;
-import java.util.stream.StreamTestDataProvider;
-import java.util.stream.TestData;
+import stream2.Collector;
+import stream2.Collectors;
+import stream2.LambdaTestHelpers;
+import stream2.OpTestCase;
+import stream2.Stream;
+import stream2.StreamTestDataProvider;
+import stream2.TestData;
 
 import org.testng.annotations.Test;
 
-import static java.util.stream.LambdaTestHelpers.countTo;
-import static java.util.stream.LambdaTestHelpers.mDoubler;
-import static java.util.stream.LambdaTestHelpers.mId;
-import static java.util.stream.LambdaTestHelpers.mZero;
-import static java.util.stream.LambdaTestHelpers.pEven;
-import static java.util.stream.LambdaTestHelpers.pFalse;
-import static java.util.stream.LambdaTestHelpers.pOdd;
-import static java.util.stream.LambdaTestHelpers.pTrue;
+import static stream2.LambdaTestHelpers.countTo;
+import static stream2.LambdaTestHelpers.mDoubler;
+import static stream2.LambdaTestHelpers.mId;
+import static stream2.LambdaTestHelpers.mZero;
+import static stream2.LambdaTestHelpers.pEven;
+import static stream2.LambdaTestHelpers.pFalse;
+import static stream2.LambdaTestHelpers.pOdd;
+import static stream2.LambdaTestHelpers.pTrue;
 
 /**
  * GroupByOpTest

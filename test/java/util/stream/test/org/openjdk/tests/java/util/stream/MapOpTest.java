@@ -24,9 +24,9 @@ package org.openjdk.tests.java.util.stream;
 
 import org.testng.annotations.Test;
 
-import java.util.stream.*;
+import stream2.*;
 
-import static java.util.stream.LambdaTestHelpers.*;
+import static stream2.LambdaTestHelpers.*;
 
 /**
  * MapOpTest

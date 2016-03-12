@@ -30,23 +30,23 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Spliterator;
+import stream2.Spliterator;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
-import java.util.stream.DoubleStream;
-import java.util.stream.DoubleStreamTestScenario;
-import java.util.stream.IntStream;
-import java.util.stream.IntStreamTestScenario;
-import java.util.stream.LambdaTestHelpers;
-import java.util.stream.LongStream;
-import java.util.stream.LongStreamTestScenario;
-import java.util.stream.OpTestCase;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-import java.util.stream.StreamTestScenario;
-import java.util.stream.TestData;
+import stream2.DoubleStream;
+import stream2.DoubleStreamTestScenario;
+import stream2.IntStream;
+import stream2.IntStreamTestScenario;
+import stream2.LambdaTestHelpers;
+import stream2.LongStream;
+import stream2.LongStreamTestScenario;
+import stream2.OpTestCase;
+import stream2.Stream;
+import stream2.StreamSupport;
+import stream2.StreamTestScenario;
+import stream2.TestData;
 
-import static java.util.stream.LambdaTestHelpers.assertUnique;
+import static stream2.LambdaTestHelpers.assertUnique;
 
 
 @Test

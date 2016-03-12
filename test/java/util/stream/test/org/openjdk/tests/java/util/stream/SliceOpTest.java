@@ -28,18 +28,18 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LambdaTestHelpers;
-import java.util.stream.LongStream;
-import java.util.stream.OpTestCase;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-import java.util.stream.StreamTestDataProvider;
-import java.util.stream.TestData;
+import stream2.Collectors;
+import stream2.DoubleStream;
+import stream2.IntStream;
+import stream2.LambdaTestHelpers;
+import stream2.LongStream;
+import stream2.OpTestCase;
+import stream2.Stream;
+import stream2.StreamSupport;
+import stream2.StreamTestDataProvider;
+import stream2.TestData;
 
-import static java.util.stream.LambdaTestHelpers.*;
+import static stream2.LambdaTestHelpers.*;
 
 /**
  * SliceOpTest

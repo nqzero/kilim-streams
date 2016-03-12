@@ -24,7 +24,7 @@ package stream2;
 
 import org.testng.Assert;
 
-import java.util.Spliterator;
+import stream2.Spliterator;
 import java.util.function.IntFunction;
 
 /** Test helper class for java.util.stream test framework */

@@ -32,14 +32,14 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Spliterator;
+import stream2.Spliterator;
 import java.util.TreeSet;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.Stream;
+import stream2.DoubleStream;
+import stream2.IntStream;
+import stream2.LongStream;
+import stream2.Stream;
 
-import static java.util.stream.LambdaTestHelpers.*;
+import static stream2.LambdaTestHelpers.*;
 import static org.testng.Assert.*;
 
 @Test

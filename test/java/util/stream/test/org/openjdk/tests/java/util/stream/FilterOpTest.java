@@ -23,13 +23,13 @@
 package org.openjdk.tests.java.util.stream;
 
 import java.util.Collection;
-import java.util.stream.*;
+import stream2.*;
 
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 
-import static java.util.stream.LambdaTestHelpers.*;
+import static stream2.LambdaTestHelpers.*;
 
 /**
  * FilterOpTest
