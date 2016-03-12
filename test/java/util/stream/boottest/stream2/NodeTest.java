@@ -135,7 +135,7 @@ public class NodeTest extends OpTestCase {
 
     @Test(dataProvider = "nodes")
     public void testSpliterator(Integer[] array, Node<Integer> n) {
-        SpliteratorTestHelper.testSpliterator(n::spliterator);
+        SpliteratorTestHelper.testSpliterator(n::spliterator2);
     }
 
     @Test(dataProvider = "nodes")

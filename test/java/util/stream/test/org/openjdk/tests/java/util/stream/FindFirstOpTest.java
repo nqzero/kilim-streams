@@ -20,7 +20,7 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package org.openjdk.tests.stream2;
+package org.openjdk.tests.java.util.stream;
 
 import java.util.*;
 import stream2.*;

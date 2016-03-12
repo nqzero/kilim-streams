@@ -159,7 +159,7 @@ public class LongNodeTest extends OpTestCase {
 
     @Test(dataProvider = "nodes")
     public void testSpliterator(long[] array, Node.OfLong n) {
-        SpliteratorTestHelper.testLongSpliterator(n::spliterator);
+        SpliteratorTestHelper.testLongSpliterator(n::spliterator2);
     }
 
     @Test(dataProvider = "nodes")

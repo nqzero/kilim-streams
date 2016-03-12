@@ -158,7 +158,7 @@ public class IntNodeTest extends OpTestCase {
 
     @Test(dataProvider = "nodes")
     public void testSpliterator(int[] array, Node.OfInt n) {
-        SpliteratorTestHelper.testIntSpliterator(n::spliterator);
+        SpliteratorTestHelper.testIntSpliterator(n::spliterator2);
     }
 
     @Test(dataProvider = "nodes")

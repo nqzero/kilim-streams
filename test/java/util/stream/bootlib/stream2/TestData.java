@@ -103,9 +103,9 @@ public interface TestData<T, S extends BaseStream<T, S>>
 
         public static <T> OfRef<T> ofRefNode(String name, Node<T> node) {
             return new AbstractTestData.RefTestData<>(name, node,
-                                                      n -> StreamSupport.stream(n::spliterator, Spliterator.SIZED | Spliterator.ORDERED, false),
-                                                      n -> StreamSupport.stream(n::spliterator, Spliterator.SIZED | Spliterator.ORDERED, true),
-                                                      Node::spliterator,
+                                                      n -> StreamSupport.stream(n::spliterator2, Spliterator.SIZED | Spliterator.ORDERED, false),
+                                                      n -> StreamSupport.stream(n::spliterator2, Spliterator.SIZED | Spliterator.ORDERED, true),
+                                                      Node::spliterator2,
                                                       n -> (int) n.count());
         }
 
@@ -136,7 +136,7 @@ public interface TestData<T, S extends BaseStream<T, S>>
             return new AbstractTestData.IntTestData<>(name, node,
                                                       n -> StreamSupport.intStream(n::spliterator, characteristics, false),
                                                       n -> StreamSupport.intStream(n::spliterator, characteristics, true),
-                                                      Node.OfInt::spliterator,
+                                                      Node.OfInt::spliterator2,
                                                       n -> (int) n.count());
         }
 
@@ -167,7 +167,7 @@ public interface TestData<T, S extends BaseStream<T, S>>
             return new AbstractTestData.LongTestData<>(name, node,
                                                       n -> StreamSupport.longStream(n::spliterator, characteristics, false),
                                                       n -> StreamSupport.longStream(n::spliterator, characteristics, true),
-                                                      Node.OfLong::spliterator,
+                                                      Node.OfLong::spliterator2,
                                                       n -> (int) n.count());
         }
 
@@ -198,7 +198,7 @@ public interface TestData<T, S extends BaseStream<T, S>>
             return new AbstractTestData.DoubleTestData<>(name, node,
                                                          n -> StreamSupport.doubleStream(n::spliterator, characteristics, false),
                                                          n -> StreamSupport.doubleStream(n::spliterator, characteristics, true),
-                                                         Node.OfDouble::spliterator,
+                                                         Node.OfDouble::spliterator2,
                                                          n -> (int) n.count());
         }
     }

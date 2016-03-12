@@ -42,6 +42,7 @@ import stream2.LongStreamTestScenario;
 import stream2.OpTestCase;
 import stream2.StreamSupport;
 import stream2.TestData;
+import java.lang.Iterable;
 
 @Test
 public class SplittableRandomTest extends OpTestCase {

@@ -129,7 +129,7 @@ interface StatefulTestOp<E> extends IntermediateTestOp<E, E> {
     @SuppressWarnings("unchecked")
     default <P_IN> Spliterator<E> opEvaluateParallelLazy(PipelineHelper<E> helper,
                                                          Spliterator<P_IN> spliterator) {
-        return opEvaluateParallel(helper, spliterator, i -> (E[]) new Object[i]).spliterator();
+        return opEvaluateParallel(helper, spliterator, i -> (E[]) new Object[i]).spliterator2();
     }
 
     <P_IN> Node<E> opEvaluateParallel(PipelineHelper<E> helper,

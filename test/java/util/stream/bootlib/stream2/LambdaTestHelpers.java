@@ -44,6 +44,7 @@ import java.util.function.Supplier;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
+import java.lang.Iterable;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;

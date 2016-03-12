@@ -38,6 +38,7 @@ import stream2.Stream;
 import stream2.StreamSupport;
 import stream2.StreamTestDataProvider;
 import stream2.TestData;
+import java.lang.Iterable;
 
 import static stream2.LambdaTestHelpers.*;
 

@@ -332,7 +332,7 @@ public abstract class OpTestCase extends LoggingTestCase {
                 S_OUT sOut = m.apply(data.stream());
                 isOrdered = StreamOpFlag.ORDERED.isKnown(((AbstractPipeline) sOut).getStreamFlags());
                 Node<U> refNodeResult = ((AbstractPipeline<?, U, ?>) sOut).evaluateToArrayNode(size -> (U[]) new Object[size]);
-                refResult = LambdaTestHelpers.toBoxedList(refNodeResult.spliterator());
+                refResult = LambdaTestHelpers.toBoxedList(refNodeResult.spliterator2());
                 after.accept(data);
             }
             else {
@@ -505,7 +505,7 @@ public abstract class OpTestCase extends LoggingTestCase {
             Node<U> node = ap.evaluateToArrayNode(size -> (U[]) new Object[size]);
             if (refResult == null) {
                 // Induce the reference result
-                S_OUT source = (S_OUT) createPipeline(shape, node.spliterator(),
+                S_OUT source = (S_OUT) createPipeline(shape, node.spliterator2(),
                                                       StreamOpFlag.IS_ORDERED | StreamOpFlag.IS_SIZED,
                                                       false);
 
@@ -516,7 +516,7 @@ public abstract class OpTestCase extends LoggingTestCase {
             for (BaseTerminalTestScenario test : tests) {
                 S_OUT source;
                 if (test.requiresSingleStageSource()) {
-                    source = (S_OUT) createPipeline(shape, node.spliterator(),
+                    source = (S_OUT) createPipeline(shape, node.spliterator2(),
                                                     StreamOpFlag.IS_ORDERED | StreamOpFlag.IS_SIZED,
                                                     test.requiresParallelSource());
                 }
