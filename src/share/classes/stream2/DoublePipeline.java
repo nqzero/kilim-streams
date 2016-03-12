@@ -137,7 +137,7 @@ abstract class DoublePipeline<E_IN>
     }
 
     @Override
-    final <P_IN> Spliterator<Double> wrap(PipelineHelper<Double> ph, stream2.Supplier<Spliterator<P_IN>> supplier, boolean isParallel) {
+    final <P_IN> Spliterator<Double> wrap(PipelineHelper<Double> ph, Supplier<Spliterator<P_IN>> supplier, boolean isParallel) {
         return new StreamSpliterators.DoubleWrappingSpliterator<>(ph, supplier, isParallel);
     }
 

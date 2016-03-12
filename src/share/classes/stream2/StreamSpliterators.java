@@ -73,7 +73,7 @@ class StreamSpliterators {
          * Supplier for the source spliterator.  Client provides either a
          * spliterator or a supplier.
          */
-        private stream2.Supplier<Spliterator<P_IN>> spliteratorSupplier;
+        private Supplier<Spliterator<P_IN>> spliteratorSupplier;
 
         /**
          * Source spliterator.  Either provided from client or obtained from
@@ -113,7 +113,7 @@ class StreamSpliterators {
          * Construct an AbstractWrappingSpliterator from a
          * {@code Supplier<Spliterator>}.
          */
-        AbstractWrappingSpliterator(PipelineHelper<P_OUT> ph, stream2.Supplier<Spliterator<P_IN>> spliteratorSupplier, boolean parallel) {
+        AbstractWrappingSpliterator(PipelineHelper<P_OUT> ph, Supplier<Spliterator<P_IN>> spliteratorSupplier, boolean parallel) {
             this.ph = ph;
             this.spliteratorSupplier = spliteratorSupplier;
             this.spliterator = null;
@@ -269,7 +269,7 @@ class StreamSpliterators {
             extends AbstractWrappingSpliterator<P_IN, P_OUT, SpinedBuffer<P_OUT>> {
 
         WrappingSpliterator(PipelineHelper<P_OUT> ph,
-                            stream2.Supplier<Spliterator<P_IN>> supplier,
+                            Supplier<Spliterator<P_IN>> supplier,
                             boolean parallel) {
             super(ph, supplier, parallel);
         }
@@ -322,7 +322,7 @@ class StreamSpliterators {
             implements Spliterator.OfInt {
 
         IntWrappingSpliterator(PipelineHelper<Integer> ph,
-                               stream2.Supplier<Spliterator<P_IN>> supplier,
+                               Supplier<Spliterator<P_IN>> supplier,
                                boolean parallel) {
             super(ph, supplier, parallel);
         }
@@ -380,7 +380,7 @@ class StreamSpliterators {
             implements Spliterator.OfLong {
 
         LongWrappingSpliterator(PipelineHelper<Long> ph,
-                                stream2.Supplier<Spliterator<P_IN>> supplier,
+                                Supplier<Spliterator<P_IN>> supplier,
                                 boolean parallel) {
             super(ph, supplier, parallel);
         }
@@ -438,7 +438,7 @@ class StreamSpliterators {
             implements Spliterator.OfDouble {
 
         DoubleWrappingSpliterator(PipelineHelper<Double> ph,
-                                  stream2.Supplier<Spliterator<P_IN>> supplier,
+                                  Supplier<Spliterator<P_IN>> supplier,
                                   boolean parallel) {
             super(ph, supplier, parallel);
         }

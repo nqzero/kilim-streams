@@ -107,7 +107,7 @@ abstract class ReferencePipeline<P_IN, P_OUT>
     }
 
     @Override
-    final <P_IN> Spliterator<P_OUT> wrap(PipelineHelper<P_OUT> ph, stream2.Supplier<Spliterator<P_IN>> supplier, boolean isParallel) {
+    final <P_IN> Spliterator<P_OUT> wrap(PipelineHelper<P_OUT> ph, Supplier<Spliterator<P_IN>> supplier, boolean isParallel) {
         return new StreamSpliterators.WrappingSpliterator<>(ph, supplier, isParallel);
     }
 
