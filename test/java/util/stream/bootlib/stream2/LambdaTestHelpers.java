@@ -186,6 +186,9 @@ public class LambdaTestHelpers {
         assertCountSum(it.iterator(), count, sum);
     }
 
+    public static void assertCountSum(Collection<? super Integer> it, int count, int sum) {
+        assertCountSum(proxy(it).iterator(), count, sum);
+    }
     public static void assertCountSum(Iterable<? super Integer> it, int count, int sum) {
         assertCountSum(it.iterator(), count, sum);
     }

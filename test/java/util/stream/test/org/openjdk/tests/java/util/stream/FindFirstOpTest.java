@@ -28,6 +28,7 @@ import stream2.*;
 import org.testng.annotations.Test;
 
 import java.util.function.Function;
+import static stream2.Arrays2.proxy;
 
 import static stream2.LambdaTestHelpers.*;
 
@@ -37,17 +38,20 @@ import static stream2.LambdaTestHelpers.*;
  */
 @Test
 public class FindFirstOpTest extends OpTestCase {
+    private static stream2.Iterable<Integer> countToj(int n) {
+        return proxy(range(1, n));
+    }
 
     public void testFindFirst() {
         assertFalse(Collections.emptySet().stream().findFirst().isPresent(), "no result");
         assertFalse(countTo(10).stream().filter(x -> x > 10).findFirst().isPresent(), "no result");
 
-        exerciseOps(countTo(1000), s -> Arrays.asList(new Integer[]{s.filter(pEven).findFirst().get()}).stream(), Arrays.asList(2));
-        exerciseOps(countTo(1000), s -> Arrays.asList(new Integer[]{s.findFirst().get()}).stream(), Arrays.asList(1));
-        exerciseOps(countTo(1000), s -> Arrays.asList(new Integer[]{s.filter(e -> e == 499).findFirst().get()}).stream(), Arrays.asList(499));
-        exerciseOps(countTo(1000), s -> Arrays.asList(new Integer[]{s.filter(e -> e == 999).findFirst().get()}).stream(), Arrays.asList(999));
-        exerciseOps(countTo(0), s -> Arrays.asList(new Integer[]{s.findFirst().orElse(-1)}).stream(), Arrays.asList(-1));
-        exerciseOps(countTo(1000), s -> Arrays.asList(new Integer[]{s.filter(e -> e == 1499).findFirst().orElse(-1)}).stream(), Arrays.asList(-1));
+        exerciseOps(countTo(1000), s -> proxy(Arrays.asList(new Integer[]{s.filter(pEven).findFirst().get()})).stream(), Arrays.asList(2));
+        exerciseOps(countTo(1000), s -> proxy(Arrays.asList(new Integer[]{s.findFirst().get()})).stream(), Arrays.asList(1));
+        exerciseOps(countTo(1000), s -> proxy(Arrays.asList(new Integer[]{s.filter(e -> e == 499).findFirst().get()})).stream(), Arrays.asList(499));
+        exerciseOps(countTo(1000), s -> proxy(Arrays.asList(new Integer[]{s.filter(e -> e == 999).findFirst().get()})).stream(), Arrays.asList(999));
+        exerciseOps(countTo(0),    s -> proxy(Arrays.asList(new Integer[]{s.findFirst().orElse(-1)})).stream(), Arrays.asList(-1));
+        exerciseOps(countTo(1000), s -> proxy(Arrays.asList(new Integer[]{s.filter(e -> e == 1499).findFirst().orElse(-1)})).stream(), Arrays.asList(-1));
     }
 
     @Test(dataProvider = "StreamTestData<Integer>", dataProviderClass = StreamTestDataProvider.class)
@@ -61,7 +65,7 @@ public class FindFirstOpTest extends OpTestCase {
     void exerciseStream(TestData.OfRef<Integer> data, Function<Stream<Integer>, Stream<Integer>> fs) {
         Optional<Integer> r = exerciseTerminalOps(data, fs, s -> s.findFirst());
         if (r.isPresent()) {
-            Iterator<Integer> i = fs.apply(data.stream()).iterator();
+            stream2.Iterator<Integer> i = fs.apply(data.stream()).iterator();
             assertTrue(i.hasNext());
             assertEquals(i.next(), r.get());
         }
@@ -81,7 +85,7 @@ public class FindFirstOpTest extends OpTestCase {
     void exerciseIntStream(TestData.OfInt data, Function<IntStream, IntStream> fs) {
         OptionalInt r = exerciseTerminalOps(data, fs, s -> s.findFirst());
         if (r.isPresent()) {
-            PrimitiveIterator.OfInt i = fs.apply(data.stream()).iterator();
+            stream2.PrimitiveIterator.OfInt i = fs.apply(data.stream()).iterator();
             assertTrue(i.hasNext());
             assertEquals(i.nextInt(), r.getAsInt());
         }
@@ -101,7 +105,7 @@ public class FindFirstOpTest extends OpTestCase {
     void exerciseLongStream(TestData.OfLong data, Function<LongStream, LongStream> fs) {
         OptionalLong r = exerciseTerminalOps(data, fs, s -> s.findFirst());
         if (r.isPresent()) {
-            PrimitiveIterator.OfLong i = fs.apply(data.stream()).iterator();
+            stream2.PrimitiveIterator.OfLong i = fs.apply(data.stream()).iterator();
             assertTrue(i.hasNext());
             assertEquals(i.nextLong(), r.getAsLong());
         }
@@ -121,7 +125,7 @@ public class FindFirstOpTest extends OpTestCase {
     void exerciseDoubleStream(TestData.OfDouble data, Function<DoubleStream, DoubleStream> fs) {
         OptionalDouble r = exerciseTerminalOps(data, fs, s -> s.findFirst());
         if (r.isPresent()) {
-            PrimitiveIterator.OfDouble i = fs.apply(data.stream()).iterator();
+            stream2.PrimitiveIterator.OfDouble i = fs.apply(data.stream()).iterator();
             assertTrue(i.hasNext());
             assertEquals(i.nextDouble(), r.getAsDouble());
         }

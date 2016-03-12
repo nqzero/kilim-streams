@@ -33,6 +33,7 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 import static stream2.Arrays2.proxy;
 
+
 /** Describes a test data set for use in stream tests */
 public interface TestData<T, S extends BaseStream<T, S>>
         extends Iterable<T> {

@@ -30,6 +30,7 @@ import stream2.*;
 
 import static stream2.LambdaTestHelpers.*;
 import static org.testng.Assert.assertEquals;
+import static stream2.Arrays2.proxy;
 
 
 /**
@@ -40,8 +41,8 @@ import static org.testng.Assert.assertEquals;
 public class ToArrayOpTest extends OpTestCase {
 
     public void testToArray() {
-        assertCountSum(Arrays.asList(countTo(0).stream().toArray()), 0, 0);
-        assertCountSum(Arrays.asList(countTo(10).stream().toArray()), 10, 55);
+        assertCountSum(proxy(Arrays.asList(countTo(0).stream().toArray())), 0, 0);
+        assertCountSum(proxy(Arrays.asList(countTo(10).stream().toArray())), 10, 55);
     }
 
     @Test(dataProvider = "StreamTestData<Integer>", dataProviderClass = StreamTestDataProvider.class)

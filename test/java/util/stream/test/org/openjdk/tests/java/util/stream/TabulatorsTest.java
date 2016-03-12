@@ -29,7 +29,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -52,6 +51,7 @@ import stream2.StreamTestDataProvider;
 import stream2.TestData;
 
 import org.testng.annotations.Test;
+import static stream2.Arrays2.proxy;
 
 import static stream2.Collectors.collectingAndThen;
 import static stream2.Collectors.groupingBy;
@@ -173,10 +173,10 @@ public class TabulatorsTest extends OpTestCase {
                 fail(String.format("Class mismatch in ListAssertion: %s", value.getClass()));
             Stream<T> stream = source.get();
             List<T> result = new ArrayList<>();
-            for (Iterator<T> it = stream.iterator(); it.hasNext(); ) // avoid capturing result::add
+            for (stream2.Iterator<T> it = stream.iterator(); it.hasNext(); ) // avoid capturing result::add
                 result.add(it.next());
             if (StreamOpFlagTestHelper.isStreamOrdered(stream) && ordered)
-                assertContents(value, result);
+                assertContents(proxy(value), result);
             else
                 assertContentsUnordered(value, result);
         }
@@ -199,10 +199,10 @@ public class TabulatorsTest extends OpTestCase {
                 fail(String.format("Class mismatch in CollectionAssertion: %s, %s", clazz, value.getClass()));
             Stream<T> stream = source.get();
             Collection<T> result = clazz.newInstance();
-            for (Iterator<T> it = stream.iterator(); it.hasNext(); ) // avoid capturing result::add
+            for (stream2.Iterator<T> it = stream.iterator(); it.hasNext(); ) // avoid capturing result::add
                 result.add(it.next());
             if (StreamOpFlagTestHelper.isStreamOrdered(stream) && targetOrdered && ordered)
-                assertContents(value, result);
+                assertContents(proxy(value), result);
             else
                 assertContentsUnordered(value, result);
         }
@@ -388,7 +388,9 @@ public class TabulatorsTest extends OpTestCase {
     private<T> String join(TestData.OfRef<T> data, String delim) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (T i : data) {
+        stream2.Iterator<T> iter = data.iterator();
+        while (iter.hasNext()) {
+            T i = iter.next();
             if (!first)
                 sb.append(delim);
             sb.append(i.toString());

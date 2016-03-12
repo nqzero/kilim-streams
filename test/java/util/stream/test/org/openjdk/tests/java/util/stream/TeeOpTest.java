@@ -33,6 +33,7 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import static stream2.Arrays2.proxy;
 
 import static stream2.LambdaTestHelpers.*;
 
@@ -45,16 +46,16 @@ public class TeeOpTest extends OpTestCase {
     public void testTee() {
         List<Integer> copy = new ArrayList<>();
 
-        assertCountSum(countTo(0).stream().peek(copy::add), 0, 0);
-        assertCountSum(copy.iterator(), 0, 0);
+        assertCountSum(proxy(countTo(0)).stream().peek(copy::add), 0, 0);
+        assertCountSum(proxy(copy).iterator(), 0, 0);
 
         copy.clear();
-        assertCountSum(countTo(10).stream().peek(copy::add), 10, 55);
-        assertCountSum(copy.iterator(), 10, 55);
+        assertCountSum(proxy(countTo(10)).stream().peek(copy::add), 10, 55);
+        assertCountSum(proxy(copy).iterator(), 10, 55);
 
         copy.clear();
-        assertCountSum(countTo(10).stream().map(mDoubler).peek(copy::add), 10, 110);
-        assertCountSum(copy.iterator(), 10, 110);
+        assertCountSum(proxy(countTo(10)).stream().map(mDoubler).peek(copy::add), 10, 110);
+        assertCountSum(proxy(copy).iterator(), 10, 110);
     }
 
     static class AbstractRecordingConsumer<T> {
