@@ -27,7 +27,7 @@ import stream2.OpTestCase;
 import stream2.StreamTestDataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Iterator;
+import stream2.Iterator;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;

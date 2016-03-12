@@ -25,7 +25,6 @@ package stream2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.PrimitiveIterator;
 import stream2.Spliterators;
 import java.util.function.Function;
 
@@ -48,7 +47,7 @@ public class DoubleNodeTest extends OpTestCase {
             List<Node<Double>> nodes = new ArrayList<>();
 
             nodes.add(Nodes.node(array));
-            nodes.add(degenerateTree(Spliterators.iterator(Arrays.spliterator(array))));
+            nodes.add(degenerateTree(Spliterators.iterator(Arrays2.spliterator(array))));
             nodes.add(tree(toList(array), l -> Nodes.node(toDoubleArray(l))));
             nodes.add(fill(array, Nodes.doubleBuilder(array.length)));
             nodes.add(fill(array, Nodes.doubleBuilder()));

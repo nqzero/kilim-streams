@@ -25,7 +25,6 @@ package org.openjdk.tests.java.util.stream;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
 import stream2.Spliterator;

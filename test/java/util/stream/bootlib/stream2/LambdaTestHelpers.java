@@ -47,6 +47,7 @@ import java.util.function.ToLongFunction;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import stream2.Arrays2.IterableProxy;
 import static stream2.Arrays2.proxy;
 
 /**
@@ -149,6 +150,9 @@ public class LambdaTestHelpers {
     public static List<Integer> countTo(int n) {
         return range(1, n);
     }
+    public static IterableProxy<Integer> countToj(int n) {
+        return proxy(range(1, n));
+    }
 
     public static List<Integer> range(int l, int u) {
         ArrayList<Integer> list = new ArrayList<>(u - l + 1);
@@ -158,12 +162,12 @@ public class LambdaTestHelpers {
         return list;
     }
 
-    public static List<Integer> repeat(int value, int n) {
+    public static IterableProxy<Integer> repeat(int value, int n) {
         ArrayList<Integer> list = new ArrayList<>(n);
         for (int i=1; i<=n; i++) {
             list.add(value);
         }
-        return list;
+        return proxy(list);
     }
 
     public static List<Double> asDoubles(List<Integer> integers) {
@@ -255,8 +259,8 @@ public class LambdaTestHelpers {
         assertSorted(iter.iterator(), comp);
     }
 
-    public static <T> void assertUnique(Iterable<T> iter) {
-        assertUnique(iter.iterator());
+    public static <T> void assertUnique(java.lang.Iterable<T> iter) {
+        assertUnique(proxy(iter).iterator());
     }
 
     public static<T> void assertUnique(Iterator<T> iter) {
@@ -267,7 +271,7 @@ public class LambdaTestHelpers {
         if (iter instanceof PrimitiveIterator.OfInt
             || iter instanceof PrimitiveIterator.OfDouble
             || iter instanceof PrimitiveIterator.OfLong) {
-            iter = proxy(toBoxedList(iter).iterator());
+            iter = proxy(toBoxedList(iter)).iterator();
         }
 
         Set<T> uniq = new HashSet<>();
@@ -282,10 +286,13 @@ public class LambdaTestHelpers {
         assertContents(actual,proxy(expected));
     }
     public static<T> void assertContents(stream2.Iterable<T> actual, stream2.Iterable<T> expected) {
+        assertContents(actual.iterator(), expected.iterator());
+    }
+    public static<T> void assertContents(java.lang.Iterable<T> actual, java.lang.Iterable<T> expected) {
         if (actual instanceof Collection && expected instanceof Collection) {
             assertEquals(actual, expected);
         } else {
-            assertContents(actual.iterator(), expected.iterator());
+            assertContents(proxy(actual).iterator(), proxy(expected).iterator());
         }
     }
 

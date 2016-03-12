@@ -30,11 +30,12 @@ import stream2.Stream;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
+import static stream2.Arrays2.proxy;
 
 @Test(groups = "lib")
 public class FillableStringTest {
     public Stream<String> generate() {
-        return Arrays.asList("one", "two", "three", "four", "five", "six").stream()
+        return proxy(Arrays.asList("one", "two", "three", "four", "five", "six")).stream()
                 .filter(s->s.length() > 3)
                 .map(String::toUpperCase);
     }

@@ -32,6 +32,7 @@ import stream2.Streams;
 import static stream2.StreamOpFlag.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static stream2.Arrays2.proxy;
 
 /**
  * StreamFlagsTest
@@ -40,11 +41,11 @@ import static org.testng.Assert.assertTrue;
  */
 @Test
 public class StreamFlagsTest {
-    Stream<String> arrayList = new ArrayList<String>().stream();
-    Stream<String> linkedList = new LinkedList<String>().stream();
-    Stream<String> hashSet = new HashSet<String>().stream();
-    Stream<String> treeSet = new TreeSet<String>().stream();
-    Stream<String> linkedHashSet = new LinkedHashSet<String>().stream();
+    Stream<String> arrayList =  proxy(new ArrayList<String>()).stream();
+    Stream<String> linkedList = proxy(new LinkedList<String>()).stream();
+    Stream<String> hashSet =    proxy(new HashSet<String>()).stream();
+    Stream<String> treeSet =    proxy(new TreeSet<String>()).stream();
+    Stream<String> linkedHashSet = proxy(new LinkedHashSet<String>()).stream();
     Stream<String> repeat = Stream.generate(() -> "");
 
     Stream<?>[] streams = { arrayList, linkedList, hashSet, treeSet, linkedHashSet, repeat };
@@ -57,11 +58,11 @@ public class StreamFlagsTest {
     }
 
     public void testBaseStreams() {
-        Stream<String> arrayList = new ArrayList<String>().stream();
-        Stream<String> linkedList = new LinkedList<String>().stream();
-        Stream<String> hashSet = new HashSet<String>().stream();
-        Stream<String> treeSet = new TreeSet<String>().stream();
-        Stream<String> linkedHashSet = new LinkedHashSet<String>().stream();
+        Stream<String> arrayList =  proxy(new ArrayList<String>()).stream();
+        Stream<String> linkedList = proxy(new LinkedList<String>()).stream();
+        Stream<String> hashSet =    proxy(new HashSet<String>()).stream();
+        Stream<String> treeSet =    proxy(new TreeSet<String>()).stream();
+        Stream<String> linkedHashSet = proxy(new LinkedHashSet<String>()).stream();
         Stream<String> repeat = Stream.generate(() -> "");
 
         assertFlags(OpTestCase.getStreamFlags(arrayList),

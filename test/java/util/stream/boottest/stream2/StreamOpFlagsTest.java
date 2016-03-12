@@ -40,6 +40,7 @@ import static stream2.Collectors.toList;
 import static stream2.StreamOpFlag.*;
 import static org.testng.Assert.*;
 import static org.testng.Assert.assertEquals;
+import static stream2.Arrays2.proxy;
 
 @Test
 public class StreamOpFlagsTest {
@@ -116,7 +117,10 @@ public class StreamOpFlagsTest {
 
     public void testPairSet() {
         List<Integer> sourceFlagsList
-                = StreamOpFlagTestHelper.allStreamFlags().stream().map(StreamOpFlag::set).collect(toList());
+                = proxy(StreamOpFlagTestHelper.allStreamFlags())
+                        .stream()
+                        .map(StreamOpFlag::set)
+                        .collect(toList());
         sourceFlagsList.add(0, 0);
 
         for (int sourceFlags : sourceFlagsList) {
@@ -135,7 +139,8 @@ public class StreamOpFlagsTest {
 
     public void testPairSetAndClear() {
         List<Integer> sourceFlagsList
-                = StreamOpFlagTestHelper.allStreamFlags().stream().map(StreamOpFlag::set).collect(toList());
+                = proxy(StreamOpFlagTestHelper.allStreamFlags())
+                        .stream().map(StreamOpFlag::set).collect(toList());
         sourceFlagsList.add(0, 0);
 
         for (int sourceFlags : sourceFlagsList) {

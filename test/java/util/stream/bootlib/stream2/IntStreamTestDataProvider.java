@@ -113,9 +113,9 @@ public class IntStreamTestDataProvider {
                 }
 
                 spliterators.add(splitDescr("Arrays.s(array):" + name,
-                                            () -> Arrays.spliterator(ints)));
+                                            () -> Arrays2.spliterator(ints)));
                 spliterators.add(splitDescr("Arrays.s(array,o,l):" + name,
-                                            () -> Arrays.spliterator(ints, 0, ints.length / 2)));
+                                            () -> Arrays2.spliterator(ints, 0, ints.length / 2)));
 
                 spliterators.add(splitDescr("SpinedBuffer.s():" + name,
                                             () -> isl.spliterator()));

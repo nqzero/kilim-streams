@@ -37,12 +37,12 @@ import static stream2.LambdaTestHelpers.*;
 public class MapOpTest extends OpTestCase {
 
     public void testMap() {
-        assertCountSum(countTo(0).stream().map(mId), 0, 0);
-        assertCountSum(countTo(10).stream().map(mId), 10, 55);
-        assertCountSum(countTo(10).stream().map(mZero), 10, 0);
-        assertCountSum(countTo(0).stream().map(mDoubler), 0, 0);
-        assertCountSum(countTo(10).stream().map(mDoubler), 10, 110);
-        assertCountSum(countTo(10).stream().map(mDoubler).map(mDoubler), 10, 220);
+        assertCountSum(countToj(0).stream().map(mId), 0, 0);
+        assertCountSum(countToj(10).stream().map(mId), 10, 55);
+        assertCountSum(countToj(10).stream().map(mZero), 10, 0);
+        assertCountSum(countToj(0).stream().map(mDoubler), 0, 0);
+        assertCountSum(countToj(10).stream().map(mDoubler), 10, 110);
+        assertCountSum(countToj(10).stream().map(mDoubler).map(mDoubler), 10, 220);
 
         exerciseOps(countTo(0), s -> s.map(LambdaTestHelpers.identity()), countTo(0));
         exerciseOps(countTo(1000), s -> s.map(LambdaTestHelpers.identity()), countTo(1000));
@@ -53,7 +53,7 @@ public class MapOpTest extends OpTestCase {
     }
 
     public void testEveryMapShape() {
-        assertCountSum(countTo(1000).stream()
+        assertCountSum(countToj(1000).stream()
                                .mapToInt(i -> i - 1)
                                .mapToObj(i -> i + 1)
                                .mapToLong(i -> i - 1)

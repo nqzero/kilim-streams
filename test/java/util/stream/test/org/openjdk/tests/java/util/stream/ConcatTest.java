@@ -41,6 +41,8 @@ import stream2.Stream;
 
 import static stream2.LambdaTestHelpers.*;
 import static org.testng.Assert.*;
+import stream2.Arrays2.IterableProxy;
+import static stream2.Arrays2.proxy;
 
 @Test
 public class ConcatTest {
@@ -87,21 +89,21 @@ public class ConcatTest {
     }
 
     protected final String scenario;
-    protected final Collection<Integer> c1;
-    protected final Collection<Integer> c2;
+    protected final IterableProxy<Integer> c1;
+    protected final IterableProxy<Integer> c2;
     protected final Collection<Integer> expected;
 
     public ConcatTest(String scenario, Collection<Integer> c1, Collection<Integer> c2, Collection<Integer> expected) {
         this.scenario = scenario;
-        this.c1 = c1;
-        this.c2 = c2;
+        this.c1 = proxy(c1);
+        this.c2 = proxy(c2);
         this.expected = expected;
 
         // verify prerequisite
-        Stream<Integer> s1s = c1.stream();
-        Stream<Integer> s2s = c2.stream();
-        Stream<Integer> s1p = c1.parallelStream();
-        Stream<Integer> s2p = c2.parallelStream();
+        Stream<Integer> s1s = proxy(c1).stream();
+        Stream<Integer> s2s = proxy(c2).stream();
+        Stream<Integer> s1p = proxy(c1).parallelStream();
+        Stream<Integer> s2p = proxy(c2).parallelStream();
         assertTrue(s1p.isParallel());
         assertTrue(s2p.isParallel());
         assertFalse(s1s.isParallel());
@@ -136,7 +138,7 @@ public class ConcatTest {
     private void assertRefConcat(Stream<Integer> s1, Stream<Integer> s2, boolean parallel, boolean ordered) {
         Stream<Integer> result = Stream.concat(s1, s2);
         assertEquals(result.isParallel(), parallel);
-        assertConcatContent(result.spliterator(), ordered, expected.spliterator());
+        assertConcatContent(result.spliterator(), ordered, proxy(expected).spliterator());
     }
 
     private void assertIntConcat(Stream<Integer> s1, Stream<Integer> s2, boolean parallel, boolean ordered) {
@@ -144,7 +146,7 @@ public class ConcatTest {
                                             s2.mapToInt(Integer::intValue));
         assertEquals(result.isParallel(), parallel);
         assertConcatContent(result.spliterator(), ordered,
-                            expected.stream().mapToInt(Integer::intValue).spliterator());
+                            proxy(expected).stream().mapToInt(Integer::intValue).spliterator());
     }
 
     private void assertLongConcat(Stream<Integer> s1, Stream<Integer> s2, boolean parallel, boolean ordered) {
@@ -152,7 +154,7 @@ public class ConcatTest {
                                               s2.mapToLong(Integer::longValue));
         assertEquals(result.isParallel(), parallel);
         assertConcatContent(result.spliterator(), ordered,
-                            expected.stream().mapToLong(Integer::longValue).spliterator());
+                            proxy(expected).stream().mapToLong(Integer::longValue).spliterator());
     }
 
     private void assertDoubleConcat(Stream<Integer> s1, Stream<Integer> s2, boolean parallel, boolean ordered) {
@@ -160,7 +162,7 @@ public class ConcatTest {
                                                   s2.mapToDouble(Integer::doubleValue));
         assertEquals(result.isParallel(), parallel);
         assertConcatContent(result.spliterator(), ordered,
-                            expected.stream().mapToDouble(Integer::doubleValue).spliterator());
+                            proxy(expected).stream().mapToDouble(Integer::doubleValue).spliterator());
     }
 
     public void testRefConcat() {

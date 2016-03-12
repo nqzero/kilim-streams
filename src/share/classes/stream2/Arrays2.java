@@ -28,6 +28,7 @@ package stream2;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 import java.util.function.IntToDoubleFunction;
 import java.util.function.IntToLongFunction;
@@ -478,6 +479,37 @@ public class Arrays2 {
     }
 
     
+    public static class OfPrimitive2
+        <T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
+        implements Spliterator.OfPrimitive<T,T_CONS,T_SPLITR>
+    {
+        java.util.Spliterator.OfPrimitive<T,T_CONS,?> host;
+
+        public OfPrimitive2(java.util.Spliterator.OfPrimitive<T, T_CONS, ?> host) {
+            this.host = host;
+        }
+
+        public T_SPLITR trySplit() throws Pausable { return (T_SPLITR) new OfPrimitive2(host.trySplit()); }
+        public boolean tryAdvance(T_CONS action) throws Pausable { return host.tryAdvance( action ); }
+        public void forEachRemaining(T_CONS action) throws Pausable { host.forEachRemaining( action ); }
+        public boolean tryAdvance(Consumer<? super T> action) throws Pausable { return host.tryAdvance( action ); }
+        public void forEachRemaining(Consumer<? super T> action) throws Pausable { host.forEachRemaining( action ); }
+        public long estimateSize() { return host.estimateSize(); }
+        public long getExactSizeIfKnown() { return host.getExactSizeIfKnown(); }
+        public int characteristics() { return host.characteristics(); }
+        public boolean hasCharacteristics(int characteristics) { return host.hasCharacteristics( characteristics ); }
+        public Comparator<? super T> getComparator() { return host.getComparator(); }
+
+        public static class OfInt
+                extends OfPrimitive2<Integer, IntConsumer, Spliterator.OfInt>
+                implements Spliterator.OfInt {
+            OfInt(java.util.Spliterator.OfInt supplier) { super(supplier); }
+        }
+    }
+
+    public static OfPrimitive2.OfInt proxy(java.util.Spliterator.OfInt host) {
+        return new OfPrimitive2.OfInt(host);
+    }
     public static <TT> Stream<TT> proxy(java.util.stream.Stream<TT> host) {
         Spliterator<TT> spliter = proxy(host.spliterator());
         return StreamSupport.stream(spliter,false);

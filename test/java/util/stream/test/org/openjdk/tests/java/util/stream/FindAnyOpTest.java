@@ -22,7 +22,12 @@
  */
 package org.openjdk.tests.java.util.stream;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.function.BiConsumer;
 import stream2.*;
 

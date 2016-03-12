@@ -33,6 +33,7 @@ import stream2.Spliterator;
 import stream2.Spliterators;
 import java.util.concurrent.ThreadLocalRandom;
 import stream2.*;
+import static stream2.Arrays2.proxy;
 
 import static stream2.LambdaTestHelpers.*;
 
@@ -45,9 +46,9 @@ public class DistinctOpTest extends OpTestCase {
     public void testUniqOp() {
         assertCountSum(repeat(0, 10).stream().distinct(), 1, 0);
         assertCountSum(repeat(1, 10).stream().distinct(), 1, 1);
-        assertCountSum(countTo(0).stream().distinct(), 0, 0);
-        assertCountSum(countTo(10).stream().distinct(), 10, 55);
-        assertCountSum(countTo(10).stream().distinct(), 10, 55);
+        assertCountSum(countToj(0).stream().distinct(), 0, 0);
+        assertCountSum(countToj(10).stream().distinct(), 10, 55);
+        assertCountSum(countToj(10).stream().distinct(), 10, 55);
     }
 
     public void testWithUnorderedInfiniteStream() {
@@ -96,7 +97,7 @@ public class DistinctOpTest extends OpTestCase {
         // sorted() with a comparator ironically clears SORTED
         Collection<Integer> node = exerciseOps(new SortedTestData<>(l), Stream::distinct);
         assertUnique(node);
-        assertSorted(node, cNullInteger);
+        assertSorted(proxy(node), cNullInteger);
     }
 
     @SuppressWarnings("serial")
@@ -140,7 +141,7 @@ public class DistinctOpTest extends OpTestCase {
                         new CollectorOps.TestParallelSizedOp<>())
                 .exercise();
         assertUnique(result);
-        assertSorted(result);
+        assertSorted(proxy(result));
     }
 
     @Test(dataProvider = "StreamTestData<Integer>", dataProviderClass = StreamTestDataProvider.class)
@@ -150,6 +151,6 @@ public class DistinctOpTest extends OpTestCase {
                         new CollectorOps.TestParallelSizedOp<>())
                 .exercise();
         assertUnique(result);
-        assertSorted(result);
+        assertSorted(proxy(result));
     }
 }

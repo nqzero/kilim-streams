@@ -24,10 +24,10 @@ package org.openjdk.tests.java.util.stream;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
+import stream2.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.PrimitiveIterator;
+import stream2.PrimitiveIterator;
 import stream2.Spliterators;
 import java.util.function.DoublePredicate;
 import java.util.function.Function;
@@ -48,6 +48,8 @@ import stream2.StreamTestDataProvider;
 import stream2.TestData;
 
 import org.testng.annotations.Test;
+import stream2.Arrays2;
+import static stream2.Arrays2.proxy;
 
 import static stream2.LambdaTestHelpers.countTo;
 import static stream2.LambdaTestHelpers.dpEven;
@@ -96,7 +98,7 @@ public class MatchOpTest extends OpTestCase {
     private <T> void assertPredicates(List<T> source, Kind kind, Predicate<T>[] predicates, boolean... answers) {
         for (int i = 0; i < predicates.length; i++) {
             setContext("i", i);
-            boolean match = this.<T>kinds().get(kind).apply(predicates[i]).apply(source.stream());
+            boolean match = this.<T>kinds().get(kind).apply(predicates[i]).apply(proxy(source).stream());
             assertEquals(answers[i], match, kind.toString() + predicates[i].toString());
         }
     }
@@ -154,8 +156,9 @@ public class MatchOpTest extends OpTestCase {
             }
         }
 
-        Supplier<Iterator<Integer>> source = () -> Arrays.asList(1, 2, 3, 4).iterator();
-        Supplier<Stream<Integer>> s = () -> StreamSupport.stream(Spliterators.spliteratorUnknownSize(new CycleIterator(source), 0), false);
+        Supplier<Iterator<Integer>> source = () -> proxy(Arrays.asList(1, 2, 3, 4)).iterator();
+        Supplier<Stream<Integer>> s = () -> StreamSupport.stream(
+                Spliterators.spliteratorUnknownSize(new CycleIterator(source), 0), false);
 
         assertFalse(s.get().allMatch(i -> i > 3));
         assertTrue(s.get().anyMatch(i -> i > 3));
@@ -239,8 +242,9 @@ public class MatchOpTest extends OpTestCase {
             }
         }
 
-        Supplier<PrimitiveIterator.OfInt> source = () -> Arrays.stream(new int[]{1, 2, 3, 4}).iterator();
-        Supplier<IntStream> s = () -> StreamSupport.intStream(Spliterators.spliteratorUnknownSize(new CycleIterator(source), 0), false);
+        Supplier<PrimitiveIterator.OfInt> source = () -> Arrays2.stream(new int[]{1, 2, 3, 4}).iterator();
+        Supplier<IntStream> s = () -> StreamSupport.intStream(
+                Spliterators.spliteratorUnknownSize(new CycleIterator(source), 0), false);
 
         assertFalse(s.get().allMatch(i -> i > 3));
         assertTrue(s.get().anyMatch(i -> i > 3));
@@ -324,7 +328,7 @@ public class MatchOpTest extends OpTestCase {
             }
         }
 
-        Supplier<PrimitiveIterator.OfLong> source = () -> Arrays.stream(new long[]{1, 2, 3, 4}).iterator();
+        Supplier<PrimitiveIterator.OfLong> source = () -> Arrays2.stream(new long[]{1, 2, 3, 4}).iterator();
         Supplier<LongStream> s = () -> StreamSupport.longStream(Spliterators.spliteratorUnknownSize(new CycleIterator(source), 0), false);
 
         assertFalse(s.get().allMatch(i -> i > 3));
@@ -409,7 +413,7 @@ public class MatchOpTest extends OpTestCase {
             }
         }
 
-        Supplier<PrimitiveIterator.OfDouble> source = () -> Arrays.stream(new double[]{1, 2, 3, 4}).iterator();
+        Supplier<PrimitiveIterator.OfDouble> source = () -> Arrays2.stream(new double[]{1, 2, 3, 4}).iterator();
         Supplier<DoubleStream> s = () -> StreamSupport.doubleStream(Spliterators.spliteratorUnknownSize(new CycleIterator(source), 0), false);
 
         assertFalse(s.get().allMatch(i -> i > 3));

@@ -74,7 +74,7 @@ public class SliceSpliteratorTest extends LoggingTestCase {
                 final Collection<Integer> source =  IntStream.range(0, size).boxed().collect(toList());
 
                 SpliteratorTestHelper.testSpliterator(() -> {
-                    Spliterator<Integer> s = Arrays.spliterator(source.stream().toArray(Integer[]::new));
+                    Spliterator<Integer> s = Arrays2.spliterator(source.stream().toArray(Integer[]::new));
 
                     return new StreamSpliterators.SliceSpliterator.OfRef<>(s, skip, limit);
                 });
@@ -87,7 +87,7 @@ public class SliceSpliteratorTest extends LoggingTestCase {
                 final Collection<Integer> source =  IntStream.range(0, size).boxed().collect(toList());
 
                 SpliteratorTestHelper.testIntSpliterator(() -> {
-                    Spliterator.OfInt s = Arrays.spliterator(source.stream().mapToInt(i->i).toArray());
+                    Spliterator.OfInt s = Arrays2.spliterator(source.stream().mapToInt(i->i).toArray());
 
                     return new StreamSpliterators.SliceSpliterator.OfInt(s, skip, limit);
                 });
@@ -100,7 +100,7 @@ public class SliceSpliteratorTest extends LoggingTestCase {
                 final Collection<Long> source =  LongStream.range(0, size).boxed().collect(toList());
 
                 SpliteratorTestHelper.testLongSpliterator(() -> {
-                    Spliterator.OfLong s = Arrays.spliterator(source.stream().mapToLong(i->i).toArray());
+                    Spliterator.OfLong s = Arrays2.spliterator(source.stream().mapToLong(i->i).toArray());
 
                     return new StreamSpliterators.SliceSpliterator.OfLong(s, skip, limit);
                 });
@@ -113,7 +113,7 @@ public class SliceSpliteratorTest extends LoggingTestCase {
                 final Collection<Double> source =  LongStream.range(0, size).asDoubleStream().boxed().collect(toList());
 
                 SpliteratorTestHelper.testDoubleSpliterator(() -> {
-                    Spliterator.OfDouble s = Arrays.spliterator(source.stream().mapToDouble(i->i).toArray());
+                    Spliterator.OfDouble s = Arrays2.spliterator(source.stream().mapToDouble(i->i).toArray());
 
                     return new StreamSpliterators.SliceSpliterator.OfDouble(s, skip, limit);
                 });
@@ -130,7 +130,7 @@ public class SliceSpliteratorTest extends LoggingTestCase {
                 final UnorderedContentAsserter<Integer> uca = new UnorderedContentAsserter<>(source);
 
                 SpliteratorTestHelper.testSpliterator(() -> {
-                    Spliterator<Integer> s = Arrays.spliterator(source.stream().toArray(Integer[]::new));
+                    Spliterator<Integer> s = Arrays2.spliterator(source.stream().toArray(Integer[]::new));
 
                     return new StreamSpliterators.UnorderedSliceSpliterator.OfRef<>(s, skip, limit);
                 }, uca);
@@ -144,7 +144,7 @@ public class SliceSpliteratorTest extends LoggingTestCase {
                 final UnorderedContentAsserter<Integer> uca = new UnorderedContentAsserter<>(source);
 
                 SpliteratorTestHelper.testIntSpliterator(() -> {
-                    Spliterator.OfInt s = Arrays.spliterator(source.stream().mapToInt(i->i).toArray());
+                    Spliterator.OfInt s = Arrays2.spliterator(source.stream().mapToInt(i->i).toArray());
 
                     return new StreamSpliterators.UnorderedSliceSpliterator.OfInt(s, skip, limit);
                 }, uca);
@@ -158,7 +158,7 @@ public class SliceSpliteratorTest extends LoggingTestCase {
                 final UnorderedContentAsserter<Long> uca = new UnorderedContentAsserter<>(source);
 
                 SpliteratorTestHelper.testLongSpliterator(() -> {
-                    Spliterator.OfLong s = Arrays.spliterator(source.stream().mapToLong(i->i).toArray());
+                    Spliterator.OfLong s = Arrays2.spliterator(source.stream().mapToLong(i->i).toArray());
 
                     return new StreamSpliterators.UnorderedSliceSpliterator.OfLong(s, skip, limit);
                 }, uca);
@@ -172,7 +172,7 @@ public class SliceSpliteratorTest extends LoggingTestCase {
                 final UnorderedContentAsserter<Double> uca = new UnorderedContentAsserter<>(source);
 
                 SpliteratorTestHelper.testDoubleSpliterator(() -> {
-                    Spliterator.OfDouble s = Arrays.spliterator(LongStream.range(0, SIZE).asDoubleStream().toArray());
+                    Spliterator.OfDouble s = Arrays2.spliterator(LongStream.range(0, SIZE).asDoubleStream().toArray());
 
                     return new StreamSpliterators.UnorderedSliceSpliterator.OfDouble(s, skip, limit);
                 }, uca);

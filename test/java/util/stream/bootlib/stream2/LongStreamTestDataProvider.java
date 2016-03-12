@@ -113,9 +113,9 @@ public class LongStreamTestDataProvider {
                 }
 
                 spliterators.add(splitDescr("Arrays.s(array):" + name,
-                                            () -> Arrays.spliterator(longs)));
+                                            () -> Arrays2.spliterator(longs)));
                 spliterators.add(splitDescr("Arrays.s(array,o,l):" + name,
-                                            () -> Arrays.spliterator(longs, 0, longs.length / 2)));
+                                            () -> Arrays2.spliterator(longs, 0, longs.length / 2)));
 
                 spliterators.add(splitDescr("SpinedBuffer.s():" + name,
                                             () -> isl.spliterator()));

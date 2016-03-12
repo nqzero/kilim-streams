@@ -108,9 +108,9 @@ public class DoubleStreamTestDataProvider {
                 }
 
                 spliterators.add(splitDescr("Arrays.s(array):" + name,
-                                            () -> Arrays.spliterator(doubles)));
+                                            () -> Arrays2.spliterator(doubles)));
                 spliterators.add(splitDescr("Arrays.s(array,o,l):" + name,
-                                            () -> Arrays.spliterator(doubles, 0, doubles.length / 2)));
+                                            () -> Arrays2.spliterator(doubles, 0, doubles.length / 2)));
 
                 spliterators.add(splitDescr("SpinedBuffer.s():" + name,
                                             () -> isl.spliterator()));

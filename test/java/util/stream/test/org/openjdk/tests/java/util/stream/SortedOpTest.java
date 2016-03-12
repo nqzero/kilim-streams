@@ -22,13 +22,21 @@
  */
 package org.openjdk.tests.java.util.stream;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import stream2.*;
 import stream2.Spliterators;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import stream2.*;
+import static stream2.Arrays2.proxy;
 
 import static stream2.LambdaTestHelpers.*;
 
@@ -103,20 +111,20 @@ public class SortedOpTest extends OpTestCase {
     }
 
     public void testSorted() {
-        assertCountSum(countTo(0).stream().sorted(), 0, 0);
-        assertCountSum(countTo(10).stream().sorted(), 10, 55);
-        assertCountSum(countTo(10).stream().sorted(cInteger.reversed()), 10, 55);
+        assertCountSum(countToj(0).stream().sorted(), 0, 0);
+        assertCountSum(countToj(10).stream().sorted(), 10, 55);
+        assertCountSum(countToj(10).stream().sorted(cInteger.reversed()), 10, 55);
 
         List<Integer> to10 = countTo(10);
-        assertSorted(to10.stream().sorted(cInteger.reversed()).iterator(), cInteger.reversed());
+        assertSorted(countToj(10).stream().sorted(cInteger.reversed()).iterator(), cInteger.reversed());
 
         Collections.reverse(to10);
-        assertSorted(to10.stream().sorted().iterator());
+        assertSorted(countToj(10).stream().sorted().iterator());
 
-        Spliterator<Integer> s = to10.stream().sorted().spliterator();
+        Spliterator<Integer> s = countToj(10).stream().sorted().spliterator();
         assertTrue(s.hasCharacteristics(Spliterator.SORTED));
 
-        s = to10.stream().sorted(cInteger.reversed()).spliterator();
+        s = countToj(10).stream().sorted(cInteger.reversed()).spliterator();
         assertFalse(s.hasCharacteristics(Spliterator.SORTED));
     }
 
@@ -143,17 +151,17 @@ public class SortedOpTest extends OpTestCase {
     }
 
     private <T> Stream<T> unknownSizeStream(List<T> l) {
-        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(l.iterator(), 0), false);
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(proxy(l.iterator()), 0), false);
     }
 
     @Test(dataProvider = "StreamTestData<Integer>", dataProviderClass = StreamTestDataProvider.class)
     public void testOps(String name, TestData.OfRef<Integer> data) {
         Collection<Integer> result = exerciseOpsInt(data, Stream::sorted, IntStream::sorted, LongStream::sorted, DoubleStream::sorted);
-        assertSorted(result.iterator());
+        assertSorted(proxy(result).iterator());
         assertContentsUnordered(data, result);
 
         result = exerciseOps(data, s -> s.sorted(cInteger.reversed()));
-        assertSorted(result.iterator(), cInteger.reversed());
+        assertSorted(proxy(result).iterator(), cInteger.reversed());
         assertContentsUnordered(data, result);
     }
 
@@ -165,7 +173,7 @@ public class SortedOpTest extends OpTestCase {
                         new CollectorOps.TestParallelSizedOp<Integer>())
                 .exercise();
 
-        assertSorted(result);
+        assertSorted(proxy(result));
         assertContentsUnordered(data, result);
 
         result = withData(data)
@@ -173,7 +181,7 @@ public class SortedOpTest extends OpTestCase {
                         new CollectorOps.TestParallelSizedOp<Integer>())
                 .exercise();
 
-        assertSorted(result, cInteger.reversed());
+        assertSorted(proxy(result), cInteger.reversed());
         assertContentsUnordered(data, result);
 
         result = withData(data)
@@ -181,7 +189,7 @@ public class SortedOpTest extends OpTestCase {
                         new CollectorOps.TestParallelSizedOp<Integer>())
                 .exercise();
 
-        assertSorted(result, cInteger.reversed());
+        assertSorted(proxy(result), cInteger.reversed());
         assertContentsUnordered(data, result);
 
         result = withData(data)
@@ -189,7 +197,7 @@ public class SortedOpTest extends OpTestCase {
                         new CollectorOps.TestParallelSizedOp<Integer>())
                 .exercise();
 
-        assertSorted(result);
+        assertSorted(proxy(result));
         assertContentsUnordered(data, result);
     }
 
@@ -215,13 +223,13 @@ public class SortedOpTest extends OpTestCase {
     }
 
     private IntStream unknownSizeIntStream(int[] a) {
-        return StreamSupport.intStream(Spliterators.spliteratorUnknownSize(Spliterators.iterator(Arrays.spliterator(a)), 0), false);
+        return StreamSupport.intStream(Spliterators.spliteratorUnknownSize(Spliterators.iterator(Arrays2.spliterator(a)), 0), false);
     }
 
     @Test(dataProvider = "IntStreamTestData", dataProviderClass = IntStreamTestDataProvider.class)
     public void testIntOps(String name, TestData.OfInt data) {
         Collection<Integer> result = exerciseOps(data, s -> s.sorted());
-        assertSorted(result);
+        assertSorted(proxy(result));
         assertContentsUnordered(data, result);
     }
 
@@ -232,7 +240,7 @@ public class SortedOpTest extends OpTestCase {
                 .stream(s -> s.sorted().sorted(), new CollectorOps.TestParallelSizedOp.OfInt())
                 .exercise();
 
-        assertSorted(result);
+        assertSorted(proxy(result));
         assertContentsUnordered(data, result);
     }
 
@@ -258,13 +266,13 @@ public class SortedOpTest extends OpTestCase {
     }
 
     private LongStream unknownSizeLongStream(long[] a) {
-        return StreamSupport.longStream(Spliterators.spliteratorUnknownSize(Spliterators.iterator(Arrays.spliterator(a)), 0), false);
+        return StreamSupport.longStream(Spliterators.spliteratorUnknownSize(Spliterators.iterator(Arrays2.spliterator(a)), 0), false);
     }
 
     @Test(dataProvider = "LongStreamTestData", dataProviderClass = LongStreamTestDataProvider.class)
     public void testLongOps(String name, TestData.OfLong data) {
         Collection<Long> result = exerciseOps(data, s -> s.sorted());
-        assertSorted(result);
+        assertSorted(proxy(result));
         assertContentsUnordered(data, result);
     }
 
@@ -275,7 +283,7 @@ public class SortedOpTest extends OpTestCase {
                 .stream(s -> s.sorted().sorted(), new CollectorOps.TestParallelSizedOp.OfLong())
                 .exercise();
 
-        assertSorted(result);
+        assertSorted(proxy(result));
         assertContentsUnordered(data, result);
     }
 
@@ -301,13 +309,13 @@ public class SortedOpTest extends OpTestCase {
     }
 
     private DoubleStream unknownSizeDoubleStream(double[] a) {
-        return StreamSupport.doubleStream(Spliterators.spliteratorUnknownSize(Spliterators.iterator(Arrays.spliterator(a)), 0), false);
+        return StreamSupport.doubleStream(Spliterators.spliteratorUnknownSize(Spliterators.iterator(Arrays2.spliterator(a)), 0), false);
     }
 
     @Test(dataProvider = "DoubleStreamTestData", dataProviderClass = DoubleStreamTestDataProvider.class)
     public void testDoubleOps(String name, TestData.OfDouble data) {
         Collection<Double> result = exerciseOps(data, s -> s.sorted());
-        assertSorted(result);
+        assertSorted(proxy(result));
         assertContentsUnordered(data, result);
     }
 
@@ -318,7 +326,7 @@ public class SortedOpTest extends OpTestCase {
                 .stream(s -> s.sorted().sorted(), new CollectorOps.TestParallelSizedOp.OfDouble())
                 .exercise();
 
-        assertSorted(result);
+        assertSorted(proxy(result));
         assertContentsUnordered(data, result);
     }
 }

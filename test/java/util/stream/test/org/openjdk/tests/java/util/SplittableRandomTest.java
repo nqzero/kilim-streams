@@ -43,6 +43,8 @@ import stream2.OpTestCase;
 import stream2.StreamSupport;
 import stream2.TestData;
 import java.lang.Iterable;
+import static stream2.Arrays2.proxy;
+import stream2.Spliterators;
 
 @Test
 public class SplittableRandomTest extends OpTestCase {
@@ -125,11 +127,19 @@ public class SplittableRandomTest extends OpTestCase {
                         mapToInt(i -> i);
 
         // Unbounded
+        
+        java.util.stream.IntStream is = new SplittableRandom().ints();
+        java.util.stream.Stream<Integer> i2 = is.boxed();
+        proxy(i2);
+        Spliterators.spliterator( iterator, size, characteristics );
+        StreamSupport.intStream(spliter2,false);
 
         data.add(new Object[]{
                 TestData.Factory.ofIntSupplier(
                         String.format("new SplittableRandom().ints().limit(%d)", SIZE),
-                        () -> new SplittableRandom().ints().limit(SIZE)),
+                        () -> 
+                                proxy(new SplittableRandom().ints()).
+                                        limit(SIZE)),
                 randomAsserter(SIZE, Integer.MAX_VALUE, 0)
         });
 

@@ -32,6 +32,7 @@ import java.util.function.LongConsumer;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
+import static stream2.Arrays2.proxy;
 
 @Test
 public class SpinedBufferTest {
@@ -89,12 +90,13 @@ public class SpinedBufferTest {
         assertEquals(sb.count(), array.length);
         assertEquals(sb.count(), sb.spliterator().getExactSizeIfKnown());
 
-        SpliteratorTestHelper.testSpliterator(sb::spliterator);
+        SpliteratorTestHelper.testSpliterator(() -> proxy(sb.spliterator()));
     }
 
     @Test(dataProvider = "SpinedBuffer", groups = { "serialization-hostile" })
     public void testLastSplit(int[] array, SpinedBuffer<Integer> sb) {
-        Spliterator<Integer> spliterator = sb.spliterator();
+        Supplier<Spliterator<Integer>> ss = () -> proxy(sb.spliterator());
+        Spliterator<Integer> spliterator = proxy(sb.spliterator());
         Spliterator<Integer> split = spliterator.trySplit();
         long splitSizes = (split == null) ? 0 : split.getExactSizeIfKnown();
         long lastSplitSize = spliterator.getExactSizeIfKnown();
@@ -107,8 +109,7 @@ public class SpinedBufferTest {
 
         assertEquals(contentOfLastSplit.size(), lastSplitSize);
 
-        List<Integer> end = Arrays.stream(array)
-                .boxed()
+        List<Integer> end = proxy(Arrays.stream(array).boxed())
                 .skip(array.length - lastSplitSize)
                 .collect(Collectors.toList());
         assertEquals(contentOfLastSplit, end);
@@ -123,7 +124,7 @@ public class SpinedBufferTest {
             list1.add(i);
             sb.accept(i);
         }
-        Iterator<Integer> it = sb.iterator();
+        Iterator<Integer> it = proxy(sb.iterator());
         for (int i = 0; i < TEST_SIZE; i++)
             list2.add(it.next());
         assertFalse(it.hasNext());
@@ -182,7 +183,7 @@ public class SpinedBufferTest {
 
         assertEquals(contentOfLastSplit.size(), lastSplitSize);
 
-        List<Integer> end = Arrays.stream(array)
+        List<Integer> end = Arrays2.stream(array)
                 .boxed()
                 .skip(array.length - lastSplitSize)
                 .collect(Collectors.toList());
@@ -257,7 +258,7 @@ public class SpinedBufferTest {
 
         assertEquals(contentOfLastSplit.size(), lastSplitSize);
 
-        List<Long> end = Arrays.stream(array)
+        List<Long> end = Arrays2.stream(array)
                 .boxed()
                 .skip(array.length - lastSplitSize)
                 .collect(Collectors.toList());
@@ -333,7 +334,7 @@ public class SpinedBufferTest {
 
         assertEquals(contentOfLastSplit.size(), lastSplitSize);
 
-        List<Double> end = Arrays.stream(array)
+        List<Double> end = Arrays2.stream(array)
                 .boxed()
                 .skip(array.length - lastSplitSize)
                 .collect(Collectors.toList());

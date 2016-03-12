@@ -25,7 +25,6 @@ package org.openjdk.tests.java.util.stream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -40,8 +39,10 @@ import stream2.StreamTestDataProvider;
 import stream2.TestData;
 
 import org.testng.annotations.Test;
+import static stream2.Arrays2.proxy;
 
 import static stream2.LambdaTestHelpers.countTo;
+import static stream2.LambdaTestHelpers.countToj;
 import static stream2.LambdaTestHelpers.mDoubler;
 import static stream2.LambdaTestHelpers.mId;
 import static stream2.LambdaTestHelpers.mZero;
@@ -70,8 +71,8 @@ public class GroupByOpTest extends OpTestCase {
         assertEquals(2, m.keySet().size());
         for(Collection<Integer> group : m.values()) {
             int count = 0;
-            Stream<Integer> stream = group.stream();
-            Iterator<Integer> it = stream.iterator();
+            Stream<Integer> stream = proxy(group).stream();
+            stream2.Iterator<Integer> it = stream.iterator();
             while (it.hasNext()) {
                 it.next();
                 ++count;
@@ -81,13 +82,13 @@ public class GroupByOpTest extends OpTestCase {
     }
 
     public void testGroupBy() {
-        Map<Boolean,List<Integer>> result = countTo(10).stream().collect(Collectors.groupingBy(LambdaTestHelpers.forPredicate(pEven, true, false)));
+        Map<Boolean,List<Integer>> result = countToj(10).stream().collect(Collectors.groupingBy(LambdaTestHelpers.forPredicate(pEven, true, false)));
 
         assertEquals(2, result.keySet().size());
         for(Collection<Integer> group : result.values()) {
             int count = 0;
-            Stream<Integer> stream = group.stream();
-            Iterator<Integer> it = stream.iterator();
+            Stream<Integer> stream = proxy(group).stream();
+            stream2.Iterator<Integer> it = stream.iterator();
             while (it.hasNext()) {
                 it.next();
                 ++count;
