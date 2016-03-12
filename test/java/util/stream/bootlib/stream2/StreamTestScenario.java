@@ -75,7 +75,8 @@ public enum StreamTestScenario implements OpTestCase.BaseStreamTestScenario {
     STREAM_ITERATOR(false) {
         <T, U, S_IN extends BaseStream<T, S_IN>>
         void _run(TestData<T, S_IN> data, Consumer<U> b, Function<S_IN, Stream<U>> m) {
-            for (Iterator<U> seqIter = m.apply(data.stream()).iterator(); seqIter.hasNext(); )
+            for (stream2.Iterator<U> seqIter = m.apply(data.stream()).iterator();
+                    seqIter.hasNext(); )
                 b.accept(seqIter.next());
         }
     },

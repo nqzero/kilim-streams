@@ -27,6 +27,7 @@ import org.testng.annotations.DataProvider;
 import java.util.*;
 import stream2.Spliterators;
 import java.util.function.Supplier;
+import static stream2.Arrays2.proxy;
 
 /**
  * StreamTestDataProvider
@@ -94,7 +95,7 @@ public class StreamTestDataProvider {
                 list.add(collectionDataDescr("ArrayList.asList:" + name, intsAsList));
                 list.add(collectionDataDescr("ArrayList:" + name, new ArrayList<>(intsAsList)));
                 list.add(streamDataDescr("DelegatingStream(ArrayList):" + name,
-                                         () -> new ArrayList<>(intsAsList).stream()));
+                                         () -> proxy(new ArrayList<>(intsAsList).stream())));
                 List<Integer> aList = new ArrayList<>(intsAsList);
                 if (LambdaTestMode.isNormalMode()) {
                     // Only include sub-lists for normal test execution mode
@@ -146,20 +147,20 @@ public class StreamTestDataProvider {
                 final Integer[] ints = (Integer[])data[1];
 
                 spliterators.add(splitDescr("Arrays.s(array):" + name,
-                                            () -> Arrays.spliterator(ints)));
+                                            () -> proxy(Arrays.spliterator(ints))));
                 spliterators.add(splitDescr("arrays.s(array,o,l):" + name,
-                                            () -> Arrays.spliterator(ints, 0, ints.length/2)));
+                                            () -> proxy(Arrays.spliterator(ints, 0, ints.length/2))));
                 spliterators.add(splitDescr("SpinedBuffer.s():" + name,
                                             () -> {
                                                 SpinedBuffer<Integer> sb = new SpinedBuffer<>();
                                                 for (Integer i : ints)
                                                     sb.accept(i);
-                                                return sb.spliterator();
+                                                return proxy(sb).spliterator();
                                             }));
                 spliterators.add(splitDescr("Iterators.s(Arrays.s(array).iterator(), size):" + name,
-                                            () -> Spliterators.spliterator(Arrays.asList(ints).iterator(), ints.length, 0)));
+                                            () -> Spliterators.spliterator(proxy(Arrays.asList(ints).iterator()), ints.length, 0)));
                 spliterators.add(splitDescr("Iterators.s(Arrays.s(array).iterator()):" + name,
-                                            () -> Spliterators.spliteratorUnknownSize(Arrays.asList(ints).iterator(), 0)));
+                                            () -> Spliterators.spliteratorUnknownSize(proxy(Arrays.asList(ints).iterator()), 0)));
                 // @@@ Add map and collection spliterators when spliterator() is exposed on Collection or Iterable
             }
             spliteratorTestData = spliterators.toArray(new Object[0][]);

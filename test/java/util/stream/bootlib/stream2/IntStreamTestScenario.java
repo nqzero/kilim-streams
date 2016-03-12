@@ -22,7 +22,6 @@
  */
 package stream2;
 
-import java.util.PrimitiveIterator;
 import stream2.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
