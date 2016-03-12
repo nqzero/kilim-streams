@@ -513,7 +513,9 @@ public class Arrays2 {
         public Iterator<TT> iterator() {
             return proxy(host.iterator());
         }
-    }
+        public Stream<TT> stream() { return StreamSupport.stream(spliterator(),false); }
+        public Stream<TT> parallelStream() { return StreamSupport.stream(spliterator(),true); }
+        }
 
     public static class SpliteratorProxy<TT> implements Spliterator<TT> {
         java.util.Spliterator<TT> host;

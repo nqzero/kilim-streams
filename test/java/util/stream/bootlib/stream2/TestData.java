@@ -24,15 +24,14 @@ package stream2;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.PrimitiveIterator;
-import stream2.Spliterator;
-import stream2.Spliterators;
+import stream2.PrimitiveIterator;
 import java.util.function.DoubleConsumer;
 import java.util.function.Function;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
+import static stream2.Arrays2.proxy;
 
 /** Describes a test data set for use in stream tests */
 public interface TestData<T, S extends BaseStream<T, S>>
@@ -75,21 +74,27 @@ public interface TestData<T, S extends BaseStream<T, S>>
     // @@@ Temporary garbage class to avoid triggering bugs with lambdas in static methods in interfaces
     public static class Factory {
         public static <T> OfRef<T> ofArray(String name, T[] array) {
-            return new AbstractTestData.RefTestData<>(name, array, Arrays::stream, a -> Arrays.stream(a).parallel(),
-                                                      Arrays::spliterator, a -> a.length);
+            return new AbstractTestData.RefTestData<>(name, array,
+                    a -> proxy(Arrays.stream(a)),
+                    a -> proxy(Arrays.stream(a)).parallel(),
+                    a -> proxy(Arrays.spliterator(a)),
+                    a -> a.length);
         }
 
         public static <T> OfRef<T> ofCollection(String name, Collection<T> collection) {
-            return new AbstractTestData.RefTestData<>(name, collection, Collection::stream, Collection::parallelStream,
-                                                      Collection::spliterator, Collection::size);
+            return new AbstractTestData.RefTestData<>(name, collection,
+                    a -> proxy(a.stream()),
+                    a -> proxy(a.stream()).parallel(),
+                    a -> proxy(a.spliterator()),
+                    Collection::size);
         }
 
         public static <T> OfRef<T> ofSpinedBuffer(String name, SpinedBuffer<T> buffer) {
             return new AbstractTestData.RefTestData<>(name, buffer,
-                                                      b -> StreamSupport.stream(b.spliterator(), false),
-                                                      b -> StreamSupport.stream(b.spliterator(), true),
-                                                      SpinedBuffer::spliterator,
-                                                      b -> (int) b.count());
+                    b -> StreamSupport.stream(proxy(b).spliterator(), false), 
+                    b -> StreamSupport.stream(proxy(b).spliterator(), true), 
+                    b -> proxy(b).spliterator(),
+                    b -> (int) b.count());
         }
 
         public static <T> OfRef<T> ofSupplier(String name, Supplier<Stream<T>> supplier) {
@@ -110,8 +115,12 @@ public interface TestData<T, S extends BaseStream<T, S>>
 
         // int factories
         public static <T> OfInt ofArray(String name, int[] array) {
-            return new AbstractTestData.IntTestData<>(name, array, Arrays::stream, a -> Arrays.stream(a).parallel(),
-                                                      Arrays::spliterator, a -> a.length);
+            StreamSupport.intStream(Spliterators.spliterator(array,0),false);
+            return new AbstractTestData.IntTestData<>(name, array,
+                    b -> StreamSupport.intStream(Spliterators.spliterator(b,0),false),
+                    b -> StreamSupport.intStream(Spliterators.spliterator(b,0),true),
+                    b -> Spliterators.spliterator(b,0),
+                    b -> (int) b.length);
         }
 
         public static OfInt ofSpinedBuffer(String name, SpinedBuffer.OfInt buffer) {
@@ -133,16 +142,19 @@ public interface TestData<T, S extends BaseStream<T, S>>
         public static OfInt ofNode(String name, Node.OfInt node) {
             int characteristics = Spliterator.SIZED | Spliterator.ORDERED;
             return new AbstractTestData.IntTestData<>(name, node,
-                                                      n -> StreamSupport.intStream(n::spliterator, characteristics, false),
-                                                      n -> StreamSupport.intStream(n::spliterator, characteristics, true),
-                                                      Node.OfInt::spliterator2,
-                                                      n -> (int) n.count());
+                    n -> StreamSupport.intStream(n::spliterator2, characteristics, false),
+                    n -> StreamSupport.intStream(n::spliterator2, characteristics, true),
+                    Node.OfInt::spliterator2,
+                    n -> (int) n.count());
         }
 
         // long factories
         public static <T> OfLong ofArray(String name, long[] array) {
-            return new AbstractTestData.LongTestData<>(name, array, Arrays::stream, a -> Arrays.stream(a).parallel(),
-                                                       Arrays::spliterator, a -> a.length);
+            return new AbstractTestData.LongTestData<>(name, array,
+                    b -> StreamSupport.longStream(Spliterators.spliterator(b,0),false),
+                    b -> StreamSupport.longStream(Spliterators.spliterator(b,0),true),
+                    b -> Spliterators.spliterator(b,0),
+                    b -> (int) b.length);
         }
 
         public static OfLong ofSpinedBuffer(String name, SpinedBuffer.OfLong buffer) {
@@ -164,16 +176,19 @@ public interface TestData<T, S extends BaseStream<T, S>>
         public static OfLong ofNode(String name, Node.OfLong node) {
             int characteristics = Spliterator.SIZED | Spliterator.ORDERED;
             return new AbstractTestData.LongTestData<>(name, node,
-                                                      n -> StreamSupport.longStream(n::spliterator, characteristics, false),
-                                                      n -> StreamSupport.longStream(n::spliterator, characteristics, true),
-                                                      Node.OfLong::spliterator2,
-                                                      n -> (int) n.count());
+                    n -> StreamSupport.longStream(n::spliterator2, characteristics, false),
+                    n -> StreamSupport.longStream(n::spliterator2, characteristics, true),
+                    Node.OfLong::spliterator2,
+                    n -> (int) n.count());
         }
 
         // double factories
         public static <T> OfDouble ofArray(String name, double[] array) {
-            return new AbstractTestData.DoubleTestData<>(name, array, Arrays::stream, a -> Arrays.stream(a).parallel(),
-                                                         Arrays::spliterator, a -> a.length);
+            return new AbstractTestData.DoubleTestData<>(name, array,
+                    b -> StreamSupport.doubleStream(Spliterators.spliterator(b,0),false),
+                    b -> StreamSupport.doubleStream(Spliterators.spliterator(b,0),true),
+                    b -> Spliterators.spliterator(b,0),
+                    b -> (int) b.length);
         }
 
         public static OfDouble ofSpinedBuffer(String name, SpinedBuffer.OfDouble buffer) {
@@ -195,10 +210,10 @@ public interface TestData<T, S extends BaseStream<T, S>>
         public static OfDouble ofNode(String name, Node.OfDouble node) {
             int characteristics = Spliterator.SIZED | Spliterator.ORDERED;
             return new AbstractTestData.DoubleTestData<>(name, node,
-                                                         n -> StreamSupport.doubleStream(n::spliterator, characteristics, false),
-                                                         n -> StreamSupport.doubleStream(n::spliterator, characteristics, true),
-                                                         Node.OfDouble::spliterator2,
-                                                         n -> (int) n.count());
+                    n -> StreamSupport.doubleStream(n::spliterator2, characteristics, false),
+                    n -> StreamSupport.doubleStream(n::spliterator2, characteristics, true),
+                    Node.OfDouble::spliterator2,
+                    n -> (int) n.count());
         }
     }
 
@@ -273,7 +288,6 @@ public interface TestData<T, S extends BaseStream<T, S>>
                                   ToIntFunction<I> sizeFn) {
                 super(name, StreamShape.REFERENCE, state, streamFn, parStreamFn, splitrFn, sizeFn);
             }
-
         }
 
         static class IntTestData<I>
@@ -291,7 +305,7 @@ public interface TestData<T, S extends BaseStream<T, S>>
 
             @Override
             public PrimitiveIterator.OfInt iterator() {
-                return Spliterators.iterator(spliterator());
+                return null; // Spliterators.iterator(spliterator());
             }
 
             @Override

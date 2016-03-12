@@ -142,7 +142,7 @@ public abstract class OpTestCase extends LoggingTestCase {
         return withData(data1).stream(m).exercise();
     }
 
-    public <T, U, S_OUT extends BaseStream<U, S_OUT>, I extends Iterable<U>>
+    public <T, U, S_OUT extends BaseStream<U, S_OUT>, I extends java.lang.Iterable<U>>
     Collection<U> exerciseOps(Collection<T> data, Function<Stream<T>, S_OUT> m, I expected) {
         TestData.OfRef<T> data1 = TestData.Factory.ofCollection("Collection of type " + data.getClass().getName(), data);
         return withData(data1).stream(m).expectedResult(expected).exercise();
@@ -235,7 +235,7 @@ public abstract class OpTestCase extends LoggingTestCase {
 
         //
 
-        public <I extends Iterable<U>> ExerciseDataStreamBuilder<T, U, S_IN, S_OUT> expectedResult(I expectedResult) {
+        public <I extends java.lang.Iterable<U>> ExerciseDataStreamBuilder<T, U, S_IN, S_OUT> expectedResult(I expectedResult) {
             List<U> l = new ArrayList<>();
             expectedResult.forEach(l::add);
             refResult = l;
@@ -317,7 +317,7 @@ public abstract class OpTestCase extends LoggingTestCase {
             return this;
         }
 
-        public ExerciseDataStreamBuilder<T, U, S_IN, S_OUT> resultAsserter(ResultAsserter<Iterable<U>> resultAsserter) {
+        public ExerciseDataStreamBuilder<T, U, S_IN, S_OUT> resultAsserter(ResultAsserter<java.lang.Iterable<U>> resultAsserter) {
             this.resultAsserter = resultAsserter;
             return this;
         }

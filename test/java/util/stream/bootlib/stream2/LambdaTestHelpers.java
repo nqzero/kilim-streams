@@ -396,6 +396,12 @@ public class LambdaTestHelpers {
             assertEquals(a, b);
     }
 
+    public static<T> void assertContentsUnordered(java.lang.Iterable<T> actual,java.lang.Iterable<T> expected) {
+        assertContentsUnordered(proxy(actual).iterator(), proxy(expected).iterator());
+    }
+    public static<T> void assertContentsUnordered(Iterable<T> actual,java.lang.Iterable<T> expected) {
+        assertContentsUnordered(actual.iterator(), proxy(expected).iterator());
+    }
     public static<T> void assertContentsUnordered(Iterable<T> actual, Iterable<T> expected) {
         assertContentsUnordered(actual.iterator(), expected.iterator());
     }
