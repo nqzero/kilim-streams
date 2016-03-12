@@ -44,10 +44,10 @@ import java.util.function.Supplier;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
-import java.lang.Iterable;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static stream2.Arrays2.proxy;
 
 /**
  * LambdaTestHelpers -- assertion methods and useful objects for lambda test cases
@@ -68,9 +68,9 @@ public class LambdaTestHelpers {
     public static final Function<Integer, Integer> mZero = x -> 0;
     public static final Function<Integer, Integer> mId = x -> x;
     public static final Function<Integer, Integer> mDoubler = x -> x * 2;
-    public static final Function<Integer, Stream<Integer>> mfId = e -> Collections.singletonList(e).stream();
-    public static final Function<Integer, Stream<Integer>> mfNull = e -> Collections.<Integer>emptyList().stream();
-    public static final Function<Integer, Stream<Integer>> mfLt = e -> {
+    public static final Function<Integer, java.util.stream.Stream<Integer>> mfId = e -> Collections.singletonList(e).stream();
+    public static final Function<Integer, java.util.stream.Stream<Integer>> mfNull = e -> Collections.<Integer>emptyList().stream();
+    public static final Function<Integer, java.util.stream.Stream<Integer>> mfLt = e -> {
         List<Integer> l = new ArrayList<>();
         for (int i=0; i<e; i++)
             l.add(i);
@@ -115,7 +115,7 @@ public class LambdaTestHelpers {
 
     public static final IntFunction<Object[]> objectArrayGenerator = s -> new Object[s];
 
-    public static final Function<String, Stream<Character>> flattenChars = string -> {
+    public static final Function<String, java.util.stream.Stream<Character>> flattenChars = string -> {
         List<Character> l = new ArrayList<>();
         for (int i=0; i<string.length(); i++)
             l.add(string.charAt(i));
@@ -213,7 +213,7 @@ public class LambdaTestHelpers {
     }
 
     public static<T extends Comparable<? super T>> void assertSorted(Iterator<T> i) {
-        i = toBoxedList(i).iterator();
+        i = proxy(toBoxedList(i).iterator());
 
         if (!i.hasNext())
             return;
@@ -230,7 +230,7 @@ public class LambdaTestHelpers {
         if (i instanceof PrimitiveIterator.OfInt
                 || i instanceof PrimitiveIterator.OfDouble
                 || i instanceof PrimitiveIterator.OfLong) {
-            i = toBoxedList(i).iterator();
+            i = proxy(toBoxedList(i).iterator());
         }
 
         if (!i.hasNext())
@@ -264,7 +264,7 @@ public class LambdaTestHelpers {
         if (iter instanceof PrimitiveIterator.OfInt
             || iter instanceof PrimitiveIterator.OfDouble
             || iter instanceof PrimitiveIterator.OfLong) {
-            iter = toBoxedList(iter).iterator();
+            iter = proxy(toBoxedList(iter).iterator());
         }
 
         Set<T> uniq = new HashSet<>();
@@ -275,7 +275,10 @@ public class LambdaTestHelpers {
         }
     }
 
-    public static<T> void assertContents(Iterable<T> actual, Iterable<T> expected) {
+    public static<T> void assertContents(stream2.Iterable<T> actual,java.lang.Iterable<T> expected) {
+        assertContents(actual,proxy(expected));
+    }
+    public static<T> void assertContents(stream2.Iterable<T> actual, stream2.Iterable<T> expected) {
         if (actual instanceof Collection && expected instanceof Collection) {
             assertEquals(actual, expected);
         } else {
@@ -290,7 +293,7 @@ public class LambdaTestHelpers {
     @SafeVarargs
     @SuppressWarnings("varargs")
     public static<T> void assertContents(Iterator<T> actual, T... expected) {
-        assertContents(actual, Arrays.asList(expected).iterator());
+        assertContents(actual, proxy(Arrays.asList(expected).iterator()));
     }
 
     /**

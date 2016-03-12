@@ -477,10 +477,16 @@ public class Arrays2 {
         return StreamSupport.doubleStream(spliterator(array, startInclusive, endExclusive), false);
     }
 
-
     
+    public static <TT> Stream<TT> proxy(java.util.stream.Stream<TT> host) {
+        Spliterator<TT> spliter = proxy(host.spliterator());
+        return StreamSupport.stream(spliter,false);
+    }
     public static <TT> IteratorProxy<TT> proxy(java.util.Iterator<TT> host) {
         return new IteratorProxy(host);
+    }
+    public static <TT> IterableProxy<TT> proxy(java.lang.Iterable<TT> host) {
+        return new IterableProxy(host);
     }
     public static <TT> SpliteratorProxy<TT> proxy(java.util.Spliterator<TT> host) {
         return new SpliteratorProxy(host);
@@ -498,6 +504,15 @@ public class Arrays2 {
         java.util.Iterator<TT> host;
         public boolean hasNext() { return host.hasNext(); }
         public TT next() { return host.next(); }
+    }
+    public static class IterableProxy<TT> implements Iterable<TT> {
+        public IterableProxy(java.lang.Iterable<TT> host) {
+            this.host = host;
+        }
+        java.lang.Iterable<TT> host;
+        public Iterator<TT> iterator() {
+            return proxy(host.iterator());
+        }
     }
 
     public static class SpliteratorProxy<TT> implements Spliterator<TT> {

@@ -24,7 +24,6 @@ package stream2;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.PrimitiveIterator;
 import stream2.Spliterator;
 import stream2.Spliterators;

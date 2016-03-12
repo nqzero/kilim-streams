@@ -1,4 +1,4 @@
 package stream2;
 
-public class Pausable extends Exception {
+public class Pausable extends RuntimeException {
 }

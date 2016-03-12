@@ -264,7 +264,7 @@ public class SliceOpTest extends OpTestCase {
         }
     }
 
-    private ResultAsserter<Iterable<Integer>> sliceResultAsserter(Iterable<Integer> data,
+    private ResultAsserter<stream2.Iterable<Integer>> sliceResultAsserter(stream2.Iterable<Integer> data,
                                                                   int expectedSize) {
         return (act, exp, ord, par) -> {
             if (par & !ord) {

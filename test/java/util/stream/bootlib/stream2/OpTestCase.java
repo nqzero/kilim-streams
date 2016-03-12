@@ -212,7 +212,7 @@ public abstract class OpTestCase extends LoggingTestCase {
 
         Consumer<TestData<T, S_IN>> after = LambdaTestHelpers.bEmpty;
 
-        ResultAsserter<Iterable<U>> resultAsserter = (act, exp, ord, par) -> {
+        ResultAsserter<java.lang.Iterable<U>> resultAsserter = (act, exp, ord, par) -> {
             if (par & !ord) {
                 LambdaTestHelpers.assertContentsUnordered(act, exp);
             }
