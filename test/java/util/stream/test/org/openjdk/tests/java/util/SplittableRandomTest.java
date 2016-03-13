@@ -43,6 +43,7 @@ import stream2.OpTestCase;
 import stream2.StreamSupport;
 import stream2.TestData;
 import java.lang.Iterable;
+import stream2.Arrays2;
 import static stream2.Arrays2.proxy;
 import stream2.Spliterators;
 
@@ -130,23 +131,24 @@ public class SplittableRandomTest extends OpTestCase {
         
         java.util.stream.IntStream is = new SplittableRandom().ints();
         java.util.stream.Stream<Integer> i2 = is.boxed();
-        proxy(i2);
-        Spliterators.spliterator( iterator, size, characteristics );
-        StreamSupport.intStream(spliter2,false);
+        Arrays2.OfPrimitive2.OfInt proxy = proxy(is.spliterator());
+        StreamSupport.intStream(proxy,false);
+        StreamSupport.intStream(proxy(is.spliterator()),false);
 
         data.add(new Object[]{
                 TestData.Factory.ofIntSupplier(
                         String.format("new SplittableRandom().ints().limit(%d)", SIZE),
-                        () -> 
-                                proxy(new SplittableRandom().ints()).
-                                        limit(SIZE)),
+                        () -> StreamSupport.intStream(
+                                    proxy(new SplittableRandom().ints().spliterator()),false)
+                                .limit(SIZE)),
                 randomAsserter(SIZE, Integer.MAX_VALUE, 0)
         });
 
         data.add(new Object[]{
                 TestData.Factory.ofIntSupplier(
                         String.format("new SplittableRandom().ints(%d)", SIZE),
-                        () -> new SplittableRandom().ints(SIZE)),
+                        () -> StreamSupport.intStream(
+                                    proxy(new SplittableRandom().ints(SIZE).spliterator()),false)),
                 randomAsserter(SIZE, Integer.MAX_VALUE, 0)
         });
 
@@ -167,14 +169,17 @@ public class SplittableRandomTest extends OpTestCase {
                 data.add(new Object[]{
                         TestData.Factory.ofIntSupplier(
                                 String.format("new SplittableRandom().ints(%d, %d).limit(%d)", origin, bound, SIZE),
-                                () -> new SplittableRandom().ints(origin, bound).limit(SIZE)),
+                        () -> StreamSupport.intStream(
+                                    proxy(new SplittableRandom().ints(origin,bound).spliterator()),false)
+                                .limit(SIZE)),
                         randomAsserter(SIZE, origin, bound)
                 });
 
                 data.add(new Object[]{
                         TestData.Factory.ofIntSupplier(
                                 String.format("new SplittableRandom().ints(%d, %d, %d)", SIZE, origin, bound),
-                                () -> new SplittableRandom().ints(SIZE, origin, bound)),
+                        () -> StreamSupport.intStream(
+                                    proxy(new SplittableRandom().ints(SIZE,origin,bound).spliterator()),false)),
                         randomAsserter(SIZE, origin, bound)
                 });
 
@@ -223,14 +228,17 @@ public class SplittableRandomTest extends OpTestCase {
         data.add(new Object[]{
                 TestData.Factory.ofLongSupplier(
                         String.format("new SplittableRandom().longs().limit(%d)", SIZE),
-                        () -> new SplittableRandom().longs().limit(SIZE)),
+                        () -> StreamSupport.longStream(
+                                    proxy(new SplittableRandom().longs().spliterator()),false)
+                                .limit(SIZE)),
                 randomAsserter(SIZE, Long.MAX_VALUE, 0L)
         });
 
         data.add(new Object[]{
                 TestData.Factory.ofLongSupplier(
                         String.format("new SplittableRandom().longs(%d)", SIZE),
-                        () -> new SplittableRandom().longs(SIZE)),
+                        () -> StreamSupport.longStream(
+                                    proxy(new SplittableRandom().longs(SIZE).spliterator()),false)),
                 randomAsserter(SIZE, Long.MAX_VALUE, 0L)
         });
 
@@ -251,14 +259,17 @@ public class SplittableRandomTest extends OpTestCase {
                 data.add(new Object[]{
                         TestData.Factory.ofLongSupplier(
                                 String.format("new SplittableRandom().longs(%d, %d).limit(%d)", origin, bound, SIZE),
-                                () -> new SplittableRandom().longs(origin, bound).limit(SIZE)),
+                        () -> StreamSupport.longStream(
+                                    proxy(new SplittableRandom().longs(origin,bound).spliterator()),false)
+                                .limit(SIZE)),
                         randomAsserter(SIZE, origin, bound)
                 });
 
                 data.add(new Object[]{
                         TestData.Factory.ofLongSupplier(
                                 String.format("new SplittableRandom().longs(%d, %d, %d)", SIZE, origin, bound),
-                                () -> new SplittableRandom().longs(SIZE, origin, bound)),
+                        () -> StreamSupport.longStream(
+                                    proxy(new SplittableRandom().longs(SIZE,origin,bound).spliterator()),false)),
                         randomAsserter(SIZE, origin, bound)
                 });
 
@@ -307,14 +318,17 @@ public class SplittableRandomTest extends OpTestCase {
         data.add(new Object[]{
                 TestData.Factory.ofDoubleSupplier(
                         String.format("new SplittableRandom().doubles().limit(%d)", SIZE),
-                        () -> new SplittableRandom().doubles().limit(SIZE)),
+                        () -> StreamSupport.doubleStream(
+                                    proxy(new SplittableRandom().doubles().spliterator()),false)
+                                .limit(SIZE)),
                 randomAsserter(SIZE, Double.MAX_VALUE, 0d)
         });
 
         data.add(new Object[]{
                 TestData.Factory.ofDoubleSupplier(
                         String.format("new SplittableRandom().doubles(%d)", SIZE),
-                        () -> new SplittableRandom().doubles(SIZE)),
+                        () -> StreamSupport.doubleStream(
+                                    proxy(new SplittableRandom().doubles(SIZE).spliterator()),false)),
                 randomAsserter(SIZE, Double.MAX_VALUE, 0d)
         });
 
@@ -335,14 +349,17 @@ public class SplittableRandomTest extends OpTestCase {
                 data.add(new Object[]{
                         TestData.Factory.ofDoubleSupplier(
                                 String.format("new SplittableRandom().doubles(%f, %f).limit(%d)", origin, bound, SIZE),
-                                () -> new SplittableRandom().doubles(origin, bound).limit(SIZE)),
+                        () -> StreamSupport.doubleStream(
+                                    proxy(new SplittableRandom().doubles(origin,bound).spliterator()),false)
+                                .limit(SIZE)),
                         randomAsserter(SIZE, origin, bound)
                 });
 
                 data.add(new Object[]{
                         TestData.Factory.ofDoubleSupplier(
                                 String.format("new SplittableRandom().doubles(%d, %f, %f)", SIZE, origin, bound),
-                                () -> new SplittableRandom().doubles(SIZE, origin, bound)),
+                        () -> StreamSupport.doubleStream(
+                                    proxy(new SplittableRandom().doubles(SIZE, origin, bound).spliterator()),false)),
                         randomAsserter(SIZE, origin, bound)
                 });
 

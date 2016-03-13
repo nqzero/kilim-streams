@@ -29,6 +29,7 @@ import stream2.Stream;
 import org.testng.annotations.Test;
 
 import static stream2.LambdaTestHelpers.countTo;
+import static stream2.LambdaTestHelpers.countToj;
 
 /**
  * StreamCloseTest
@@ -38,7 +39,7 @@ import static stream2.LambdaTestHelpers.countTo;
 @Test(groups = { "serialization-hostile" })
 public class StreamCloseTest extends OpTestCase {
     public void testEmptyCloseHandler() {
-        try (Stream<Integer> ints = countTo(100).stream()) {
+        try (Stream<Integer> ints = countToj(100).stream()) {
             ints.forEach(i -> {});
         }
     }
@@ -47,26 +48,26 @@ public class StreamCloseTest extends OpTestCase {
         final boolean[] holder = new boolean[1];
         Runnable closer = () -> { holder[0] = true; };
 
-        try (Stream<Integer> ints = countTo(100).stream()) {
+        try (Stream<Integer> ints = countToj(100).stream()) {
             ints.onClose(closer);
             ints.forEach(i -> {});
         }
         assertTrue(holder[0]);
 
         Arrays.fill(holder, false);
-        try (Stream<Integer> ints = countTo(100).stream().onClose(closer)) {
+        try (Stream<Integer> ints = countToj(100).stream().onClose(closer)) {
             ints.forEach(i -> {});
         }
         assertTrue(holder[0]);
 
         Arrays.fill(holder, false);
-        try (Stream<Integer> ints = countTo(100).stream().filter(e -> true).onClose(closer)) {
+        try (Stream<Integer> ints = countToj(100).stream().filter(e -> true).onClose(closer)) {
             ints.forEach(i -> {});
         }
         assertTrue(holder[0]);
 
         Arrays.fill(holder, false);
-        try (Stream<Integer> ints = countTo(100).stream().filter(e -> true).onClose(closer).filter(e -> true)) {
+        try (Stream<Integer> ints = countToj(100).stream().filter(e -> true).onClose(closer).filter(e -> true)) {
             ints.forEach(i -> {});
         }
         assertTrue(holder[0]);
@@ -77,26 +78,26 @@ public class StreamCloseTest extends OpTestCase {
         Runnable close1 = () -> { holder[0] = true; };
         Runnable close2 = () -> { holder[1] = true; };
 
-        try (Stream<Integer> ints = countTo(100).stream()) {
+        try (Stream<Integer> ints = countToj(100).stream()) {
             ints.onClose(close1).onClose(close2);
             ints.forEach(i -> {});
         }
         assertTrue(holder[0] && holder[1]);
 
         Arrays.fill(holder, false);
-        try (Stream<Integer> ints = countTo(100).stream().onClose(close1).onClose(close2)) {
+        try (Stream<Integer> ints = countToj(100).stream().onClose(close1).onClose(close2)) {
             ints.forEach(i -> {});
         }
         assertTrue(holder[0] && holder[1]);
 
         Arrays.fill(holder, false);
-        try (Stream<Integer> ints = countTo(100).stream().filter(e -> true).onClose(close1).onClose(close2)) {
+        try (Stream<Integer> ints = countToj(100).stream().filter(e -> true).onClose(close1).onClose(close2)) {
             ints.forEach(i -> {});
         }
         assertTrue(holder[0] && holder[1]);
 
         Arrays.fill(holder, false);
-        try (Stream<Integer> ints = countTo(100).stream().filter(e -> true).onClose(close1).onClose(close2).filter(e -> true)) {
+        try (Stream<Integer> ints = countToj(100).stream().filter(e -> true).onClose(close1).onClose(close2).filter(e -> true)) {
             ints.forEach(i -> {});
         }
         assertTrue(holder[0] && holder[1]);
@@ -109,7 +110,7 @@ public class StreamCloseTest extends OpTestCase {
         Runnable close2 = () -> { holder[1] = true; throw new RuntimeException("2"); };
         Runnable close3 = () -> { holder[2] = true; throw new RuntimeException("3"); };
 
-        try (Stream<Integer> ints = countTo(100).stream()) {
+        try (Stream<Integer> ints = countToj(100).stream()) {
             ints.onClose(close1).onClose(close2).onClose(close3);
             ints.forEach(i -> {});
         }
@@ -122,7 +123,7 @@ public class StreamCloseTest extends OpTestCase {
 
         Arrays.fill(holder, false);
         caught = false;
-        try (Stream<Integer> ints = countTo(100).stream().onClose(close1).onClose(close2).onClose(close3)) {
+        try (Stream<Integer> ints = countToj(100).stream().onClose(close1).onClose(close2).onClose(close3)) {
             ints.forEach(i -> {});
         }
         catch (RuntimeException e) {
@@ -134,7 +135,7 @@ public class StreamCloseTest extends OpTestCase {
 
         caught = false;
         Arrays.fill(holder, false);
-        try (Stream<Integer> ints = countTo(100).stream().filter(e -> true).onClose(close1).onClose(close2).onClose(close3)) {
+        try (Stream<Integer> ints = countToj(100).stream().filter(e -> true).onClose(close1).onClose(close2).onClose(close3)) {
             ints.forEach(i -> {});
         }
         catch (RuntimeException e) {
@@ -146,7 +147,7 @@ public class StreamCloseTest extends OpTestCase {
 
         caught = false;
         Arrays.fill(holder, false);
-        try (Stream<Integer> ints = countTo(100).stream().filter(e -> true).onClose(close1).onClose(close2).filter(e -> true).onClose(close3)) {
+        try (Stream<Integer> ints = countToj(100).stream().filter(e -> true).onClose(close1).onClose(close2).filter(e -> true).onClose(close3)) {
             ints.forEach(i -> {});
         }
         catch (RuntimeException e) {

@@ -29,12 +29,13 @@ import stream2.Stream;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import static stream2.Arrays2.proxy;
 
 @Test
 public class StreamParSeqTest {
 
     public void testParSeq() {
-        Stream<Integer> s = Arrays.asList(1, 2, 3, 4).stream().parallel();
+        Stream<Integer> s = proxy(Arrays.asList(1, 2, 3, 4)).stream().parallel();
         assertTrue(s.isParallel());
 
         s = s.sequential();

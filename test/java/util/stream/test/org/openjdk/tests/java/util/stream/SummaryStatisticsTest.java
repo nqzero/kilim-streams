@@ -33,6 +33,7 @@ import stream2.OpTestCase;
 import org.testng.annotations.Test;
 
 import static stream2.LambdaTestHelpers.countTo;
+import static stream2.LambdaTestHelpers.countToj;
 
 /**
  * TestSummaryStatistics
@@ -43,10 +44,10 @@ import static stream2.LambdaTestHelpers.countTo;
 public class SummaryStatisticsTest extends OpTestCase {
     public void testIntStatistics() {
         List<IntSummaryStatistics> instances = new ArrayList<>();
-        instances.add(countTo(1000).stream().collect(Collectors.summarizingInt(i -> i)));
-        instances.add(countTo(1000).stream().mapToInt(i -> i).summaryStatistics());
-        instances.add(countTo(1000).parallelStream().collect(Collectors.summarizingInt(i -> i)));
-        instances.add(countTo(1000).parallelStream().mapToInt(i -> i).summaryStatistics());
+        instances.add(countToj(1000).stream().collect(Collectors.summarizingInt(i -> i)));
+        instances.add(countToj(1000).stream().mapToInt(i -> i).summaryStatistics());
+        instances.add(countToj(1000).parallelStream().collect(Collectors.summarizingInt(i -> i)));
+        instances.add(countToj(1000).parallelStream().mapToInt(i -> i).summaryStatistics());
 
         for (IntSummaryStatistics stats : instances) {
             assertEquals(stats.getCount(), 1000);
@@ -58,10 +59,10 @@ public class SummaryStatisticsTest extends OpTestCase {
 
     public void testLongStatistics() {
         List<LongSummaryStatistics> instances = new ArrayList<>();
-        instances.add(countTo(1000).stream().collect(Collectors.summarizingLong(i -> i)));
-        instances.add(countTo(1000).stream().mapToLong(i -> i).summaryStatistics());
-        instances.add(countTo(1000).parallelStream().collect(Collectors.summarizingLong(i -> i)));
-        instances.add(countTo(1000).parallelStream().mapToLong(i -> i).summaryStatistics());
+        instances.add(countToj(1000).stream().collect(Collectors.summarizingLong(i -> i)));
+        instances.add(countToj(1000).stream().mapToLong(i -> i).summaryStatistics());
+        instances.add(countToj(1000).parallelStream().collect(Collectors.summarizingLong(i -> i)));
+        instances.add(countToj(1000).parallelStream().mapToLong(i -> i).summaryStatistics());
 
         for (LongSummaryStatistics stats : instances) {
             assertEquals(stats.getCount(), 1000);
@@ -73,10 +74,10 @@ public class SummaryStatisticsTest extends OpTestCase {
 
     public void testDoubleStatistics() {
         List<DoubleSummaryStatistics> instances = new ArrayList<>();
-        instances.add(countTo(1000).stream().collect(Collectors.summarizingDouble(i -> i)));
-        instances.add(countTo(1000).stream().mapToDouble(i -> i).summaryStatistics());
-        instances.add(countTo(1000).parallelStream().collect(Collectors.summarizingDouble(i -> i)));
-        instances.add(countTo(1000).parallelStream().mapToDouble(i -> i).summaryStatistics());
+        instances.add(countToj(1000).stream().collect(Collectors.summarizingDouble(i -> i)));
+        instances.add(countToj(1000).stream().mapToDouble(i -> i).summaryStatistics());
+        instances.add(countToj(1000).parallelStream().collect(Collectors.summarizingDouble(i -> i)));
+        instances.add(countToj(1000).parallelStream().mapToDouble(i -> i).summaryStatistics());
 
         for (DoubleSummaryStatistics stats : instances) {
             assertEquals(stats.getCount(), 1000);

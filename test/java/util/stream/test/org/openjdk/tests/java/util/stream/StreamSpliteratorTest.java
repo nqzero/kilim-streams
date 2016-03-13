@@ -48,6 +48,7 @@ import stream2.TestData;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import static stream2.Arrays2.proxy;
 
 import static stream2.LambdaTestHelpers.countTo;
 import static stream2.LambdaTestHelpers.dpEven;
@@ -264,7 +265,7 @@ public class StreamSpliteratorTest extends OpTestCase {
                 UnaryOperator<Stream<Integer>> intermediateOp = intermediateOps.get(j);
                 for (boolean proxyEstimateSize : new boolean[] {false, true}) {
                     setContext("proxyEstimateSize", proxyEstimateSize);
-                    Spliterator<Integer> sp = intermediateOp.apply(l.stream()).spliterator();
+                    Spliterator<Integer> sp = intermediateOp.apply(proxy(l).stream()).spliterator();
                     ProxyNoExactSizeSpliterator<Integer> psp = new ProxyNoExactSizeSpliterator<>(sp, proxyEstimateSize);
                     Stream<Integer> s = StreamSupport.stream(psp, true);
                     terminalOp.accept(s);

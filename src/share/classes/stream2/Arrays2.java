@@ -28,11 +28,13 @@ package stream2;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
 import java.util.function.IntToDoubleFunction;
 import java.util.function.IntToLongFunction;
 import java.util.function.IntUnaryOperator;
+import java.util.function.LongConsumer;
 
 /**
  * This class contains various methods for manipulating arrays (such as
@@ -505,10 +507,29 @@ public class Arrays2 {
                 implements Spliterator.OfInt {
             OfInt(java.util.Spliterator.OfInt supplier) { super(supplier); }
         }
+        public static class OfLong
+                extends OfPrimitive2<Long, LongConsumer, Spliterator.OfLong>
+                implements Spliterator.OfLong {
+            OfLong(java.util.Spliterator.OfLong supplier) { super(supplier); }
+        }
+        public static class OfDouble
+                extends OfPrimitive2<Double, DoubleConsumer, Spliterator.OfDouble>
+                implements Spliterator.OfDouble {
+            OfDouble(java.util.Spliterator.OfDouble supplier) { super(supplier); }
+        }
     }
 
+    // fixme - add Collection, etc specializations
+    // fixme - pull proxy usage up to top-level (where type info is available)
+    
     public static OfPrimitive2.OfInt proxy(java.util.Spliterator.OfInt host) {
         return new OfPrimitive2.OfInt(host);
+    }
+    public static OfPrimitive2.OfLong proxy(java.util.Spliterator.OfLong host) {
+        return new OfPrimitive2.OfLong(host);
+    }
+    public static OfPrimitive2.OfDouble proxy(java.util.Spliterator.OfDouble host) {
+        return new OfPrimitive2.OfDouble(host);
     }
     public static <TT> Stream<TT> proxy(java.util.stream.Stream<TT> host) {
         Spliterator<TT> spliter = proxy(host.spliterator());

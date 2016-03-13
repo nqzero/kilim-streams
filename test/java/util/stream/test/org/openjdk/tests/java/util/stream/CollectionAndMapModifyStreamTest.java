@@ -44,6 +44,7 @@ import stream2.Stream;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static stream2.Arrays2.proxy;
 
 /**
  * Tests laziness of stream operations -- mutations to the source after the stream() but prior to terminal operations
@@ -97,7 +98,7 @@ public class CollectionAndMapModifyStreamTest {
     @Test(dataProvider = "collections")
     public void testCollectionSizeRemove(String name, Collection<Integer> c) {
         assertTrue(c.remove(1));
-        Stream<Integer> s = c.stream();
+        Stream<Integer> s = proxy(c).stream();
         assertTrue(c.remove(2));
         Object[] result = s.toArray();
         assertEquals(result.length, c.size());
@@ -158,7 +159,7 @@ public class CollectionAndMapModifyStreamTest {
     private void testEntrySetSizeRemove(String name, Set<Map.Entry<Integer, Integer>> c) {
         Map.Entry<Integer, Integer> first = c.iterator().next();
         assertTrue(c.remove(first));
-        Stream<Map.Entry<Integer, Integer>> s = c.stream();
+        Stream<Map.Entry<Integer, Integer>> s = proxy(c).stream();
         Map.Entry<Integer, Integer> second = c.iterator().next();
         assertTrue(c.remove(second));
         Object[] result = s.toArray();

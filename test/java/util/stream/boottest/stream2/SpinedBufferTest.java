@@ -95,7 +95,6 @@ public class SpinedBufferTest {
 
     @Test(dataProvider = "SpinedBuffer", groups = { "serialization-hostile" })
     public void testLastSplit(int[] array, SpinedBuffer<Integer> sb) {
-        Supplier<Spliterator<Integer>> ss = () -> proxy(sb.spliterator());
         Spliterator<Integer> spliterator = proxy(sb.spliterator());
         Spliterator<Integer> split = spliterator.trySplit();
         long splitSizes = (split == null) ? 0 : split.getExactSizeIfKnown();
