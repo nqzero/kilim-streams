@@ -41,6 +41,7 @@ import stream2.Stream;
 
 import static stream2.LambdaTestHelpers.*;
 import static org.testng.Assert.*;
+import stream2.Arrays2;
 import stream2.Arrays2.IterableProxy;
 import static stream2.Arrays2.proxy;
 
@@ -89,8 +90,8 @@ public class ConcatTest {
     }
 
     protected final String scenario;
-    protected final IterableProxy<Integer> c1;
-    protected final IterableProxy<Integer> c2;
+    protected final Arrays2.Proxy<Integer> c1;
+    protected final Arrays2.Proxy<Integer> c2;
     protected final Collection<Integer> expected;
 
     public ConcatTest(String scenario, Collection<Integer> c1, Collection<Integer> c2, Collection<Integer> expected) {

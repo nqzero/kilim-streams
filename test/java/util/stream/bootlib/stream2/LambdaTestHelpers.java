@@ -150,7 +150,7 @@ public class LambdaTestHelpers {
     public static List<Integer> countTo(int n) {
         return range(1, n);
     }
-    public static IterableProxy<Integer> countToj(int n) {
+    public static Arrays2.Proxy<Integer> countToj(int n) {
         return proxy(range(1, n));
     }
 
@@ -162,7 +162,7 @@ public class LambdaTestHelpers {
         return list;
     }
 
-    public static IterableProxy<Integer> repeat(int value, int n) {
+    public static Arrays2.Proxy<Integer> repeat(int value, int n) {
         ArrayList<Integer> list = new ArrayList<>(n);
         for (int i=1; i<=n; i++) {
             list.add(value);

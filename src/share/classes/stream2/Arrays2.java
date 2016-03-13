@@ -481,6 +481,48 @@ public class Arrays2 {
     }
 
     
+
+    public static class Proxy <T> implements Spliterator<T>, Iterable<T> {
+        java.util.Spliterator<T> host;
+
+        public Proxy(java.util.Spliterator<T> host) { this.host = host; }
+
+        
+       
+        public Spliterator<T> trySplit() throws Pausable { 
+            java.util.Spliterator<T> s2 = host.trySplit();
+            return s2==null ? null : new Proxy(s2);
+        }
+        public boolean tryAdvance(Consumer<? super T> action) throws Pausable { return host.tryAdvance( action ); }
+        public void forEachRemaining(Consumer<? super T> action) throws Pausable { host.forEachRemaining( action ); }
+        public long estimateSize() { return host.estimateSize(); }
+        public long getExactSizeIfKnown() { return host.getExactSizeIfKnown(); }
+        public int characteristics() { return host.characteristics(); }
+        public boolean hasCharacteristics(int characteristics) { return host.hasCharacteristics( characteristics ); }
+        public Comparator<? super T> getComparator() { return host.getComparator(); }
+
+        public Stream<T> stream() { return StreamSupport.stream(this, false); }
+        public Stream<T> parallelStream() { return StreamSupport.stream(this, true); }
+
+        public Iterator<T> iterator() {
+            return stream().iterator();
+        }
+    }    
+    public static class P2
+        <T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
+        extends Proxy<T> implements Spliterator.OfPrimitive<T,T_CONS,T_SPLITR>
+    {
+        java.util.Spliterator.OfPrimitive<T,T_CONS,?> host2;
+
+        public P2(java.util.Spliterator.OfPrimitive<T, T_CONS, ?> host) { super(host); }
+        
+        public T_SPLITR trySplit() throws Pausable {
+            java.util.Spliterator.OfPrimitive<T,T_CONS,?> s2 = host2.trySplit();
+            return s2==null ? null : (T_SPLITR) new OfPrimitive2(s2);
+        }
+        public boolean tryAdvance(T_CONS action) throws Pausable { return host2.tryAdvance( action ); }
+    } 
+    
     public static class OfPrimitive2
         <T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
         implements Spliterator.OfPrimitive<T,T_CONS,T_SPLITR>
@@ -537,6 +579,9 @@ public class Arrays2 {
     }
     public static <TT> IteratorProxy<TT> proxy(java.util.Iterator<TT> host) {
         return new IteratorProxy(host);
+    }
+    public static <TT> Proxy<TT> proxy(java.util.Collection<TT> host) {
+        return new Proxy(host.spliterator());
     }
     public static <TT> IterableProxy<TT> proxy(java.lang.Iterable<TT> host) {
         return new IterableProxy(host);

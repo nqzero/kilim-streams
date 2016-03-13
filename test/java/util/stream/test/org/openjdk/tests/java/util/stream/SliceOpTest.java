@@ -51,10 +51,11 @@ import static stream2.LambdaTestHelpers.*;
  */
 @Test
 public class SliceOpTest extends OpTestCase {
+    // fixme -- import the "generic" ones. also, the names are flipped
     private static List<Integer> countToj(int n) {
         return range(1, n);
     }
-    private static stream2.Arrays2.IterableProxy<Integer> countTo(int n) {
+    private static stream2.Arrays2.Proxy<Integer> countTo(int n) {
         return proxy(range(1, n));
     }
 

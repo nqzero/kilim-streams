@@ -38,9 +38,6 @@ import static stream2.LambdaTestHelpers.*;
  */
 @Test
 public class FindFirstOpTest extends OpTestCase {
-    private static stream2.Iterable<Integer> countToj(int n) {
-        return proxy(range(1, n));
-    }
 
     public void testFindFirst() {
         assertFalse(Collections.emptySet().stream().findFirst().isPresent(), "no result");
