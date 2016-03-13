@@ -41,6 +41,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.testng.annotations.Test;
+import static stream2.Arrays2.proxy;
 
 /**
  * Base class for streams test cases.  Provides 'exercise' methods for taking
@@ -212,6 +213,7 @@ public abstract class OpTestCase extends LoggingTestCase {
 
         Consumer<TestData<T, S_IN>> after = LambdaTestHelpers.bEmpty;
 
+        ResultAsserter<Iterable<U>> resultAsserter2 = null;
         ResultAsserter<java.lang.Iterable<U>> resultAsserter = (act, exp, ord, par) -> {
             if (par & !ord) {
                 LambdaTestHelpers.assertContentsUnordered(act, exp);
@@ -317,8 +319,14 @@ public abstract class OpTestCase extends LoggingTestCase {
             return this;
         }
 
+        public ExerciseDataStreamBuilder<T, U, S_IN, S_OUT> resultAsserter2(ResultAsserter<Iterable<U>> resultAsserter) {
+            this.resultAsserter = null;
+            this.resultAsserter2 = resultAsserter;
+            return this;
+        }
         public ExerciseDataStreamBuilder<T, U, S_IN, S_OUT> resultAsserter(ResultAsserter<java.lang.Iterable<U>> resultAsserter) {
             this.resultAsserter = resultAsserter;
+            this.resultAsserter2 = null;
             return this;
         }
 
@@ -348,7 +356,9 @@ public abstract class OpTestCase extends LoggingTestCase {
                     List<U> result = new ArrayList<>();
                     test.run(data, LambdaTestHelpers.<U>toBoxingConsumer(result::add), m);
 
-                    Runnable asserter = () -> resultAsserter.assertResult(result, refResult, isOrdered, test.isParallel());
+                    Runnable asserter = resultAsserter2==null
+                        ?  () -> resultAsserter.assertResult(result, refResult, isOrdered, test.isParallel())
+                        :  () -> resultAsserter2.assertResult(proxy(result), proxy(refResult), isOrdered, test.isParallel());
 
                     if (refResult.size() > 1000) {
                         LambdaTestHelpers.launderAssertion(

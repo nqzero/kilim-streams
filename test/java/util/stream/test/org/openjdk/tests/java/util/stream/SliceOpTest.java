@@ -25,6 +25,7 @@ package org.openjdk.tests.java.util.stream;
 import org.testng.annotations.Test;
 
 import stream2.Spliterator;
+import stream2.Iterable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -39,7 +40,6 @@ import stream2.Stream;
 import stream2.StreamSupport;
 import stream2.StreamTestDataProvider;
 import stream2.TestData;
-import java.lang.Iterable;
 import static stream2.Arrays2.proxy;
 
 import static stream2.LambdaTestHelpers.*;
@@ -274,7 +274,7 @@ public class SliceOpTest extends OpTestCase {
         }
     }
 
-    private ResultAsserter<stream2.Iterable<Integer>> sliceResultAsserter(java.lang.Iterable<Integer> data,
+    private ResultAsserter<stream2.Iterable<Integer>> sliceResultAsserter(Iterable<Integer> data,
                                                                   int expectedSize) {
         return (act, exp, ord, par) -> {
             if (par & !ord) {
@@ -318,7 +318,7 @@ public class SliceOpTest extends OpTestCase {
             Function<Stream<Integer>, Stream<Integer>> m = ms[i];
             Collection<Integer> sr = withData(data)
                     .stream(m)
-                    .resultAsserter(sliceResultAsserter(data, expectedSize))
+                    .resultAsserter2(sliceResultAsserter(data, expectedSize))
                     .exercise();
             assertEquals(sr.size(), expectedSize);
         }
