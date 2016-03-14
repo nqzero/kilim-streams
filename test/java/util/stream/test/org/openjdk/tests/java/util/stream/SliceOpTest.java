@@ -51,59 +51,52 @@ import static stream2.LambdaTestHelpers.*;
  */
 @Test
 public class SliceOpTest extends OpTestCase {
-    // fixme -- import the "generic" ones. also, the names are flipped
-    private static List<Integer> countToj(int n) {
-        return range(1, n);
-    }
-    private static stream2.Arrays2.Proxy<Integer> countTo(int n) {
-        return proxy(range(1, n));
-    }
 
     public void testSkip() {
-        assertCountSum(countTo(0).stream().skip(0), 0, 0);
-        assertCountSum(countTo(0).stream().skip(4), 0, 0);
-        assertCountSum(countTo(4).stream().skip(4), 0, 0);
-        assertCountSum(countTo(4).stream().skip(2), 2, 7);
-        assertCountSum(countTo(4).stream().skip(0), 4, 10);
+        assertCountSum(countToj(0).stream().skip(0), 0, 0);
+        assertCountSum(countToj(0).stream().skip(4), 0, 0);
+        assertCountSum(countToj(4).stream().skip(4), 0, 0);
+        assertCountSum(countToj(4).stream().skip(2), 2, 7);
+        assertCountSum(countToj(4).stream().skip(0), 4, 10);
 
-        assertCountSum(countTo(0).parallelStream().skip(0), 0, 0);
-        assertCountSum(countTo(0).parallelStream().skip(4), 0, 0);
-        assertCountSum(countTo(4).parallelStream().skip(4), 0, 0);
-        assertCountSum(countTo(4).parallelStream().skip(2), 2, 7);
-        assertCountSum(countTo(4).parallelStream().skip(0), 4, 10);
+        assertCountSum(countToj(0).parallelStream().skip(0), 0, 0);
+        assertCountSum(countToj(0).parallelStream().skip(4), 0, 0);
+        assertCountSum(countToj(4).parallelStream().skip(4), 0, 0);
+        assertCountSum(countToj(4).parallelStream().skip(2), 2, 7);
+        assertCountSum(countToj(4).parallelStream().skip(0), 4, 10);
 
         exerciseOps(Collections.emptyList(), s -> s.skip(0), Collections.emptyList());
         exerciseOps(Collections.emptyList(), s -> s.skip(10), Collections.emptyList());
 
-        exerciseOps(countToj(1), s -> s.skip(0), countToj(1));
-        exerciseOps(countToj(1), s -> s.skip(1), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(0), countToj(100));
-        exerciseOps(countToj(100), s -> s.skip(10), range(11, 100));
-        exerciseOps(countToj(100), s -> s.skip(100), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(200), Collections.emptyList());
+        exerciseOps(countTo(1), s -> s.skip(0), countTo(1));
+        exerciseOps(countTo(1), s -> s.skip(1), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(0), countTo(100));
+        exerciseOps(countTo(100), s -> s.skip(10), range(11, 100));
+        exerciseOps(countTo(100), s -> s.skip(100), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(200), Collections.emptyList());
     }
 
     public void testLimit() {
-        assertCountSum(countTo(0).stream().limit(4), 0, 0);
-        assertCountSum(countTo(2).stream().limit(4), 2, 3);
-        assertCountSum(countTo(4).stream().limit(4), 4, 10);
-        assertCountSum(countTo(8).stream().limit(4), 4, 10);
+        assertCountSum(countToj(0).stream().limit(4), 0, 0);
+        assertCountSum(countToj(2).stream().limit(4), 2, 3);
+        assertCountSum(countToj(4).stream().limit(4), 4, 10);
+        assertCountSum(countToj(8).stream().limit(4), 4, 10);
 
-        assertCountSum(countTo(0).parallelStream().limit(4), 0, 0);
-        assertCountSum(countTo(2).parallelStream().limit(4), 2, 3);
-        assertCountSum(countTo(4).parallelStream().limit(4), 4, 10);
-        assertCountSum(countTo(8).parallelStream().limit(4), 4, 10);
+        assertCountSum(countToj(0).parallelStream().limit(4), 0, 0);
+        assertCountSum(countToj(2).parallelStream().limit(4), 2, 3);
+        assertCountSum(countToj(4).parallelStream().limit(4), 4, 10);
+        assertCountSum(countToj(8).parallelStream().limit(4), 4, 10);
 
         exerciseOps(Collections.emptyList(), s -> s.limit(0), Collections.emptyList());
         exerciseOps(Collections.emptyList(), s -> s.limit(10), Collections.emptyList());
-        exerciseOps(countToj(1), s -> s.limit(0), Collections.emptyList());
-        exerciseOps(countToj(1), s -> s.limit(1), countToj(1));
-        exerciseOps(countToj(100), s -> s.limit(0), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.limit(10), countToj(10));
-        exerciseOps(countToj(100), s -> s.limit(10).limit(10), countToj(10));
-        exerciseOps(countToj(100), s -> s.limit(100), countToj(100));
-        exerciseOps(countToj(100), s -> s.limit(100).limit(10), countToj(10));
-        exerciseOps(countToj(100), s -> s.limit(200), countToj(100));
+        exerciseOps(countTo(1), s -> s.limit(0), Collections.emptyList());
+        exerciseOps(countTo(1), s -> s.limit(1), countTo(1));
+        exerciseOps(countTo(100), s -> s.limit(0), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.limit(10), countTo(10));
+        exerciseOps(countTo(100), s -> s.limit(10).limit(10), countTo(10));
+        exerciseOps(countTo(100), s -> s.limit(100), countTo(100));
+        exerciseOps(countTo(100), s -> s.limit(100).limit(10), countTo(10));
+        exerciseOps(countTo(100), s -> s.limit(200), countTo(100));
     }
 
     public void testSkipLimit() {
@@ -112,18 +105,18 @@ public class SliceOpTest extends OpTestCase {
         exerciseOps(Collections.emptyList(), s -> s.skip(10).limit(0), Collections.emptyList());
         exerciseOps(Collections.emptyList(), s -> s.skip(10).limit(10), Collections.emptyList());
 
-        exerciseOps(countToj(100), s -> s.skip(0).limit(100), countToj(100));
-        exerciseOps(countToj(100), s -> s.skip(0).limit(10), countToj(10));
-        exerciseOps(countToj(100), s -> s.skip(0).limit(0), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(10).limit(100), range(11, 100));
-        exerciseOps(countToj(100), s -> s.skip(10).limit(10), range(11, 20));
-        exerciseOps(countToj(100), s -> s.skip(10).limit(0), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(100).limit(100), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(100).limit(10), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(100).limit(0), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(200).limit(100), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(200).limit(10), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(200).limit(0), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(0).limit(100), countTo(100));
+        exerciseOps(countTo(100), s -> s.skip(0).limit(10), countTo(10));
+        exerciseOps(countTo(100), s -> s.skip(0).limit(0), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(10).limit(100), range(11, 100));
+        exerciseOps(countTo(100), s -> s.skip(10).limit(10), range(11, 20));
+        exerciseOps(countTo(100), s -> s.skip(10).limit(0), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(100).limit(100), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(100).limit(10), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(100).limit(0), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(200).limit(100), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(200).limit(10), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(200).limit(0), Collections.emptyList());
     }
 
     public void testSlice() {
@@ -132,18 +125,18 @@ public class SliceOpTest extends OpTestCase {
         exerciseOps(Collections.emptyList(), s -> s.skip(10).limit(10), Collections.emptyList());
         exerciseOps(Collections.emptyList(), s -> s.skip(10).limit(20), Collections.emptyList());
 
-        exerciseOps(countToj(100), s -> s.skip(0).limit(100), countToj(100));
-        exerciseOps(countToj(100), s -> s.skip(0).limit(10), countToj(10));
-        exerciseOps(countToj(100), s -> s.skip(0).limit(0), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(10).limit(100), range(11, 100));
-        exerciseOps(countToj(100), s -> s.skip(10).limit(10), range(11, 20));
-        exerciseOps(countToj(100), s -> s.skip(10).limit(0), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(100).limit(100), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(100).limit(10), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(100).limit(0), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(200).limit(100), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(200).limit(10), Collections.emptyList());
-        exerciseOps(countToj(100), s -> s.skip(200).limit(0), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(0).limit(100), countTo(100));
+        exerciseOps(countTo(100), s -> s.skip(0).limit(10), countTo(10));
+        exerciseOps(countTo(100), s -> s.skip(0).limit(0), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(10).limit(100), range(11, 100));
+        exerciseOps(countTo(100), s -> s.skip(10).limit(10), range(11, 20));
+        exerciseOps(countTo(100), s -> s.skip(10).limit(0), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(100).limit(100), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(100).limit(10), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(100).limit(0), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(200).limit(100), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(200).limit(10), Collections.emptyList());
+        exerciseOps(countTo(100), s -> s.skip(200).limit(0), Collections.emptyList());
     }
 
     private int sliceSize(int dataSize, int skip, int limit) {
@@ -336,7 +329,7 @@ public class SliceOpTest extends OpTestCase {
         for (int l : Arrays.asList(0, 10)) {
             setContext("l", l);
             AtomicInteger ai = new AtomicInteger();
-            countTo(100).stream()
+            countToj(100).stream()
                     .peek(i -> ai.getAndIncrement())
                     .limit(l).toArray();
             // For the case of a zero limit, one element will get pushed through the sink chain
