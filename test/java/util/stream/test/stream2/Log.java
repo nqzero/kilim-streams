@@ -6,6 +6,7 @@ import org.testng.TestListenerAdapter;
 public class Log extends TestListenerAdapter {
   public void onTestFailure(ITestResult tr) {
       Throwable cause = tr.getThrowable();
-      if (cause != null) cause.printStackTrace();
+      if (cause != null)
+          cause.printStackTrace();
   }
 }
