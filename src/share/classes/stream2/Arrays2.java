@@ -487,11 +487,14 @@ public class Arrays2 {
 
         public Proxy(java.util.Spliterator<T> host) { this.host = host; }
 
-        
+        protected Proxy<T> alloc() { return new Proxy(null); }
        
         public Spliterator<T> trySplit() throws Pausable { 
             java.util.Spliterator<T> s2 = host.trySplit();
-            return s2==null ? null : new Proxy(s2);
+            if (s2==null) return null;
+            Proxy<T> p2 = alloc();
+            p2.host = s2;
+            return p2;
         }
         public boolean tryAdvance(Consumer<? super T> action) throws Pausable { return host.tryAdvance( action ); }
         public void forEachRemaining(Consumer<? super T> action) throws Pausable { host.forEachRemaining( action ); }
@@ -513,17 +516,24 @@ public class Arrays2 {
         extends Proxy<T> implements Spliterator.OfPrimitive<T,T_CONS,T_SPLITR>
     {
         java.util.Spliterator.OfPrimitive<T,T_CONS,?> host2;
-
+    
         public P2(java.util.Spliterator.OfPrimitive<T, T_CONS, ?> host) { super(host); }
         
         public T_SPLITR trySplit() throws Pausable {
-            java.util.Spliterator.OfPrimitive<T,T_CONS,?> s2 = host2.trySplit();
-            return s2==null ? null : (T_SPLITR) new OfPrimitive2(s2);
+            return (T_SPLITR) super.trySplit();
         }
         public boolean tryAdvance(T_CONS action) throws Pausable { return host2.tryAdvance( action ); }
+        public static class OfDouble
+                extends P2<Double, DoubleConsumer, Spliterator.OfDouble>
+                implements Spliterator.OfDouble {
+            OfDouble(java.util.Spliterator.OfDouble supplier) { super(supplier); }
+            protected P2.OfDouble alloc() {
+                return new P2.OfDouble(null);
+            }
+        }
     } 
     
-    public static class OfPrimitive2
+    public abstract static class OfPrimitive2
         <T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
         implements Spliterator.OfPrimitive<T,T_CONS,T_SPLITR>
     {
@@ -533,7 +543,13 @@ public class Arrays2 {
             this.host = host;
         }
 
-        public T_SPLITR trySplit() throws Pausable { return (T_SPLITR) new OfPrimitive2(host.trySplit()); }
+        protected abstract T_SPLITR alloc();
+        
+        public T_SPLITR trySplit() throws Pausable {
+            OfPrimitive2 sp = (OfPrimitive2) alloc();
+            sp.host = host.trySplit();
+            return (T_SPLITR) sp;
+        }
         public boolean tryAdvance(T_CONS action) throws Pausable { return host.tryAdvance( action ); }
         public void forEachRemaining(T_CONS action) throws Pausable { host.forEachRemaining( action ); }
         public boolean tryAdvance(Consumer<? super T> action) throws Pausable { return host.tryAdvance( action ); }
@@ -548,16 +564,25 @@ public class Arrays2 {
                 extends OfPrimitive2<Integer, IntConsumer, Spliterator.OfInt>
                 implements Spliterator.OfInt {
             OfInt(java.util.Spliterator.OfInt supplier) { super(supplier); }
+            protected OfPrimitive2.OfInt alloc() {
+                return new OfPrimitive2.OfInt(null);
+            }
         }
         public static class OfLong
                 extends OfPrimitive2<Long, LongConsumer, Spliterator.OfLong>
                 implements Spliterator.OfLong {
             OfLong(java.util.Spliterator.OfLong supplier) { super(supplier); }
+            protected OfPrimitive2.OfLong alloc() {
+                return new OfPrimitive2.OfLong(null);
+            }
         }
         public static class OfDouble
                 extends OfPrimitive2<Double, DoubleConsumer, Spliterator.OfDouble>
                 implements Spliterator.OfDouble {
             OfDouble(java.util.Spliterator.OfDouble supplier) { super(supplier); }
+            protected OfPrimitive2.OfDouble alloc() {
+                return new OfPrimitive2.OfDouble(null);
+            }
         }
     }
 
