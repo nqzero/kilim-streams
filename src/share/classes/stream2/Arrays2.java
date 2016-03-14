@@ -656,5 +656,6 @@ public class Arrays2 {
         }
         
     }
-    
+
+    public static class NoFeature extends UnsupportedOperationException {}
 }

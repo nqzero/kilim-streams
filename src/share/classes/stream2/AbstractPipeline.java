@@ -27,7 +27,6 @@ package stream2;
 import java.util.Objects;
 import java.util.function.IntFunction;
 import java.util.function.Supplier;
-import javax.naming.OperationNotSupportedException;
 
 /**
  * Abstract base class for "pipeline" classes, which are the core
@@ -481,7 +480,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
                  u != e;
                  u = p, p = p.nextStage)
                 if (p.opIsStateful())
-                    throw new UnsupportedOperationException();
+                    throw new Arrays2.NoFeature();
         return false;
     }
     public Spliterator<?> doLazy(Spliterator<?> spliterator) throws Pausable {
