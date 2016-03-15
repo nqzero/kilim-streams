@@ -415,4 +415,28 @@ public class ToArrayOpTest extends OpTestCase {
             exerciseTerminalOps(data, f, s -> s.toArray());
         }
     }
+
+    // an example of a main method for debugging (changed to main2)
+    // change the name back to main and you can run/debug like normal source
+    // this was added by nqzero as part of the kilim port
+    public static void main2(String [] args) {
+        Object[] obj, objs[];
+        ToArrayOpTest test = new ToArrayOpTest();
+        test.uniqueAndSortedPermutations = Arrays.asList(test.uniqueAndSortedPermutations.get(15));
+
+        objs = StreamTestDataProvider.makeStreamTestData();
+        for (int ii=0; ii < objs.length; ii++) {
+            obj = objs[ii];
+            test.testDistinctAndSortedPermutations((String) obj[0], (TestData.OfRef<Integer>) obj[1]);
+        }
+
+        test.doubleUniqueAndSortedPermutations =
+                Arrays.asList(test.doubleUniqueAndSortedPermutations.get(4));
+        objs = DoubleStreamTestDataProvider.makeDoubleStreamTestData();
+        for (int ii=16; ii < objs.length; ii++) {
+            obj = objs[ii];
+            test.testDoubleDistinctAndSortedPermutations((String) obj[0], (TestData.OfDouble) obj[1]);
+        }
+    }
+    
 }
