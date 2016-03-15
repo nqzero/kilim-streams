@@ -284,7 +284,7 @@ abstract class AbstractTask<P_IN, P_OUT, R,
             task.leftChild  = leftChild = task.makeChild(ls);
             task.rightChild = rightChild = task.makeChild(rs);
             task.setPendingCount(1);
-            if (forkRight) {
+            if (forkRight && false) {
                 forkRight = false;
                 rs = ls;
                 task = leftChild;
