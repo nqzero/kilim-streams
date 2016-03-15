@@ -76,25 +76,25 @@ public interface TestData<T, S extends BaseStream<T, S>>
     public static class Factory {
         public static <T> OfRef<T> ofArray(String name, T[] array) {
             return new AbstractTestData.RefTestData<>(name, array,
-                    a -> proxy(Arrays.stream(a)),
-                    a -> proxy(Arrays.stream(a)).parallel(),
-                    a -> proxy(Arrays.spliterator(a)),
+                    a -> Arrays2.stream(a),
+                    a -> Arrays2.stream(a).parallel(),
+                    a -> Arrays2.spliterator(a),
                     a -> a.length);
         }
 
         public static <T> OfRef<T> ofCollection(String name, Collection<T> collection) {
             return new AbstractTestData.RefTestData<>(name, collection,
-                    a -> proxy(a.stream()),
-                    a -> proxy(a.stream()).parallel(),
-                    a -> proxy(a.spliterator()),
+                    a -> proxy(a).stream(),
+                    a -> proxy(a).stream().parallel(),
+                    a -> proxy(a).spliterator(),
                     Collection::size);
         }
 
         public static <T> OfRef<T> ofSpinedBuffer(String name, SpinedBuffer<T> buffer) {
             return new AbstractTestData.RefTestData<>(name, buffer,
-                    b -> StreamSupport.stream(proxy(b).spliterator(), false), 
-                    b -> StreamSupport.stream(proxy(b).spliterator(), true), 
-                    b -> proxy(b).spliterator(),
+                    b -> StreamSupport.stream(proxy(b.spliterator()), false), 
+                    b -> StreamSupport.stream(proxy(b.spliterator()), true), 
+                    b -> proxy(b.spliterator()),
                     b -> (int) b.count());
         }
 
