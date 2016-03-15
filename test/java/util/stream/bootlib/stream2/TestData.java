@@ -116,11 +116,10 @@ public interface TestData<T, S extends BaseStream<T, S>>
 
         // int factories
         public static <T> OfInt ofArray(String name, int[] array) {
-            StreamSupport.intStream(Spliterators.spliterator(array,0),false);
             return new AbstractTestData.IntTestData<>(name, array,
-                    b -> StreamSupport.intStream(Spliterators.spliterator(b,0),false),
-                    b -> StreamSupport.intStream(Spliterators.spliterator(b,0),true),
-                    b -> Spliterators.spliterator(b,0),
+                    b -> Arrays2.stream(b),
+                    b -> Arrays2.stream(b).parallel(),
+                    b -> Arrays2.spliterator(b),
                     b -> (int) b.length);
         }
 
@@ -152,9 +151,9 @@ public interface TestData<T, S extends BaseStream<T, S>>
         // long factories
         public static <T> OfLong ofArray(String name, long[] array) {
             return new AbstractTestData.LongTestData<>(name, array,
-                    b -> StreamSupport.longStream(Spliterators.spliterator(b,0),false),
-                    b -> StreamSupport.longStream(Spliterators.spliterator(b,0),true),
-                    b -> Spliterators.spliterator(b,0),
+                    b -> Arrays2.stream(b),
+                    b -> Arrays2.stream(b).parallel(),
+                    b -> Arrays2.spliterator(b),
                     b -> (int) b.length);
         }
 
@@ -186,9 +185,9 @@ public interface TestData<T, S extends BaseStream<T, S>>
         // double factories
         public static <T> OfDouble ofArray(String name, double[] array) {
             return new AbstractTestData.DoubleTestData<>(name, array,
-                    b -> StreamSupport.doubleStream(Spliterators.spliterator(b,0),false),
-                    b -> StreamSupport.doubleStream(Spliterators.spliterator(b,0),true),
-                    b -> Spliterators.spliterator(b,0),
+                    b -> Arrays2.stream(b),
+                    b -> Arrays2.stream(b).parallel(),
+                    b -> Arrays2.spliterator(b),
                     b -> (int) b.length);
         }
 
