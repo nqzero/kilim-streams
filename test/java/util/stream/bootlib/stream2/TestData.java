@@ -306,7 +306,7 @@ public interface TestData<T, S extends BaseStream<T, S>>
 
             @Override
             public PrimitiveIterator.OfInt iterator() {
-                return null; // Spliterators.iterator(spliterator());
+                return Spliterators.iterator(spliterator());
             }
 
             @Override

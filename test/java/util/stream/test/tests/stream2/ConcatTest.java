@@ -77,6 +77,18 @@ public class ConcatTest {
         };
     }
 
+    public static void main2(String [] args) {
+        for (int ii=0; ii<cases.length; ii++) {
+            Object x[] = cases[ii];
+            ConcatTest y = (ConcatTest) createTests(
+                    (String) x[0], (Collection<Integer>) x[1], (Collection<Integer>) x[2], (Collection<Integer>) x[3])[0];
+            y.testRefConcat();
+            y.testDoubleConcat();
+            y.testLongConcat();
+            y.testIntConcat();
+        }
+    }
+    
     @DataProvider(name = "cases")
     private static Object[][] getCases() {
         return cases;
@@ -89,15 +101,22 @@ public class ConcatTest {
         };
     }
 
+    private static class Wrap<TT> {
+        Collection<TT> val;
+        Wrap<TT> set(Collection<TT> $val) { val = $val; return this; }
+        Stream<TT> stream() { return proxy(val).stream(); }
+        Stream<TT> parallelStream() { return proxy(val).parallelStream(); }
+    }
+    
     protected final String scenario;
-    protected final Arrays2.Proxy<Integer> c1;
-    protected final Arrays2.Proxy<Integer> c2;
+    protected final Wrap<Integer> c1;
+    protected final Wrap<Integer> c2;
     protected final Collection<Integer> expected;
 
     public ConcatTest(String scenario, Collection<Integer> c1, Collection<Integer> c2, Collection<Integer> expected) {
         this.scenario = scenario;
-        this.c1 = proxy(c1);
-        this.c2 = proxy(c2);
+        this.c1 = new Wrap().set(c1);
+        this.c2 = new Wrap().set(c2);
         this.expected = expected;
 
         // verify prerequisite

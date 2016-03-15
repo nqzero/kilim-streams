@@ -46,12 +46,12 @@ public class ExplodeOpTest extends OpTestCase {
 
     public void testFlatMap() {
         String[] stringsArray = {"hello", "there", "", "yada"};
-        Stream<String> strings = proxy(Arrays.asList(stringsArray).stream());
+        Stream<String> strings = proxy(Arrays.asList(stringsArray)).stream();
         assertConcat(strings.flatMap(flattenChars).iterator(), "hellothereyada");
 
-        assertCountSum(proxy(countTo(10).stream()).flatMap(mfId), 10, 55);
-        assertCountSum(proxy(countTo(10).stream()).flatMap(mfNull), 0, 0);
-        assertCountSum(proxy(countTo(3).stream()).flatMap(mfLt), 6, 4);
+        assertCountSum(countToj(10).stream().flatMap(mfId), 10, 55);
+        assertCountSum(countToj(10).stream().flatMap(mfNull), 0, 0);
+        assertCountSum(countToj(3).stream().flatMap(mfLt), 6, 4);
 
         exerciseOps(TestData.Factory.ofArray("stringsArray", stringsArray), s -> s.flatMap(flattenChars));
         exerciseOps(TestData.Factory.ofArray("LONG_STRING", new String[] {LONG_STRING}), s -> s.flatMap(flattenChars));
