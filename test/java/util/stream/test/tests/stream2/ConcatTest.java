@@ -77,7 +77,7 @@ public class ConcatTest {
         };
     }
 
-    public static void main2(String [] args) {
+    private static void main(String [] args) {
         for (int ii=0; ii<cases.length; ii++) {
             Object x[] = cases[ii];
             ConcatTest y = (ConcatTest) createTests(

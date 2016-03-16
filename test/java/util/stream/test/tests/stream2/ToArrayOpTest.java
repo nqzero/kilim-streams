@@ -419,7 +419,7 @@ public class ToArrayOpTest extends OpTestCase {
     // an example of a main method for debugging (changed to main2)
     // change the name back to main and you can run/debug like normal source
     // this was added by nqzero as part of the kilim port
-    public static void main2(String [] args) {
+    private static void main(String [] args) {
         Object[] obj, objs[];
         ToArrayOpTest test = new ToArrayOpTest();
         test.uniqueAndSortedPermutations = Arrays.asList(test.uniqueAndSortedPermutations.get(15));
