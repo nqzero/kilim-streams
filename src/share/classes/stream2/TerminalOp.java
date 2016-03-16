@@ -24,6 +24,8 @@
  */
 package stream2;
 
+import kilim.Pausable;
+
 
 /**
  * An operation in a stream pipeline that takes a stream as input and produces

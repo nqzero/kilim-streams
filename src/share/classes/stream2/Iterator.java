@@ -25,6 +25,7 @@
 
 package stream2;
 
+import kilim.Pausable;
 import java.util.Objects;
 import java.util.function.Consumer;
 

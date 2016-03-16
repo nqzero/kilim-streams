@@ -24,6 +24,7 @@
  */
 package stream2;
 
+import kilim.Pausable;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.NoSuchElementException;

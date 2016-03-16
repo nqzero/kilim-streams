@@ -1,5 +1,7 @@
 package stream2;
 
+import kilim.Pausable;
+
 /**
  * a fake fork/join task ... best attempt has been made to keep this working
  * for parallel streams, but it's mostly untested

@@ -24,6 +24,7 @@
  */
 package stream2;
 
+import kilim.Pausable;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;

@@ -1,4 +1,4 @@
-package stream2;
+package kilim;
 
 public class Pausable extends RuntimeException {
 }

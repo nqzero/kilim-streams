@@ -24,6 +24,7 @@
  */
 package stream2;
 
+import kilim.Pausable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
