@@ -356,7 +356,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
             }
         }
         else {
-            checkLazy();
+            if (checkLazy()) this.sequential();
             return wrap(this, () -> sourceSpliteratorPrep(0), isParallel());
         }
     }
@@ -481,7 +481,7 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
                  u != e;
                  u = p, p = p.nextStage)
                 if (p.opIsStateful())
-                    throw new Arrays2.NoFeature();
+                    return true;
         return false;
     }
     public Spliterator<?> doLazy(Spliterator<?> spliterator) throws Pausable {
