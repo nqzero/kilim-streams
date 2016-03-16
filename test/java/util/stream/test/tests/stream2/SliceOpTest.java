@@ -268,7 +268,7 @@ public class SliceOpTest extends OpTestCase {
         }
     }
 
-    private ResultAsserter<stream2.Iterable<Integer>> sliceResultAsserter(Iterable<Integer> data,
+    private ResultAsserter<java.lang.Iterable<Integer>> sliceResultAsserter(Iterable<Integer> data,
                                                                   int expectedSize) {
         return (act, exp, ord, par) -> {
             if (par & !ord) {
@@ -312,7 +312,7 @@ public class SliceOpTest extends OpTestCase {
             Function<Stream<Integer>, Stream<Integer>> m = ms[i];
             Collection<Integer> sr = withData(data)
                     .stream(m)
-                    .resultAsserter2(sliceResultAsserter(data, expectedSize))
+                    .resultAsserter(sliceResultAsserter(data, expectedSize))
                     .exercise();
             assertEquals(sr.size(), expectedSize);
         }
