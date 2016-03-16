@@ -236,7 +236,7 @@ public class SliceOpTest extends OpTestCase {
         TestData.OfRef<Integer> data = TestData.Factory.ofSupplier(
                 "Non splitting, not SUBSIZED, ORDERED, stream",
                 () -> StreamSupport.stream(
-                        new NonSplittingNotSubsizedOrderedSpliterator<>(proxy(list).spliterator()),
+                        new NonSplittingNotSubsizedOrderedSpliterator<>(proxy(list)),
                         false));
 
         testSkipLimitOps("testSkipLimitOpsWithNonSplittingSpliterator", data);
