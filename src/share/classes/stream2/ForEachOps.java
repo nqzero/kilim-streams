@@ -406,7 +406,8 @@ final class ForEachOps {
             spliterator = null;
             if (node != null) {
                 // Dump any data from this leaf into the sink
-                synchronized (lock) {
+//                synchronized (lock) 
+                {
                     node.forEach(action);
                 }
                 node = null;

@@ -842,7 +842,7 @@ public final class Spliterators {
 
         EmptySpliterator() { }
 
-        public S trySplit() {
+        public S trySplit() throws Pausable {
             return null;
         }
 

@@ -626,8 +626,8 @@ public class Arrays2 {
             this.host = host;
         }
         java.util.Iterator<TT> host;
-        public boolean hasNext() { return host.hasNext(); }
-        public TT next() { return host.next(); }
+        public boolean hasNext() throws Pausable { return host.hasNext(); }
+        public TT next() throws Pausable { return host.next(); }
     }
     public static class IterableProxy<TT> implements Iterable<TT> {
         public IterableProxy(java.lang.Iterable<TT> host) {

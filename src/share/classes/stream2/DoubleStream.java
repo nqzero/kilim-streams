@@ -770,12 +770,12 @@ public interface DoubleStream extends BaseStream<Double, DoubleStream> {
             double t = seed;
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 return true;
             }
 
             @Override
-            public double nextDouble() {
+            public double nextDouble() throws Pausable {
                 double v = t;
                 t = f.applyAsDouble(t);
                 return v;

@@ -35,6 +35,7 @@ import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import kilim.Pausable;
 import stream2.DoubleStream;
 import stream2.DoubleStreamTestDataProvider;
 import stream2.IntStream;
@@ -140,7 +141,7 @@ public class MatchOpTest extends OpTestCase {
             }
 
             @Override
-            public Integer next() {
+            public Integer next() throws Pausable {
                 if (i == null || !i.hasNext()) {
                     i = source.get();
                 }
@@ -148,7 +149,7 @@ public class MatchOpTest extends OpTestCase {
             }
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 if (i == null || !i.hasNext()) {
                     i = source.get();
                 }
@@ -226,7 +227,7 @@ public class MatchOpTest extends OpTestCase {
             }
 
             @Override
-            public int nextInt() {
+            public int nextInt() throws Pausable {
                 if (i == null || !i.hasNext()) {
                     i = source.get();
                 }
@@ -234,7 +235,7 @@ public class MatchOpTest extends OpTestCase {
             }
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 if (i == null || !i.hasNext()) {
                     i = source.get();
                 }
@@ -312,7 +313,7 @@ public class MatchOpTest extends OpTestCase {
             }
 
             @Override
-            public long nextLong() {
+            public long nextLong() throws Pausable {
                 if (i == null || !i.hasNext()) {
                     i = source.get();
                 }
@@ -320,7 +321,7 @@ public class MatchOpTest extends OpTestCase {
             }
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 if (i == null || !i.hasNext()) {
                     i = source.get();
                 }
@@ -397,7 +398,7 @@ public class MatchOpTest extends OpTestCase {
             }
 
             @Override
-            public double nextDouble() {
+            public double nextDouble() throws Pausable {
                 if (i == null || !i.hasNext()) {
                     i = source.get();
                 }
@@ -405,7 +406,7 @@ public class MatchOpTest extends OpTestCase {
             }
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 if (i == null || !i.hasNext()) {
                     i = source.get();
                 }

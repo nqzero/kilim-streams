@@ -741,12 +741,12 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
             int t = seed;
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 return true;
             }
 
             @Override
-            public int nextInt() {
+            public int nextInt() throws Pausable {
                 int v = t;
                 t = f.applyAsInt(t);
                 return v;

@@ -1021,12 +1021,12 @@ public interface Stream<T> extends BaseStream<T, Stream<T>> {
             T t = (T) Streams.NONE;
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 return true;
             }
 
             @Override
-            public T next() {
+            public T next() throws Pausable {
                 return t = (t == Streams.NONE) ? seed : f.apply(t);
             }
         };

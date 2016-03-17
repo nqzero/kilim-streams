@@ -729,12 +729,12 @@ public interface LongStream extends BaseStream<Long, LongStream> {
             long t = seed;
 
             @Override
-            public boolean hasNext() {
+            public boolean hasNext() throws Pausable {
                 return true;
             }
 
             @Override
-            public long nextLong() {
+            public long nextLong() throws Pausable {
                 long v = t;
                 t = f.applyAsLong(t);
                 return v;
