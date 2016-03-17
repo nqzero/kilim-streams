@@ -7,6 +7,11 @@ import kilim.Pausable;
  * for parallel streams, but it's mostly untested
  */
 abstract class CountedCompleter<TT> {
+    /** fork is fake, ie it's sequential which allows bypassing locks
+     * this method is used as a marker to track places that are dependent on this assumption
+     * in case fork/join is ever "fixed" and multiple threads are implemented
+     */
+    final static void forkIsFake() {}
 
     public final TT invoke() throws Pausable {
         compute();

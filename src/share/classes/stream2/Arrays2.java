@@ -647,15 +647,15 @@ public class Arrays2 {
             this.host = host;
         }
 
-        public boolean tryAdvance(Consumer<? super TT> action) {
+        public boolean tryAdvance(Consumer<? super TT> action) throws Pausable {
             return host.tryAdvance( action );
         }
 
-        public void forEachRemaining(Consumer<? super TT> action) {
+        public void forEachRemaining(Consumer<? super TT> action) throws Pausable {
             host.forEachRemaining( action );
         }
 
-        public Spliterator<TT> trySplit() {
+        public Spliterator<TT> trySplit() throws Pausable {
             java.util.Spliterator<TT> h2 = host.trySplit();
             if (h2==null) return null;
             else return new SpliteratorProxy(h2);

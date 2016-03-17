@@ -406,10 +406,10 @@ final class ForEachOps {
             spliterator = null;
             if (node != null) {
                 // Dump any data from this leaf into the sink
-//                synchronized (lock) 
-                {
-                    node.forEach(action);
-                }
+                // this used to be synchronized, but the fork/join is now fake so not needed
+                // and kilim can't weave locks
+                CountedCompleter.forkIsFake();
+                node.forEach2(action);
                 node = null;
             }
             ForEachOrderedTask<S, T> victim = completionMap.remove(this);

@@ -568,6 +568,7 @@ final class Nodes {
         }
 
         public void forEach(T_CONS consumer) { }
+        public void forEach2(T_CONS consumer) throws Pausable { }
 
         private static class OfRef<T> extends EmptyNode<T, T[], Consumer<? super T>> {
             private OfRef() {
@@ -677,7 +678,7 @@ final class Nodes {
         }
 
         @Override
-        public void forEach(Consumer<? super T> consumer) throws Pausable {
+        public void forEach2(Consumer<? super T> consumer) throws Pausable {
             for (int i = 0; i < curSize; i++) {
                 consumer.accept(array[i]);
             }
@@ -730,7 +731,7 @@ final class Nodes {
         }
 
         @Override
-        public void forEach(Consumer<? super T> consumer) throws Pausable {
+        public void forEach2(Consumer<? super T> consumer) throws Pausable {
             c.forEach(consumer);
         }
 
@@ -811,9 +812,9 @@ final class Nodes {
         }
 
         @Override
-        public void forEach(Consumer<? super T> consumer) throws Pausable {
-            left.forEach(consumer);
-            right.forEach(consumer);
+        public void forEach2(Consumer<? super T> consumer) throws Pausable {
+            left.forEach2(consumer);
+            right.forEach2(consumer);
         }
 
         @Override
@@ -1094,7 +1095,7 @@ final class Nodes {
                         Deque<Node<T>> stack = initStack();
                         Node<T> leaf;
                         while ((leaf = findNextLeafNode(stack)) != null) {
-                            leaf.forEach(consumer);
+                            leaf.forEach2(consumer);
                         }
                         curNode = null;
                     }
@@ -1259,6 +1260,12 @@ final class Nodes {
         public Spliterator<T> spliterator2() {
             assert !building : "during building";
             return Arrays2.proxy(super.spliterator());
+        }
+
+        @Override
+        public void forEach2(Consumer<? super T> consumer) throws Pausable {
+            assert !building : "during building";
+            super.forEach(consumer);
         }
 
         @Override

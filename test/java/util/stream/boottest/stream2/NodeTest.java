@@ -119,7 +119,7 @@ public class NodeTest extends OpTestCase {
     @Test(dataProvider = "nodes", groups = { "serialization-hostile" })
     public void testForEach(Integer[] array, Node<Integer> n) {
         List<Integer> l = new ArrayList<>((int) n.count());
-        n.forEach(e -> l.add(e));
+        n.forEach2(e -> l.add(e));
 
         assertEquals(l.toArray(), array);
     }

@@ -36,7 +36,7 @@ import java.util.function.LongConsumer;
  * type {@code T}.
  *
  * <p>A {@code Node} contains a fixed number of elements, which can be accessed
- * via the {@link #count}, {@link #spliterator2}, {@link #forEach},
+ * via the {@link #count}, {@link #spliterator2}, {@link #forEach2},
  * {@link #asArray}, or {@link #copyInto} methods.  A {@code Node} may have zero
  * or more child {@code Node}s; if it has no children (accessed via
  * {@link #getChildCount} and {@link #getChild(int)}, it is considered <em>flat
@@ -76,7 +76,7 @@ interface Node<T> {
      * @param consumer a {@code Consumer} that is to be invoked with each
      *        element in this {@code Node}
      */
-    void forEach(Consumer<? super T> consumer) throws Pausable;
+    void forEach2(Consumer<? super T> consumer) throws Pausable;
 
     /**
      * Returns the number of child nodes of this node.
@@ -321,7 +321,7 @@ interface Node<T> {
          *        elements may be processed without boxing.
          */
         @Override
-        default void forEach(Consumer<? super Integer> consumer) throws Pausable {
+        default void forEach2(Consumer<? super Integer> consumer) throws Pausable {
             if (consumer instanceof IntConsumer) {
                 forEach((IntConsumer) consumer);
             }
@@ -394,7 +394,7 @@ interface Node<T> {
          *        the elements may be processed without boxing.
          */
         @Override
-        default void forEach(Consumer<? super Long> consumer) throws Pausable {
+        default void forEach2(Consumer<? super Long> consumer) throws Pausable {
             if (consumer instanceof LongConsumer) {
                 forEach((LongConsumer) consumer);
             }
@@ -467,7 +467,7 @@ interface Node<T> {
          *        so the elements may be processed without boxing.
          */
         @Override
-        default void forEach(Consumer<? super Double> consumer) throws Pausable {
+        default void forEach2(Consumer<? super Double> consumer) throws Pausable {
             if (consumer instanceof DoubleConsumer) {
                 forEach((DoubleConsumer) consumer);
             }

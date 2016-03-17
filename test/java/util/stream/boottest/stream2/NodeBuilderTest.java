@@ -82,7 +82,7 @@ public class NodeBuilderTest {
 
         {
             List<Integer> _l = new ArrayList<>();
-            n.forEach(_l::add);
+            n.forEach2(_l::add);
 
             assertContents(_l, l);
         }
