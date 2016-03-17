@@ -129,11 +129,6 @@ public class SplittableRandomTest extends OpTestCase {
 
         // Unbounded
         
-        java.util.stream.IntStream is = new SplittableRandom().ints();
-        java.util.stream.Stream<Integer> i2 = is.boxed();
-        Arrays2.OfPrimitive2.OfInt proxy = proxy(is.spliterator());
-        StreamSupport.intStream(proxy,false);
-        StreamSupport.intStream(proxy(is.spliterator()),false);
 
         data.add(new Object[]{
                 TestData.Factory.ofIntSupplier(
