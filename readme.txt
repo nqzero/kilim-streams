@@ -1,5 +1,12 @@
 requires java 8
 
+a port of java 8 streams to kilim
+* no parallel fork/join (it's simulated on a single thread, but don't use it - it's slow)
+* allows for actor-based streams
+* it works !
+
+
+
 stream2 includes a fake Pausable
   for development, make it extend Exception (so you can see problems)
   for testing, extend RuntimeException
@@ -25,10 +32,8 @@ j2 stream2.FlagOpTest
 (cd build/test/classes; find * -name "*.class") | grep -v '\$' | sed -e "s/\.class$//g" -e "s_/_._g" > tests.txt
 
 
-mkdir -p t1 t2
-
+mkdir -p t1 t2 t3
 for ii in $(< tests.txt); do j2 $ii > t1/$ii 2>t2/$ii; done
-
 (cd t2; for ii in *; do [ -s $ii ] && grep "^\w" $ii | grep -v "^[0-9]" > ../t3/$ii; done)
 
 
@@ -66,8 +71,13 @@ https://github.com/nqzero/kilim/tree/srl.java8.formdata
 (more changes could be forthcoming)
 
 
+RUNNING:
 
-
+Example.java
+(cd ../libs; mvn dependency:copy-dependencies -DoutputDirectory=.)
+ant -q jar
+java -cp "build/classes:../libs/*" kilim.tools.Weaver  -d x1 build/classes/
+java -cp "x1:build/classes:../libs/*" stream2.Example
 
 
 
