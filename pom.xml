@@ -1,0 +1,72 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.db4j</groupId>
+    <artifactId>kilim-streams</artifactId>
+    <name>java streams ported to kilim</name>
+    <version>0.1</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.db4j</groupId>
+            <artifactId>kilim</artifactId>
+            <version>2.0.0-2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm-all</artifactId>
+            <version>5.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.10</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+		<version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+	    <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-dependency-plugin</artifactId>
+              <version>2.10</version>
+              <executions>
+		<execution>
+		  <id>copy-dependencies</id>
+		  <phase>compile</phase>
+		  <goals>
+		    <goal>copy-dependencies</goal>
+		  </goals>
+		  <configuration>
+		    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+		  </configuration>
+		</execution>
+              </executions>
+	    </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jar-plugin</artifactId>
+              <version>2.4</version>
+              <configuration>
+                <archive>
+                  <manifest>
+                    <mainClass>kilim.tools.Kilim</mainClass>
+                    <addClasspath>true</addClasspath>
+                    <classpathPrefix>lib/</classpathPrefix>
+                  </manifest>
+                </archive>
+              </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
