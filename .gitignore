@@ -1,2 +1,3 @@
-netbeans
-libs
+/target
+/libs
+/test-output

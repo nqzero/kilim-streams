@@ -42,12 +42,6 @@ java -cp target/\* kilim.tools.Kilim stream2.Example
 
 
 
-# ALTERNATIVE BUILD: NETBEANS
-
-this work was done using the excellent netbeans IDE and project config files are included
-in the netbeans directory. see netbeans/readme.txt for more info
-
-
 
 
 # development and testing notes
